@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -76,14 +76,16 @@
     <h1>개념 05 — 이벤트 위임</h1>
 
     <p class="guide">
-      브라우저로 열고 <strong>할 일을 추가</strong>한 뒤, 글자를 눌러 완료 처리하거나
-      삭제 버튼을 눌러 보세요. <strong>새로 추가한 항목도 똑같이 동작합니다.</strong>
-      그게 이 파일의 핵심입니다. <strong>F12 → Console</strong> 도 함께 보세요.
-    
+      브라우저로 열고 <strong>할 일을 추가</strong>한 뒤, 글자를 눌러 완료
+      처리하거나 삭제 버튼을 눌러 보세요.
+      <strong>새로 추가한 항목도 똑같이 동작합니다.</strong> 그게 이 파일의
+      핵심입니다. <strong>F12 → Console</strong> 도 함께 보세요.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -219,7 +221,7 @@
         }
 
         const li = document.createElement("li");
-        li.dataset.id = nextId; // data-id 속성이 됩니다
+        li.dataset.id = nextId; // data-id 속성이 됩니다 // 데이터를 가지고 있을려고 해서 dataset 사용 //
         nextId++;
 
         const span = document.createElement("span");
@@ -232,7 +234,7 @@
 
         // 붙이는 순서에 주의하세요. 10단원에서는 한 겹(li 를 ul 에 붙이기)만 했는데,
         // 여기는 두 겹입니다. li 안을 먼저 다 채우고, 마지막에 li 를 화면에 붙입니다.
-        //   li 안에 span 과 btn 을 넣는다  →  다 채워진 li 를 ul 에 붙인다
+        //   li 안에 span 과 btn 을 넣는다  →  다 채워진 li 를 ul 에 붙인다.
         // 반대로 하면(빈 li 를 먼저 붙이고 나중에 채우면) 화면을 여러 번 다시 그리게 됩니다.
         li.appendChild(span);
         li.appendChild(btn);

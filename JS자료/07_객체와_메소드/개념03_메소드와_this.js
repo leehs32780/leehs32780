@@ -12,7 +12,6 @@
 //     문자열.split() ← 문자열의 메소드
 //     console.log()  ← console 이라는 객체의 log 메소드
 
-
 // ── 섹션 1: 객체 안에 함수 넣기 ──
 
 const counter = {
@@ -35,7 +34,6 @@ console.log(typeof counter.increase);
 
 // ✏️ 직접 해보기 1 — greet 라는 메소드를 가진 객체를 만들어
 //                    "안녕하세요" 를 출력해 보세요.
-
 
 // ── 섹션 2: 줄여 쓰기 ──
 
@@ -60,7 +58,6 @@ console.log(calculator.subtract(10, 3));
 //   add: (a, b) => { ... }         ← 화살표 (this 때문에 주의, 섹션 5)
 
 // ✏️ 직접 해보기 2 — 곱하기 메소드를 줄여 쓰기 형태로 추가해 보세요.
-
 
 // ── 섹션 3: this — 나를 부른 객체 ──
 
@@ -116,15 +113,22 @@ const counter2 = {
   },
 };
 
-counter2.increase();
-counter2.increase();
+counter2.increase(); // 1
+counter2.increase(); // 2
 counter2.show();
 // 출력: 현재 2회
 
 // ✏️ 직접 해보기 3 — price 속성과, 그 값을 10% 올리는 메소드를 가진
 //                    객체를 만들어 보세요.
-
-
+const item = {
+  price: 10000,
+  increasePrice() {
+    this.price *= 1.1; 
+  }
+};
+console.log(item.price); 
+item.increasePrice();
+console.log(item.price); 
 // ── 섹션 4: this 대신 객체 이름을 써도 될까 ──
 
 // 됩니다. 하지만 문제가 있습니다.
@@ -151,7 +155,6 @@ product2.showName();
 // this 를 쓰면 이름과 상관없이 "나를 부른 객체" 를 따라갑니다.
 // 객체를 복사하거나 이름을 바꿔도 안전합니다.
 // 그래서 메소드 안에서는 this 를 쓰는 것이 약속입니다.
-
 
 // ── 섹션 5: 화살표 함수는 자기 this 가 없다 ──
 
@@ -191,7 +194,6 @@ goodUser.introduce();
 
 // ✏️ 직접 해보기 4 — 위 badUser 를 정상 동작하도록 고쳐 보세요.
 
-
 // ── 섹션 6: 우리가 이미 쓰던 것들도 메소드였다 ──
 
 const list = [3, 1, 2];
@@ -213,7 +215,6 @@ console.log(Math.PI); // Math 의 속성 (괄호 없음)
 //     배열.length     속성 (괄호 없음)
 //     배열.push()     메소드 (괄호 있음)
 // 이 구분을 헷갈리면 "is not a function" 에러가 납니다.
-
 
 // ── 섹션 7: 자주 하는 실수 ──
 
@@ -241,7 +242,6 @@ goodUser.introduce();
 // console.log(list.length());
 // 실수: TypeError: list.length is not a function
 
-
 // ── 정리 ──
 
 // 1. 객체 안의 함수를 메소드라고 한다. 객체.메소드() 로 부른다.
@@ -250,7 +250,6 @@ goodUser.introduce();
 // 4. this 는 "나를 부른 객체" 다.
 // 5. 객체의 메소드는 화살표 함수로 만들지 않는다. this 가 사라진다.
 // 6. 속성은 괄호 없이, 메소드는 괄호를 붙여서.
-
 
 // ============================================================
 // 직접 해보기 정답

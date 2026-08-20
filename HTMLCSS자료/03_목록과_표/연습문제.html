@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -31,10 +31,10 @@
     <p class="doc-sub">03단원 · 목록과 표</p>
 
     <p class="doc-guide">
-      점선 상자 안에 코드를 쓰고 저장한 뒤 새로고침하세요.
-      각 문제마다 <strong>결과가 어떻게 보여야 하는지</strong>가 적혀 있습니다.
-      화면이 그대로 나오면 맞은 것입니다.
-      1 ~ 13 은 기본, 14 는 응용, 15 는 도전, 16 은 확인 문제입니다.
+      점선 상자 안에 코드를 쓰고 저장한 뒤 새로고침하세요. 각 문제마다
+      <strong>결과가 어떻게 보여야 하는지</strong>가 적혀 있습니다. 화면이
+      그대로 나오면 맞은 것입니다. 1 ~ 13 은 기본, 14 는 응용, 15 는 도전, 16 은
+      확인 문제입니다.
     </p>
 
     <!-- ───── 문제 1 ───── (개념01 섹션1) -->
@@ -48,12 +48,17 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 1 — 준비물 목록 만들기</h2>
       <p class="doc-desc">
-        <code>ul</code> 과 <code>li</code> 로 "김밥 · 물통 · 돗자리" 목록을 만드세요.
+        <code>ul</code> 과 <code>li</code> 로 "김밥 · 물통 · 돗자리" 목록을
+        만드세요.
       </p>
       <p class="doc-note">결과: 점(•) 이 붙은 세 줄이 보입니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 1 — 여기에 쓰세요</p>
-
+        <ul>
+          <li>김밥</li>
+          <li>물통</li>
+          <li>돗자리</li>
+        </ul>
       </div>
     </section>
 
@@ -71,10 +76,16 @@
         "연필 500원 · 지우개 300원 · 공책 1200원" 목록을 만들고
         <strong>물건 이름만</strong> <code>strong</code> 으로 감싸세요.
       </p>
-      <p class="doc-note">결과: 세 줄 모두 점이 붙고, 각 줄에서 이름 부분만 굵습니다.</p>
+      <p class="doc-note">
+        결과: 세 줄 모두 점이 붙고, 각 줄에서 이름 부분만 굵습니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 2 — 여기에 쓰세요</p>
-
+        <ul>
+          <li><strong>연필</strong> 500원</li>
+          <li><strong>지우개</strong> 300원</li>
+          <li><strong>공책</strong> 1200원</li>
+        </ul>
       </div>
     </section>
 
@@ -95,13 +106,25 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 3 — 목록 안에 목록 넣기</h2>
       <p class="doc-desc">
-        "음료" 아래에 "커피" 와 "주스" 를 넣고, 그다음에 "음식" 항목이 오는
-        중첩 목록을 만드세요. 안쪽 <code>ul</code> 을 <code>li</code> <strong>안</strong>에 넣어야 합니다.
+        "음료" 아래에 "커피" 와 "주스" 를 넣고, 그다음에 "음식" 항목이 오는 중첩
+        목록을 만드세요. 안쪽 <code>ul</code> 을 <code>li</code>
+        <strong>안</strong>에 넣어야 합니다.
       </p>
-      <p class="doc-note">결과: 안쪽 두 줄만 속이 빈 동그라미로 한 칸 더 들어갑니다.</p>
+      <p class="doc-note">
+        결과: 안쪽 두 줄만 속이 빈 동그라미로 한 칸 더 들어갑니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 3 — 여기에 쓰세요</p>
-
+        <ul>
+          <li>
+            음료
+            <ul>
+              <li>커피</li>
+              <li>주스</li>
+            </ul>
+          </li>
+          <li>음식</li>
+        </ul>
       </div>
     </section>
 
@@ -118,13 +141,18 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 4 — 순서 있는 목록 만들기</h2>
       <p class="doc-desc">
-        "물을 끓입니다 · 면을 넣습니다 · 4분 뒤 불을 끕니다" 를 <code>ol</code> 로 만드세요.
+        "물을 끓입니다 · 면을 넣습니다 · 4분 뒤 불을 끕니다" 를
+        <code>ol</code> 로 만드세요.
         <strong>번호는 직접 쓰지 마세요.</strong>
       </p>
       <p class="doc-note">결과: 1. 2. 3. 이 붙은 세 줄이 보입니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 4 — 여기에 쓰세요</p>
-
+        <ol>
+          <li>물을 끓입니다</li>
+          <li>면을 넣습니다</li>
+          <li>4분 뒤 불을 끕니다</li>
+        </ol>
       </div>
     </section>
 
@@ -141,14 +169,23 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 5 — ul 과 ol 고르기</h2>
       <p class="doc-desc">
-        (가) 냉장고 속 음식 "우유 · 계란 · 김치" 와
-        (나) 조리 순서 "물 붓기 · 면 넣기 · 스프 넣기" 를
-        각각 알맞은 태그로 만드세요.
+        (가) 냉장고 속 음식 "우유 · 계란 · 김치" 와 (나) 조리 순서 "물 붓기 · 면
+        넣기 · 스프 넣기" 를 각각 알맞은 태그로 만드세요.
       </p>
       <p class="doc-note">결과: 하나는 점이 붙고 하나는 번호가 붙습니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 5 — 여기에 쓰세요</p>
+        <ul>
+          <li>우유</li>
+          <li>계란</li>
+          <li>김치</li>
+        </ul>
 
+        <ol>
+          <li>물 붓기</li>
+          <li>면 넣기</li>
+          <li>스프 넣기</li>
+        </ol>
       </div>
     </section>
 
@@ -164,13 +201,17 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 6 — 번호를 알파벳으로 바꾸기</h2>
       <p class="doc-desc">
-        "가입 신청 · 서류 제출 · 결과 확인" 을 <strong>대문자 알파벳</strong> 번호가 붙는
-        목록으로 만드세요.
+        "가입 신청 · 서류 제출 · 결과 확인" 을
+        <strong>대문자 알파벳</strong> 번호가 붙는 목록으로 만드세요.
       </p>
       <p class="doc-note">결과: A. B. C. 가 붙은 세 줄이 보입니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 6 — 여기에 쓰세요</p>
-
+        <ol type="A">
+          <li>가입 신청</li>
+          <li>서류 제출</li>
+          <li>결과 확인</li>
+        </ol>
       </div>
     </section>
 
@@ -194,7 +235,10 @@
       <p class="doc-note">결과: 7. 8. 이 붙은 두 줄이 보입니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 7 — 여기에 쓰세요</p>
-
+        <ol start="7">
+          <li>일곱 번째 순서입니다</li>
+          <li>여덟 번째 순서입니다</li>
+        </ol>
       </div>
     </section>
 
@@ -212,14 +256,19 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 8 — 용어집 만들기</h2>
       <p class="doc-desc">
-        "태그 · 꺾쇠로 감싼 이름표입니다" 와
-        "요소 · 여는 태그부터 닫는 태그까지의 덩어리입니다" 를
+        "태그 · 꺾쇠로 감싼 이름표입니다" 와 "요소 · 여는 태그부터 닫는
+        태그까지의 덩어리입니다" 를
         <code>dl</code> 로 만드세요.
       </p>
       <p class="doc-note">결과: 설명 줄 두 개만 한 칸 안으로 들어갑니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 8 — 여기에 쓰세요</p>
-
+        <dl>
+          <dt>태그</dt>
+          <dd>꺾쇠로 감싼 이름표입니다</dd>
+          <dt>요소</dt>
+          <dd>여는 태그부터 닫는 태그까지의 덩어리입니다</dd>
+        </dl>
       </div>
     </section>
 
@@ -235,13 +284,19 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 9 — 용어 하나에 설명 두 개</h2>
       <p class="doc-desc">
-        "말" 이라는 <code>dt</code> 하나에
-        "타고 다니는 동물입니다" 와 "입으로 하는 이야기입니다" 두 <code>dd</code> 를 다세요.
+        "말" 이라는 <code>dt</code> 하나에 "타고 다니는 동물입니다" 와 "입으로
+        하는 이야기입니다" 두 <code>dd</code> 를 다세요.
       </p>
-      <p class="doc-note">결과: "말" 한 줄 아래에 들여쓰기된 설명 두 줄이 붙습니다.</p>
+      <p class="doc-note">
+        결과: "말" 한 줄 아래에 들여쓰기된 설명 두 줄이 붙습니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 9 — 여기에 쓰세요</p>
-
+        <dl>
+          <dt>말</dt>
+          <dd>타고 다니는 동물입니다</dd>
+          <dd>입으로 하는 이야기입니다</dd>
+        </dl>
       </div>
     </section>
 
@@ -262,10 +317,21 @@
         "사과 1000" 과 "바나나 1500" 을 2행 2열 표로 만드세요.
         <code>&lt;table border="1"&gt;</code> 로 시작하세요.
       </p>
-      <p class="doc-note">결과: 테두리가 있는 2행 2열 표가 보입니다. 글자는 전부 보통 굵기입니다.</p>
+      <p class="doc-note">
+        결과: 테두리가 있는 2행 2열 표가 보입니다. 글자는 전부 보통 굵기입니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 10 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <td>사과</td>
+            <td>1000</td>
+          </tr>
+          <tr>
+            <td>바나나</td>
+            <td>1500</td>
+          </tr>
+        </table>
       </div>
     </section>
 
@@ -281,13 +347,26 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 11 — 제목 칸 넣기</h2>
       <p class="doc-desc">
-        문제 10 의 표 맨 위에 "이름 · 가격" 제목 줄을 붙여 3행 2열 표로 만드세요.
-        제목 칸에는 <code>td</code> 가 아닌 태그를 씁니다.
+        문제 10 의 표 맨 위에 "이름 · 가격" 제목 줄을 붙여 3행 2열 표로
+        만드세요. 제목 칸에는 <code>td</code> 가 아닌 태그를 씁니다.
       </p>
       <p class="doc-note">결과: 맨 윗줄만 굵고 가운데 정렬로 보입니다.</p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 11 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <th>이름</th>
+            <th>가격</th>
+          </tr>
+          <tr>
+            <td>사과</td>
+            <td>1000</td>
+          </tr>
+          <tr>
+            <td>바나나</td>
+            <td>1500</td>
+          </tr>
+        </table>
       </div>
     </section>
 
@@ -305,12 +384,35 @@
       <h2 class="doc-sec-title">문제 12 — caption 과 thead · tbody</h2>
       <p class="doc-desc">
         문제 11 의 표에 <code>caption</code> 으로 "과일 가격표" 제목을 달고,
-        제목 줄은 <code>thead</code>, 나머지 두 줄은 <code>tbody</code> 로 감싸세요.
+        제목 줄은 <code>thead</code>, 나머지 두 줄은 <code>tbody</code> 로
+        감싸세요.
       </p>
-      <p class="doc-note">결과: 표 위에 제목 한 줄이 더 생깁니다. 표 자체는 문제 11 과 같습니다.</p>
+      <p class="doc-note">
+        결과: 표 위에 제목 한 줄이 더 생깁니다. 표 자체는 문제 11 과 같습니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 12 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <caption>
+            과일 가격표
+          </caption>
+          <thead>
+            <tr>
+              <th>이름</th>
+              <th>가격</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>사과</td>
+              <td>1000</td>
+            </tr>
+            <tr>
+              <td>바나나</td>
+              <td>1500</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -328,13 +430,31 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 13 — colspan 으로 가로로 합치기</h2>
       <p class="doc-desc">
-        제목 줄이 "교시 · 월 · 화" 인 표를 만드세요.
-        1교시는 "국어 · 영어", 2교시는 두 칸을 합쳐 "봉사 활동" 한 칸으로 만드세요.
+        제목 줄이 "교시 · 월 · 화" 인 표를 만드세요. 1교시는 "국어 · 영어",
+        2교시는 두 칸을 합쳐 "봉사 활동" 한 칸으로 만드세요.
       </p>
-      <p class="doc-note">결과: 맨 아랫줄만 오른쪽 두 칸이 하나로 합쳐지고, 오른쪽 끝은 가지런합니다.</p>
+      <p class="doc-note">
+        결과: 맨 아랫줄만 오른쪽 두 칸이 하나로 합쳐지고, 오른쪽 끝은
+        가지런합니다.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 13 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <th>교시</th>
+            <th>월</th>
+            <th>화</th>
+          </tr>
+          <tr>
+            <td>1교시</td>
+            <td>국어</td>
+            <td>영어</td>
+          </tr>
+          <tr>
+            <td>2교시</td>
+            <td colspan="2">봉사 활동</td>
+          </tr>
+        </table>
       </div>
     </section>
 
@@ -354,17 +474,33 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 14 — [응용] rowspan 으로 세로로 합치기</h2>
       <p class="doc-desc">
-        제목 줄이 "시간 · 과목" 인 표를 만드세요.
-        "오전" 은 <code>rowspan</code> 으로 두 줄을 합쳐 "국어" 와 "영어" 를 덮고,
-        그 아래에 "오후 · 수학" 줄을 넣으세요.
+        제목 줄이 "시간 · 과목" 인 표를 만드세요. "오전" 은
+        <code>rowspan</code> 으로 두 줄을 합쳐 "국어" 와 "영어" 를 덮고, 그
+        아래에 "오후 · 수학" 줄을 넣으세요.
       </p>
       <p class="doc-note">
-        결과: 왼쪽 "오전" 칸이 두 줄에 걸쳐 있고 표는 2열 그대로입니다.
-        합친 다음 줄에 칸을 몇 개 쓸지 세어 보세요.
+        결과: 왼쪽 "오전" 칸이 두 줄에 걸쳐 있고 표는 2열 그대로입니다. 합친
+        다음 줄에 칸을 몇 개 쓸지 세어 보세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 14 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <th>시간</th>
+            <th>과목</th>
+          </tr>
+          <tr>
+            <td rowspan="2">오전</td>
+            <td>국어</td>
+          </tr>
+          <tr>
+            <td>영어</td>
+          </tr>
+          <tr>
+            <td>오후</td>
+            <td>수학</td>
+          </tr>
+        </table>
       </div>
     </section>
 
@@ -388,16 +524,36 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 15 — [도전] 제목이 두 줄인 표</h2>
       <p class="doc-desc">
-        왼쪽에 "반"(세로 두 줄), 오른쪽 위에 "1학기"(가로 두 칸),
-        그 아래에 "중간" 과 "기말" 이 오는 제목을 만들고,
-        자료 줄로 "1반 90 95" 와 "2반 85 88" 을 넣으세요.
+        왼쪽에 "반"(세로 두 줄), 오른쪽 위에 "1학기"(가로 두 칸), 그 아래에
+        "중간" 과 "기말" 이 오는 제목을 만들고, 자료 줄로 "1반 90 95" 와 "2반 85
+        88" 을 넣으세요.
       </p>
       <p class="doc-note">
-        결과: 모든 행이 3칸입니다. 오른쪽 끝이 네 줄 모두 같은 자리에서 끝나면 맞은 것입니다.
+        결과: 모든 행이 3칸입니다. 오른쪽 끝이 네 줄 모두 같은 자리에서 끝나면
+        맞은 것입니다.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 15 — 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <th rowspan="2">반</th>
+            <th colspan="2">1학기</th>
+          </tr>
+          <tr>
+            <th>중간</th>
+            <th>기말</th>
+          </tr>
+          <tr>
+            <td>1반</td>
+            <td>90</td>
+            <td>95</td>
+          </tr>
+          <tr>
+            <td>2반</td>
+            <td>85</td>
+            <td>88</td>
+          </tr>
+        </table>
       </div>
     </section>
 
@@ -419,8 +575,8 @@
       <p class="doc-desc">
         아래 표는 에러가 나지 않는데 두 곳이 이상합니다.
         <strong>(1)</strong> 맨 윗줄이 제목인데 굵지도 가운데 정렬도 아닙니다.
-        <strong>(2)</strong> 맨 아랫줄만 오른쪽으로 튀어나옵니다.
-        무엇 때문인지 찾아 고치세요.
+        <strong>(2)</strong> 맨 아랫줄만 오른쪽으로 튀어나옵니다. 무엇 때문인지
+        찾아 고치세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 16 — 이 표를 고치세요</p>
@@ -447,15 +603,38 @@
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 16 — 고친 표를 여기에 쓰세요</p>
-
+        <table border="1">
+          <tr>
+            <th>교시</th>
+            <th>월</th>
+            <th>화</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>국어</td>
+            <td>영어</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td colspan="2">전교 조회</td>
+          </tr>
+        </table>
       </div>
     </section>
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>1. 목록 문제는 <strong>점 · 번호 · 들여쓰기</strong>가 맞는지 보세요.</p>
-      <p>2. 표 문제는 <strong>오른쪽 끝이 가지런한지</strong>부터 보세요. 어긋나면 칸 수 문제입니다.</p>
-      <p>3. 다 맞았으면 <code>연습문제_정답.html</code> 을 열어 해설을 읽어 보세요.</p>
+      <p>
+        1. 목록 문제는 <strong>점 · 번호 · 들여쓰기</strong>가 맞는지 보세요.
+      </p>
+      <p>
+        2. 표 문제는 <strong>오른쪽 끝이 가지런한지</strong>부터 보세요.
+        어긋나면 칸 수 문제입니다.
+      </p>
+      <p>
+        3. 다 맞았으면 <code>연습문제_정답.html</code> 을 열어 해설을 읽어
+        보세요.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

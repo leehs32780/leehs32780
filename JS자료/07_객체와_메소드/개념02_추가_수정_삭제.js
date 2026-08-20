@@ -62,7 +62,6 @@ console.log(product);
 
 // ✏️ 직접 해보기 2 — product 의 price 를 20000 으로 바꾸고 출력해 보세요.
 
-
 // ── 섹션 3: 삭제하기 ──
 
 const item = { name: "이어폰", price: 89000, oldPrice: 120000 };

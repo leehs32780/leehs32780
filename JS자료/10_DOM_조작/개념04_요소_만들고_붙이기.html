@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -49,13 +49,14 @@
     <h1>개념 04 — 요소 만들고 붙이기</h1>
 
     <p class="guide">
-      브라우저로 열고 <strong>F12 → Console</strong> 을 함께 보세요. 아래 목록들은
-      HTML 에 적혀 있던 게 아니라 자바스크립트가 만들어 붙인 것입니다.
-    
+      브라우저로 열고 <strong>F12 → Console</strong> 을 함께 보세요. 아래
+      목록들은 HTML 에 적혀 있던 게 아니라 자바스크립트가 만들어 붙인 것입니다.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -115,7 +116,9 @@
       // appendChild 는 '맨 뒤에' 붙입니다.
 
       // ✏️ 직접 해보기 1 — "세 번째 항목" 을 만들어 list1 에 붙여 보세요.
-
+      const list4 = document.createElement("list4");
+      list4.textContent = "세 번째 항목";
+      list1.appendChild(list4);
       // ── 섹션 2: append 와 prepend ──
 
       // append 는 appendChild 와 거의 같은데 더 편합니다.
@@ -140,7 +143,10 @@
 
       // ✏️ 직접 해보기 2 — "맨 앞 새 항목" 이라는 li 를 만들어 prepend 로 붙이고,
       //                   정말 맨 앞에 갔는지 list1.children[0] 으로 확인해 보세요.
-
+      const newLi = document.createElement("li");
+      newLi.textContent = "맨 앞 새 항목";
+      list1.prepend(newLi);
+      console.log(list1.children[0].textContent);
       // ── 섹션 3: 반복문으로 여러 개 만들기 ──
 
       const fruits = ["사과", "바나나", "포도", "귤"];
@@ -160,7 +166,12 @@
       // 이것이 "데이터로 화면을 만든다" 는 개념의 시작입니다.
 
       // ✏️ 직접 해보기 3 — 좋아하는 색 세 개를 배열로 만들어 목록으로 붙여 보세요.
-
+      const colors = ["검정", "파랑", "초록"];
+      colors.forEach((c) => {
+        const li = document.createElement("li");
+        li.textContent = c;
+        list2.appendChild(li);
+      });
       // ── 섹션 4: 클래스와 속성도 함께 ──
 
       const products = [
@@ -181,7 +192,8 @@
         }
 
         // 내용 채우기 — 삼항 연산자로 글자를 정합니다 (03단원)
-        const stockText = product.stock === 0 ? "품절" : `재고 ${product.stock}개`;
+        const stockText =
+          product.stock === 0 ? "품절" : `재고 ${product.stock}개`;
         div.textContent = `${product.name} ${product.price}원 — ${stockText}`;
 
         // 나중에 찾기 쉽도록 데이터도 붙여 둘 수 있습니다
@@ -201,7 +213,9 @@
       // 콘솔: 아메리카노
 
       // ✏️ 직접 해보기 4 — 카드 세 개의 dataset.name 을 forEach 로 전부 찍어 보세요.
-
+      document.querySelectorAll(".card").forEach((card) => {
+        console.log(card.dataset.name);
+      });
       // ── 섹션 5: 지우기 ──
 
       const willRemove = document.querySelector("#willRemove");
@@ -223,7 +237,8 @@
       // 콘솔: 1
 
       // ✏️ 직접 해보기 5 — list1 의 첫 항목을 지워 보세요.
-
+      const list1_1 = document.querySelector("#list1");
+      console.log(list1_1.children[0].remove());
       // ── 섹션 6: createElement vs innerHTML ──
 
       // 개념02 에서는 innerHTML 로 목록을 만들었습니다. 둘을 비교해 봅시다.

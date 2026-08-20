@@ -11,7 +11,6 @@
 //
 // 개수는 그대로입니다. 3개를 넣으면 3개가 나옵니다.
 
-
 // ── 섹션 1: forEach 와 map 의 차이 ──
 
 const numbers = [1, 2, 3];
@@ -41,8 +40,9 @@ console.log(doubled);
 // map 이 이 세 줄을 한 줄로 만들어 준 것입니다.
 
 // ✏️ 직접 해보기 1 — [1, 2, 3] 의 각 값을 10배로 만든 새 배열을 만들어 보세요.
+const multiply10 = numbers.map((n) => n * 10);
 
-
+console.log(multiply10);
 // ── 섹션 2: 반드시 값을 돌려줘야 한다 ──
 
 // map 의 콜백은 '바꾼 값'을 return 해야 합니다.
@@ -61,7 +61,7 @@ console.log(prices.map((p) => Math.round(p * 1.1)));
 console.log(
   prices.map((p) => {
     return Math.round(p * 1.1);
-  })
+  }),
 );
 // 출력: [ 1100, 2200, 3300 ]
 
@@ -69,13 +69,12 @@ console.log(
 console.log(
   prices.map((p) => {
     Math.round(p * 1.1); // return 이 없습니다
-  })
+  }),
 );
 // 출력: [ undefined, undefined, undefined ]
 // map 을 쓸 때 가장 흔한 실수입니다. undefined 가 보이면 return 부터 확인하세요.
 
 // ✏️ 직접 해보기 2 — 가격 배열의 각 값에 500원을 더한 새 배열을 만들어 보세요.
-
 
 // ── 섹션 3: 자료형을 바꿔도 된다 ──
 
@@ -103,7 +102,7 @@ console.log(scores.map((s) => ({ score: s })));
 // 안 그러면 자바스크립트가 중괄호를 '함수 몸통'으로 오해합니다. (05단원 개념05)
 
 // ✏️ 직접 해보기 3 — ["1", "2", "3"] 을 숫자 배열로 바꿔 보세요.
-
+console.log(["1", "2", "3"].map((v) => Number(v)));
 
 // ── 섹션 4: 객체 배열에서 값만 뽑기 ──
 
@@ -142,8 +141,7 @@ console.log(cards);
 // 출력: ]
 
 // ✏️ 직접 해보기 4 — users 에서 이름만 뽑아 " / " 로 이어 출력해 보세요.
-
-
+console.log(names.join(" / "));
 // ── 섹션 5: 인덱스도 받을 수 있다 ──
 
 const menu = ["아메리카노", "라떼", "케이크"];
@@ -167,8 +165,9 @@ console.log(menu.map((item, i) => `${i + 1}. ${item}`).join("\n"));
 // ✏️ 직접 해보기 5 — 아래 배열에 번호를 붙인 새 배열을 만들어 보세요.
 //                    const fruits = ["사과", "포도"];
 //                    결과는 [ '1 사과', '2 포도' ] 형태면 됩니다.
-
-
+const fruits = ["사과", "포도"];
+const number1 = fruits.map((item, index) => `${index + 1}. ${item}`);
+console.log(number1);
 // ── 섹션 6: 언제 map, 언제 forEach ──
 
 // 새 배열이 필요하다      → map
@@ -188,7 +187,6 @@ menu.forEach((item) => console.log("좋은 예:", item));
 // 출력: 좋은 예: 아메리카노
 // 출력: 좋은 예: 라떼
 // 출력: 좋은 예: 케이크
-
 
 // ── 섹션 7: 자주 하는 실수 ──
 
@@ -216,7 +214,6 @@ const changed = original.map((n) => n * 10);
 console.log(changed);
 // 출력: [ 10, 20, 30 ]
 
-
 // ── 정리 ──
 
 // 1. 배열.map((값) => 바꾼값) — 새 배열을 돌려준다. 개수는 그대로.
@@ -225,7 +222,6 @@ console.log(changed);
 // 4. 객체를 돌려줄 때는 ({ ... }) 처럼 소괄호로 감싼다.
 // 5. 원본은 바뀌지 않는다. 결과를 변수에 받아야 한다.
 // 6. 결과를 안 쓸 거면 map 이 아니라 forEach.
-
 
 // ============================================================
 // 직접 해보기 정답

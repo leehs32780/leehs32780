@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -52,13 +52,14 @@
     <h1>개념 02 — 콜백 지옥과 Promise</h1>
 
     <p class="guide">
-      브라우저로 열고 <strong>F12 → Console</strong> 을 반드시 함께 보세요. 버튼을 누르면
-      단계마다 1초씩 걸립니다.
-    
+      브라우저로 열고 <strong>F12 → Console</strong> 을 반드시 함께 보세요.
+      버튼을 누르면 단계마다 1초씩 걸립니다.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -179,7 +180,7 @@
           setTimeout(() => {
             console.log("1. 주문 완료 (Promise)");
             resolve("주문번호-200");
-          }, 1000);
+          }, 3000);
         });
       }
 
@@ -218,9 +219,11 @@
 
       // ✏️ 직접 해보기 2 — orderP() 에 .then 을 붙여, 받은 값을 콘솔에 찍어 보세요.
       //                    값이 바로 나오나요, 조금 뒤에 나오나요?
+      orderP().then((result) => {
+        console.log("받은 값:", result);
+      });
 
       // ── 섹션 3: then 으로 이어 붙이기 ──
-
       document.querySelector("#promiseBtn").addEventListener("click", () => {
         out2.textContent = "진행 중...";
 
@@ -228,8 +231,9 @@
           .then((orderNo) => payP(orderNo))
           .then((payInfo) => receiptP(payInfo))
           .then((result) => {
-            out2.textContent = result;
-            console.log("최종:", result);
+            const checkedText = result + " (확인됨)";
+            out2.textContent = checkedText;
+            console.log("최종:", checkedText);
           });
       });
 
@@ -270,6 +274,29 @@
 
       // ✏️ 직접 해보기 4 — orderP 의 setTimeout 시간을 1000 에서 3000 으로 바꿔 보세요.
       //                    ② 버튼을 눌렀을 때 각 단계가 언제 찍히는지 콘솔로 확인하세요.
+      // 선언
+      function f1(n) {
+        console.log(`${n}번째 실행`);
+      }
+
+      // 선언
+      function f2(n) {
+        return new Promise((resolve) => {
+          resolve(console.log(`${n}번째 실행`));
+        });
+      }
+
+      console.log("1번째 실행");
+
+      f1(2);
+
+      f2(3);
+
+      f2(4).then(() => console.log("5번째 실행"));
+
+      f1(6);
+
+      console.log("7번째 실행");
 
       // ── 섹션 4: 실패 처리 — reject 와 catch ──
 

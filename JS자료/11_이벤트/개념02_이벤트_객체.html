@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -63,12 +63,14 @@
     <h1>개념 02 — 이벤트 객체</h1>
 
     <p class="guide">
-      브라우저로 열고 버튼을 눌러 보세요. <strong>F12 → Console</strong> 도 함께 보세요.
-    
+      브라우저로 열고 버튼을 눌러 보세요. <strong>F12 → Console</strong> 도 함께
+      보세요.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -90,7 +92,9 @@
       <div class="output" id="out3">누른 키가 여기에 나옵니다</div>
 
       <h3>④ 기본 동작 막기</h3>
-      <a href="https://example.com" id="blockedLink">이 링크는 이동하지 않습니다</a>
+      <a href="https://example.com" id="blockedLink"
+        >이 링크는 이동하지 않습니다</a
+      >
       <div class="output" id="out4">링크를 눌러 보세요</div>
     </div>
 
@@ -121,7 +125,8 @@
         btn.addEventListener("click", (e) => {
           // e.target 은 '실제로 눌린 요소' 입니다
           const name = e.target.textContent;
-          const price = e.target.dataset.price;
+          const price = Number(e.target.dataset.price); // 숫자로 변환
+          console.log(price * 2);
 
           out1.textContent = `${name} ${price}원을 골랐습니다`;
 
@@ -218,7 +223,10 @@
       // 대소문자를 구분합니다. Shift + a 는 "A" 입니다.
 
       // ✏️ 직접 해보기 4 — Escape 키를 누르면 입력칸을 비우도록 만들어 보세요.
-
+      if (e.key === "Escape") {
+        keyInput.value = "";
+        out3.textContent = "입력칸이 비워졌습니다.";
+      }
       // ── 섹션 5: preventDefault — 기본 동작 막기 ──
 
       const blockedLink = document.querySelector("#blockedLink");

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -60,13 +60,14 @@
     <h1>개념 03 — input 과 change</h1>
 
     <p class="guide">
-      브라우저로 열고 <strong>직접 타이핑</strong>해 보세요. 글자를 칠 때마다 결과가
-      바로바로 바뀝니다. <strong>F12 → Console</strong> 도 함께 보세요.
-    
+      브라우저로 열고 <strong>직접 타이핑</strong>해 보세요. 글자를 칠 때마다
+      결과가 바로바로 바뀝니다. <strong>F12 → Console</strong> 도 함께 보세요.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -77,12 +78,21 @@
 
       <h3>② change — 다 입력하고 벗어났을 때</h3>
       <label for="changeInput">이름 (input 과 비교)</label>
-      <input type="text" id="changeInput" placeholder="치고 나서 Tab 을 눌러 보세요" />
+      <input
+        type="text"
+        id="changeInput"
+        placeholder="치고 나서 Tab 을 눌러 보세요"
+      />
       <div class="output" id="out2">여기는 벗어날 때만 바뀝니다</div>
 
       <h3>③ 글자 수 세기</h3>
       <label for="memoArea">메모 (20자 이내)</label>
-      <textarea id="memoArea" rows="2" cols="40" placeholder="입력해 보세요"></textarea>
+      <textarea
+        id="memoArea"
+        rows="2"
+        cols="40"
+        placeholder="입력해 보세요"
+      ></textarea>
       <div class="output" id="out3">0 / 20</div>
 
       <h3>④ 실시간 계산</h3>
@@ -125,7 +135,9 @@
         // e.target 이 곧 nameInput 입니다 (개념02)
         const value = e.target.value;
 
-        out1.textContent = value ? `${value}님, 안녕하세요` : "여기에 실시간으로 나옵니다";
+        out1.textContent = value
+          ? `${value.toUpperCase()}님, 안녕하세요`
+          : "여기에 실시간으로 나옵니다";
         console.log("input:", value);
       });
 
@@ -168,7 +180,8 @@
       memoArea.addEventListener("input", (e) => {
         const length = e.target.value.length; // 01단원의 .length
 
-        out3.textContent = `${length} / ${maxLength}`;
+        out3.textContent =
+          length <= maxLength ? `${length} / ${maxLength}` : "글자 수 초과";
 
         // 넘치면 빨갛게 (10단원 개념03)
         out3.classList.toggle("over", length > maxLength);
@@ -222,6 +235,7 @@
         const size = sizeSelect.value;
 
         out5.textContent = `동의: ${agreeText} / 사이즈: ${size}`;
+        out5.classList.toggle("over", !agreeCheck.checked);
         console.log("옵션 갱신:", agreeText, size);
       }
 

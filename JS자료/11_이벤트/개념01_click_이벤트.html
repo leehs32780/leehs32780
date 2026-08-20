@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -54,14 +54,15 @@
     <h1>개념 01 — click 이벤트</h1>
 
     <p class="guide">
-      브라우저로 열고 <strong>F12 → Console</strong> 을 함께 보세요. 이번 단원부터는
-      <strong>버튼을 직접 눌러야</strong> 결과가 나옵니다. 페이지를 여는 것만으로는
-      아무 일도 일어나지 않습니다.
-    
+      브라우저로 열고 <strong>F12 → Console</strong> 을 함께 보세요. 이번
+      단원부터는 <strong>버튼을 직접 눌러야</strong> 결과가 나옵니다. 페이지를
+      여는 것만으로는 아무 일도 일어나지 않습니다.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -118,7 +119,7 @@
       // 콘솔: 예약 완료 — 아직 버튼은 안 눌렸습니다
 
       // ✏️ 직접 해보기 1 — 위 콜백 안에서 out1 의 글자를 자기 이름으로 바꿔 보세요.
-
+      out1.textContent = "포항항항항";
       // ── 섹션 2: 콜백에 괄호를 붙이면 안 된다 ──
 
       function sayClicked() {
@@ -161,6 +162,7 @@
 
       // ✏️ 직접 해보기 2 — btn1 을 누르면 "홍길동님 안녕하세요" 가 나오도록
       //                    sayHello 를 붙여 보세요. 괄호 위치에 주의하세요.
+      btn1.addEventListener("click", () => sayHello("포항항항항"));
 
       // ── 섹션 3: 값을 바꾸며 세기 ──
 
@@ -179,7 +181,11 @@
       // 05단원의 스코프 이야기가 여기서 그대로 쓰입니다.
 
       // ✏️ 직접 해보기 3 — 누를 때마다 2씩 늘어나게 바꿔 보세요.
-
+      btn2.addEventListener("click", () => {
+        count **= 2;
+        out2.textContent = count;
+        console.log("현재 개수:", count);
+      });
       // ── 섹션 4: 하나에 여러 개 붙이기 ──
 
       const btn3 = document.querySelector("#btn3");
@@ -204,6 +210,9 @@
 
       // ✏️ 직접 해보기 4 — btn3 에 세 번째 콜백을 붙여 "세 번째" 를 찍어 보세요.
       //                    세 개가 어떤 순서로 나오는지 확인하세요.
+      btn3.addEventListener("click", () => {
+        console.log("세 번째");
+      });
 
       // ── 섹션 5: 켜고 끄기 (토글) ──
 
@@ -217,7 +226,7 @@
 
         out4.classList.toggle("on", isOn); // 10단원 개념03
         out4.textContent = isOn ? "불이 켜졌습니다" : "불이 꺼져 있습니다";
-        btn4.textContent = isOn ? "불 끄기" : "불 켜기";
+        btn4.textContent = isOn ? "ON" : "OFF";
 
         console.log("현재 상태:", isOn);
       });
@@ -227,7 +236,7 @@
 
       // ✏️ 직접 해보기 5 — 버튼 글자도 함께 바뀌도록 되어 있습니다.
       //                    글자를 "ON" / "OFF" 로 바꿔 보세요.
-
+      btn4.textContent = isOn ? "OFF" : "ON";
       // ── 섹션 6: 이벤트 떼기 ──
 
       // addEventListener 로 붙인 것은 removeEventListener 로 뗄 수 있습니다.
@@ -250,12 +259,18 @@
         () => {
           console.log("btn2 를 처음 누른 순간에만 나옵니다");
         },
-        { once: true }
+        { once: true },
       );
 
       // ✏️ 직접 해보기 6 — btn4 에 { once: true } 로 콜백을 하나 더 붙이고
       //                    두 번 눌러 보세요. 메시지가 몇 번 나오나요?
-
+      btn4.addEventListener(
+        "click",
+        () => {
+          console.log("한 번만 나옵니다");
+        },
+        { once: true },
+      );
       // ── 섹션 7: 자주 쓰는 이벤트 이름 ──
 
       //   click       눌렀을 때            ← 이 파일

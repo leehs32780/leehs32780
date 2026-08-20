@@ -12,7 +12,6 @@
 //     Object.values()   값들을 배열로 만든다
 //     Object.entries()  [이름, 값] 쌍들을 배열로 만든다
 
-
 // ── 섹션 1: for...in — 이름을 하나씩 ──
 
 const user = {
@@ -52,7 +51,6 @@ for (const key in user) {
 
 // ✏️ 직접 해보기 1 — 객체를 만들고 for...in 으로 "이름: 값" 을 출력해 보세요.
 
-
 // ── 섹션 2: Object.keys — 이름들을 배열로 ──
 
 const keys = Object.keys(user);
@@ -68,7 +66,7 @@ console.log(keys.join(", "));
 // 출력: name, age, city
 
 // 속성이 몇 개인지 세는 표준 방법입니다.
-// 객체에는 .length 가 없습니다.
+// 객체에는 .length 가 없습니다. // length = 속성
 console.log(user.length);
 // 출력: undefined
 console.log(Object.keys(user).length);
@@ -83,7 +81,6 @@ for (const key of Object.keys(user)) {
 // 출력: city 확인
 
 // ✏️ 직접 해보기 2 — 객체의 속성 개수를 출력해 보세요.
-
 
 // ── 섹션 3: Object.values — 값들을 배열로 ──
 
@@ -110,7 +107,6 @@ console.log("평균:", (sum / scoreList.length).toFixed(1));
 // 출력: 평균: 81.7
 
 // ✏️ 직접 해보기 3 — scores 의 값 중 최고점을 구해 보세요.
-
 
 // ── 섹션 4: Object.entries — 이름과 값을 한꺼번에 ──
 
@@ -145,8 +141,9 @@ for (const [key, value] of Object.entries(user)) {
 // 훨씬 읽기 좋습니다. 지금은 이런 게 있다는 것만 봐 두세요.
 
 // ✏️ 직접 해보기 4 — Object.entries 로 scores 를 "과목: 점수" 형태로 출력해 보세요.
-
-
+for (const [subject, score] of Object.entries(scores)) {
+  console.log(`${subject}: ${score}`);
+}
 // ── 섹션 5: 무엇을 쓸까 ──
 
 // 이름만 필요하다        → Object.keys
@@ -174,7 +171,6 @@ console.log("품절:", soldOut.join(", "));
 // for (const [name, count] of ...) 처럼 이름을 바로 붙여 쓸 수 있습니다.
 
 // ✏️ 직접 해보기 5 — stock 에서 재고가 1개 이상인 메뉴만 모아 보세요.
-
 
 // ── 섹션 6: 자주 하는 실수 ──
 
@@ -208,7 +204,6 @@ console.log(Object.keys(mixed));
 // 실수: 숫자로 된 이름은 작은 수부터 앞으로 정렬됩니다.
 //       순서가 중요한 데이터는 객체가 아니라 배열에 담으세요.
 
-
 // ── 정리 ──
 
 // 1. for (const key in 객체) — 이름이 나온다. 값은 객체[key].
@@ -217,7 +212,6 @@ console.log(Object.keys(mixed));
 // 4. Object.entries(객체) [이름, 값] 짝의 배열
 // 5. 객체에는 length 가 없다. Object.keys(객체).length 를 쓴다.
 // 6. 배열은 for...of, 객체는 for...in / Object.keys.
-
 
 // ============================================================
 // 직접 해보기 정답

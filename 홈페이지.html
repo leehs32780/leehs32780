@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>컴포즈커피 - COMPOSE COFFEE</title>
+
+    <link rel="stylesheet" href="./홈페이지.css" />
+    <script src="./홈페이지.js" defer></script>
+  </head>
+
+  <body id="page-top">
+    <!-- 상단 내비게이션 -->
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href="#top" aria-label="컴포즈커피 홈">
+          <span class="logo-mark">C</span>
+          <span>COMPOSE<br />COFFEE</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="메뉴 열기"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="main-nav" aria-label="주요 메뉴">
+          <a href="#page-top">BRAND</a>
+          // BRAND를 클릭하면 id="page-top"인 요소로 이동합니다. 현재 body에
+          id="page-top"이 있으므로 홈페이지 맨 위로 올라갑니다. 13번째 코드
+
+          <a href="#menu">MENU</a>
+          // MENU 버튼. 누르면 메뉴 화면으로 내려갑니다. 106번째 코드
+
+          <a href="#promotion-title">EVENT</a>
+          // EVENT 버튼. 누르면 프로모션 화면으로 내려갑니다. 533번째 코드
+        </nav>
+      </div>
+    </header>
+
+    <!-- 영상 배너 -->
+    <section id="top" class="main-banner">
+      <video
+        class="banner-video active"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="./videos/coffee-beans.mp4" type="video/mp4" />
+      </video>
+      <video
+        class="banner-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="./videos/coffee-banner.mp4" type="video/mp4" />
+      </video>
+      <video
+        class="banner-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="./videos/latte-art.mp4" type="video/mp4" />
+      </video>
+
+      <div class="banner-content">
+        <span class="hero-eyebrow">EVERY DAY, GOOD COFFEE</span>
+        <h2>커피를 커피답게,<br /><strong>당신을 당신답게.</strong></h2>
+        <p>좋은 원두와 편안한 한 잔으로 오늘을 완성하세요.</p>
+        <div class="hero-actions">
+          <a class="hero-primary" href="#menu">메뉴 만나보기</a>
+        </div>
+      </div>
+      <div class="hero-scroll" aria-hidden="true"><span></span>SCROLL</div>
+    </section>
+
+    <!-- 브랜드 핵심 가치 -->
+    <section id="brand" class="brand-strip" aria-label="브랜드 핵심 가치">
+      <div>
+        <strong>01</strong
+        ><span>QUALITY BEANS<small>매일 만나는 좋은 원두</small></span>
+      </div>
+      <div>
+        <strong>02</strong
+        ><span>HONEST PRICE<small>부담 없이 즐기는 커피</small></span>
+      </div>
+      <div>
+        <strong>03</strong
+        ><span>DAILY MOMENT<small>일상에 스며드는 한 잔</small></span>
+      </div>
+    </section>
+
+    <!-- 메뉴 -->
+    <section id="menu" class="menu-section">
+      <div class="section-title">
+        <h3>MENU</h3>
+        <p>원하시는 카테고리를 선택해 주세요</p>
+      </div>
+
+      <!-- 카테고리 버튼 -->
+      <div class="category-buttons">
+        <button class="cat-btn active" data-category="all">전체보기</button>
+
+        <button class="cat-btn" data-category="coffee">커피</button>
+
+        <button class="cat-btn" data-category="smoothie">스무디</button>
+
+        <button class="cat-btn" data-category="ade">에이드</button>
+
+        <button class="cat-btn" data-category="frappe">프라페</button>
+      </div>
+
+      <!-- 메뉴 목록 -->
+      <div class="menu-grid">
+        <!-- 커피: 아메리카노 -->
+        <div
+          class="menu-card"
+          data-category="coffee"
+          data-name="아이스 / 핫 아메리카노"
+          data-price="1,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/americano-clean.png"
+              alt="아이스 / 핫 아메리카노"
+            />
+          </div>
+
+          <span class="badge">커피</span>
+          <h4>아이스 / 핫 아메리카노</h4>
+          <p class="price">1,500원</p>
+        </div>
+
+        <!-- 커피: 카페라떼 -->
+        <div
+          class="menu-card"
+          data-category="coffee"
+          data-name="아이스 / 핫 카페라떼"
+          data-price="2,900원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/cafe-latte-compose.png"
+              alt="아이스 / 핫 카페라떼"
+            />
+          </div>
+
+          <span class="badge">커피</span>
+          <h4>아이스 / 핫 카페라떼</h4>
+          <p class="price">2,900원</p>
+        </div>
+
+        <!-- 커피: 바닐라라떼 -->
+        <div
+          class="menu-card"
+          data-category="coffee"
+          data-name="아이스 / 핫 바닐라라떼"
+          data-price="3,300원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/vanilla-latte-compose.png"
+              alt="아이스 / 핫 바닐라라떼"
+            />
+          </div>
+
+          <span class="badge">커피</span>
+          <h4>아이스 / 핫 바닐라라떼</h4>
+          <p class="price">3,300원</p>
+        </div>
+
+        <!-- 커피: 카라멜마끼아또 -->
+        <div
+          class="menu-card"
+          data-category="coffee"
+          data-name="아이스 / 핫 카라멜마끼아또"
+          data-price="3,300원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/caramel-macchiato-compose.png"
+              alt="아이스 / 핫 카라멜마끼아또"
+            />
+          </div>
+          <span class="badge">커피</span>
+          <h4>아이스 / 핫 카라멜마끼아또</h4>
+          <p class="price">3,300원</p>
+        </div>
+
+        <!-- 커피: 카페모카 -->
+        <div
+          class="menu-card"
+          data-category="coffee"
+          data-name="아이스 / 핫 카페모카"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/cafe-mocha-compose.png"
+              alt="아이스 / 핫 카페모카"
+            />
+          </div>
+          <span class="badge">커피</span>
+          <h4>아이스 / 핫 카페모카</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 스무디: 플레인 요거트 -->
+        <div
+          class="menu-card"
+          data-category="smoothie"
+          data-name="플레인 요거트 스무디"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/plain-yogurt-smoothie-compose.png"
+              alt="플레인 요거트 스무디"
+            />
+          </div>
+
+          <span class="badge">스무디</span>
+          <h4>플레인 요거트 스무디</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 스무디: 망고 -->
+        <div
+          class="menu-card"
+          data-category="smoothie"
+          data-name="망고 스무디"
+          data-price="3,800원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/mango-smoothie-compose.png"
+              alt="망고 스무디"
+            />
+          </div>
+
+          <span class="badge">스무디</span>
+          <h4>망고 스무디</h4>
+          <p class="price">3,800원</p>
+        </div>
+
+        <!-- 스무디: 딸기 -->
+        <div
+          class="menu-card"
+          data-category="smoothie"
+          data-name="딸기 스무디"
+          data-price="3,800원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/strawberry-smoothie-compose.png"
+              alt="딸기 스무디"
+            />
+          </div>
+
+          <span class="badge">스무디</span>
+          <h4>딸기 스무디</h4>
+          <p class="price">3,800원</p>
+        </div>
+
+        <!-- 스무디: 망고 요거트 -->
+        <div
+          class="menu-card"
+          data-category="smoothie"
+          data-name="망고 요거트 스무디"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/mango-yogurt-smoothie-compose.png"
+              alt="망고 요거트 스무디"
+            />
+          </div>
+          <span class="badge">스무디</span>
+          <h4>망고 요거트 스무디</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 스무디: 블루베리 요거트 -->
+        <div
+          class="menu-card"
+          data-category="smoothie"
+          data-name="블루베리 요거트 스무디"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/blueberry-yogurt-smoothie-compose.png"
+              alt="블루베리 요거트 스무디"
+            />
+          </div>
+          <span class="badge">스무디</span>
+          <h4>블루베리 요거트 스무디</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 에이드: 레몬 -->
+        <div
+          class="menu-card"
+          data-category="ade"
+          data-name="레몬에이드"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img src="./images/menu/lemon-ade-compose.png" alt="레몬에이드" />
+          </div>
+
+          <span class="badge">에이드</span>
+          <h4>레몬에이드</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 에이드: 자몽 -->
+        <div
+          class="menu-card"
+          data-category="ade"
+          data-name="자몽에이드"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/grapefruit-ade-compose.png"
+              alt="자몽에이드"
+            />
+          </div>
+
+          <span class="badge">에이드</span>
+          <h4>자몽에이드</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 에이드: 유자 -->
+        <div
+          class="menu-card"
+          data-category="ade"
+          data-name="유자에이드"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img src="./images/menu/yuja-ade-compose.png" alt="유자에이드" />
+          </div>
+
+          <span class="badge">에이드</span>
+          <h4>유자에이드</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 에이드: 청포도 -->
+        <div
+          class="menu-card"
+          data-category="ade"
+          data-name="청포도에이드"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/compose-green-grape-ade.jpg"
+              alt="컴포즈 청포도에이드"
+            />
+          </div>
+          <span class="badge">에이드</span>
+          <h4>청포도에이드</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 에이드: 블루레몬 -->
+        <div
+          class="menu-card"
+          data-category="ade"
+          data-name="블루레몬에이드"
+          data-price="3,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/compose-blue-lemon-ade.jpg"
+              alt="컴포즈 블루레몬에이드"
+            />
+          </div>
+          <span class="badge">에이드</span>
+          <h4>블루레몬에이드</h4>
+          <p class="price">3,500원</p>
+        </div>
+
+        <!-- 프라페: 쿠키 초코 -->
+        <div
+          class="menu-card"
+          data-category="frappe"
+          data-name="쿠키 초코 프라페"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/cookie-choco-frappe-compose.png"
+              alt="쿠키 초코 프라페"
+            />
+          </div>
+
+          <span class="badge">프라페</span>
+          <h4>쿠키 초코 프라페</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 프라페: 그린티 -->
+        <div
+          class="menu-card"
+          data-category="frappe"
+          data-name="그린티 프라페"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/green-tea-frappe-compose.png"
+              alt="그린티 프라페"
+            />
+          </div>
+
+          <span class="badge">프라페</span>
+          <h4>그린티 프라페</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 프라페: 모카 자바칩 -->
+        <div
+          class="menu-card"
+          data-category="frappe"
+          data-name="모카 자바칩 프라페"
+          data-price="4,500원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/mocha-java-chip-frappe-compose.png"
+              alt="모카 자바칩 프라페"
+            />
+          </div>
+
+          <span class="badge">프라페</span>
+          <h4>모카 자바칩 프라페</h4>
+          <p class="price">4,500원</p>
+        </div>
+
+        <!-- 프라페: 리얼초코 자바칩 -->
+        <div
+          class="menu-card"
+          data-category="frappe"
+          data-name="리얼초코 자바칩 프라페"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/real-choco-java-chip-frappe-compose.png"
+              alt="리얼초코 자바칩 프라페"
+            />
+          </div>
+          <span class="badge">프라페</span>
+          <h4>리얼초코 자바칩 프라페</h4>
+          <p class="price">4,000원</p>
+        </div>
+
+        <!-- 프라페: 민트초코 오레오 -->
+        <div
+          class="menu-card"
+          data-category="frappe"
+          data-name="민트초코 오레오 프라페"
+          data-price="4,000원"
+        >
+          <div class="img-box">
+            <img
+              src="./images/menu/compose-mint-choco-frappe.png"
+              alt="컴포즈 민트초코 오레오 프라페"
+            />
+          </div>
+          <span class="badge">프라페</span>
+          <h4>민트초코 오레오 프라페</h4>
+          <p class="price">4,000원</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 음료 상세 팝업 -->
+    <div class="menu-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-modal-close></div>
+      <section
+        class="modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-name"
+      >
+        <button
+          class="modal-close"
+          type="button"
+          data-modal-close
+          aria-label="상세 팝업 닫기"
+        >
+          ×
+        </button>
+        <div class="modal-image-box">
+          <img class="modal-image" src="" alt="" />
+        </div>
+        <div class="modal-info">
+          <span class="modal-category"></span>
+          <p class="modal-kicker">COMPOSE MENU</p>
+          <h2 id="modal-name"></h2>
+          <p class="modal-description"></p>
+          <div class="modal-bottom">
+            <strong class="modal-price"></strong>
+            <span>매장별 판매 여부 및 가격이 다를 수 있습니다.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 포트폴리오용 가상 프로모션 -->
+    <section class="promotion-section" aria-labelledby="promotion-title">
+      <div class="promotion-heading">
+        <div>
+          <span class="promotion-kicker">COMPOSE PROMOTION</span>
+          <h2 id="promotion-title">지금 즐기기 좋은 혜택</h2>
+        </div>
+        <p>포트폴리오용 가상 프로모션입니다.</p>
+      </div>
+
+      <div class="promotion-grid">
+        <article class="promotion-card promo-morning">
+          <div class="promo-copy">
+            <span class="promo-label">MORNING PICK</span>
+            <h3>출근길의<br />첫 번째 커피</h3>
+            <p>오전 10시까지 아메리카노 특별 혜택</p>
+            <strong>1,000원부터</strong>
+          </div>
+          <div class="promo-cup" aria-hidden="true"><span>HOT</span></div>
+        </article>
+
+        <article class="promotion-card promo-together">
+          <div class="promo-copy">
+            <span class="promo-label">TOGETHER DAY</span>
+            <h3>커피 한 잔에<br />즐거움 한 잔 더</h3>
+            <p>매주 수요일 인기 음료 1+1</p>
+            <strong>수요일 한정</strong>
+          </div>
+          <div class="double-cup" aria-hidden="true">
+            <div class="promo-cup"><span>1</span></div>
+            <div class="promo-cup"><span>+1</span></div>
+          </div>
+        </article>
+
+        <article class="promotion-card promo-summer">
+          <div class="promo-copy">
+            <span class="promo-label">SUMMER EDITION</span>
+            <h3>상큼하게 터지는<br />여름 한 모금</h3>
+            <p>레몬·자몽·유자 에이드 컬렉션</p>
+            <strong>시즌 한정</strong>
+          </div>
+          <div class="promo-cup iced" aria-hidden="true"><span>ICE</span></div>
+        </article>
+
+        <article class="promotion-card promo-pickup">
+          <div class="promo-copy">
+            <span class="promo-label">QUICK PICK-UP</span>
+            <h3>기다림 없이<br />빠르게 픽업</h3>
+            <p>모바일 주문 첫 이용 할인 쿠폰</p>
+            <strong>1,000원 할인</strong>
+          </div>
+          <div class="phone-mockup" aria-hidden="true">
+            <span>ORDER</span>
+            <i>✓</i>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <footer id="footer" class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-mark">C</span>
+          <div>
+            <strong>COMPOSE COFFEE</strong>
+            <p>EVERY DAY, GOOD COFFEE.</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>본 페이지는 학습용으로 제작된 비공식 포트폴리오입니다.</p>
+        <a href="#top">BACK TO TOP ↑</a>
+      </div>
+    </footer>
+  </body>
+</html>

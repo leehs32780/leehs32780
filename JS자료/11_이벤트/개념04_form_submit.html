@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -67,12 +67,14 @@
 
     <p class="guide">
       브라우저로 열고 입력한 뒤 <strong>추가</strong> 버튼을 누르거나
-      <strong>Enter</strong> 를 쳐 보세요. <strong>F12 → Console</strong> 도 함께 보세요.
-    
+      <strong>Enter</strong> 를 쳐 보세요. <strong>F12 → Console</strong> 도
+      함께 보세요.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -129,15 +131,15 @@
       //
       // form 을 다룰 때는 preventDefault 를 반사적으로 쓴다고 생각하세요.
 
-      // ── 섹션 2: 입력값 검사 ──
+      // ── 섹션 2: 입력값 검사 ── // handleSubmit //
 
       function handleSubmit() {
-        const value = todoInput.value.trim(); // 앞뒤 공백 제거 (10단원 개념05)
+        const value = todoInput.value.trim(); // 앞뒤 공백 제거 (10단원 개념05) // 1을 추가한 후 1 space를 쓰면 중복되서 X //
 
         // [검사 1] 비어 있는가 — 조기 반환 (05단원 개념03)
         if (!value) {
           errorMsg.textContent = "할 일을 입력해 주세요";
-          todoInput.focus(); // 커서를 다시 입력칸으로
+          todoInput.focus(); // 커서를 다시 입력칸으로 //
           console.log("검사 실패: 빈 값");
           return; // 여기서 함수가 끝납니다
         }

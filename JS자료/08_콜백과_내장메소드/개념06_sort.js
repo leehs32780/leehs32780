@@ -4,12 +4,11 @@
 // 실행: node 개념06_sort.js
 // ============================================================
 //
-// 06단원에서 sort() 를 그냥 쓰면 숫자가 이상하게 정렬된다고 했습니다.
+// 06단원에서 sort() 를 그냥 쓰면 숫자가 이상하게 정렬된다고 했습니다. // 문자열로 변환 후 비교하기 때문에 //
 // 이제 콜백을 배웠으니 제대로 정렬할 수 있습니다.
 //
 //     배열.sort((a, b) => a - b)   오름차순
 //     배열.sort((a, b) => b - a)   내림차순
-
 
 // ── 섹션 1: 그냥 sort() 의 함정 ──
 
@@ -26,7 +25,6 @@ const names = ["박지훈", "김민준", "이서연"];
 names.sort();
 console.log(names);
 // 출력: [ '김민준', '박지훈', '이서연' ]
-
 
 // ── 섹션 2: 비교 함수 — 두 개씩 견주는 규칙 ──
 
@@ -56,7 +54,6 @@ console.log(nums2);
 //     b - a  →  큰 것부터 (내림차순, descending)
 
 // ✏️ 직접 해보기 1 — [5, 30, 7, 2] 를 오름차순으로 정렬해 보세요.
-
 
 // ── 섹션 3: sort 는 원본을 바꾼다 ──
 
@@ -96,8 +93,10 @@ console.log(original4);
 // ✏️ 직접 해보기 2 — 아래 배열의 원본은 그대로 두고 정렬된 복사본을 만들어 보세요.
 //                    const origin = [3, 1, 2];
 //                    (힌트: 06단원에서 배운 slice() 로 먼저 복사합니다)
-
-
+const origin = [3, 1, 2];
+const sorted3 = origin.slice().sort((a, b) => a - b);
+console.log(origin);
+console.log(sorted3);
 // ── 섹션 4: 객체 배열 정렬 ──
 
 const products = [
@@ -121,7 +120,6 @@ console.log(byPriceDesc.map((p) => p.name));
 
 // ✏️ 직접 해보기 3 — products 를 이름의 가나다순으로 정렬해 보세요. (섹션 5 참고)
 
-
 // ── 섹션 5: 문자열 정렬 ──
 
 // 문자열은 빼기를 할 수 없습니다.
@@ -143,24 +141,30 @@ console.log(korean.slice().sort((a, b) => a.localeCompare(b)));
 // 출력: [ '가방', '나무', '하늘' ]
 
 // 객체 배열의 문자열 속성으로 정렬할 때도 마찬가지입니다.
-const sortedByName = products.slice().sort((a, b) => a.name.localeCompare(b.name));
+const sortedByName = products
+  .slice()
+  .sort((a, b) => a.name.localeCompare(b.name));
 console.log(sortedByName.map((p) => p.name));
 // 출력: [ '아메리카노', '케이크', '쿠키' ]
 
 // ✏️ 직접 해보기 4 — ["다", "가", "나"] 를 가나다순으로 정렬해 보세요.
-
-
+const word2 = ["다", "가", "나"];
+console.log(word2.slice().sort((a, b) => a.localeCompare(b)));
 // ── 섹션 6: 정렬 + 자르기 — 상위 N개 뽑기 ──
 
 const scores = [88, 95, 62, 100, 74];
 
 // 상위 3개
-const top3 = scores.slice().sort((a, b) => b - a).slice(0, 3);
+const top3 = scores
+  .slice()
+  .sort((a, b) => b - a)
+  .slice(0, 3); // (index, 개수) //
 console.log(top3);
 // 출력: [ 100, 95, 88 ]
 
 // 객체 배열에서 가장 비싼 상품 2개
-const top2Products = products.slice()
+const top2Products = products
+  .slice()
   .sort((a, b) => b.price - a.price)
   .slice(0, 2)
   .map((p) => p.name);
@@ -169,7 +173,6 @@ console.log(top2Products);
 
 // 이렇게 메소드를 줄줄이 이어 쓰는 것을 체이닝이라고 합니다.
 // 한 줄이 길어지면 위처럼 점(.) 앞에서 줄을 나누면 읽기 좋습니다.
-
 
 // ── 섹션 7: 자주 하는 실수 ──
 
@@ -197,7 +200,6 @@ console.log(arr);
 // 출력: [ 1, 2, 3 ]
 // 원본이 바뀌므로 다시 담지 않아도 됩니다. (담아도 같은 배열입니다)
 
-
 // ── 정리 ──
 
 // 1. 숫자 정렬은 sort((a, b) => a - b). 그냥 sort() 는 사전 순이라 틀린다.
@@ -206,7 +208,6 @@ console.log(arr);
 // 4. 문자열은 a.localeCompare(b) 를 쓴다.
 // 5. sort 는 원본을 바꾼다. 배열.slice().sort() 또는 toSorted() 를 쓸 것.
 // 6. 정렬 후 slice(0, N) 으로 상위 N개를 뽑는다.
-
 
 // ============================================================
 // 직접 해보기 정답
