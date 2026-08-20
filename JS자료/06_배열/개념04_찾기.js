@@ -9,7 +9,6 @@
 //     includes(값)  있으면 true, 없으면 false
 //     indexOf(값)   몇 번째인지. 없으면 -1
 
-
 // ── 섹션 1: includes — 있는지 없는지 ──
 
 const menu = ["아메리카노", "라떼", "케이크"];
@@ -48,7 +47,10 @@ console.log([1, 2, 3].includes("2"));
 // 출력: false
 
 // ✏️ 직접 해보기 1 — 과일 배열을 만들고 "포도" 가 있는지 확인해 보세요.
-
+const fruit = "포도";
+const fruits = ["사과", "바나나", "포도", "복숭아"];
+console.log(fruits.includes(fruit));
+``;
 
 // ── 섹션 2: indexOf — 몇 번째인지 ──
 
@@ -73,7 +75,6 @@ console.log(fruits.lastIndexOf("바나나"));
 // 출력: 3
 
 // ✏️ 직접 해보기 2 — 과일 배열에서 "사과" 의 위치를 출력해 보세요.
-
 
 // ── 섹션 3: indexOf 로 존재 확인하기 (옛날 방식) ──
 
@@ -100,7 +101,6 @@ if (fruits.indexOf("사과") !== -1) {
 //       위치가 필요할 때만 indexOf 를 씁니다.
 
 // ✏️ 직접 해보기 3 — indexOf 로 "귤" 이 없다는 것을 확인하는 if 문을 써 보세요.
-
 
 // ── 섹션 4: 찾아서 지우기 ──
 
@@ -129,8 +129,12 @@ console.log(cart2);
 // 반드시 !== -1 을 확인하고 지우세요.
 
 // ✏️ 직접 해보기 4 — 배열에서 "쿠키" 를 찾아 안전하게 지워 보세요.
-
-
+const cart1 = ["아메리카노", "케이크", "쿠키"];
+const idx = cart1.indexOf("쿠키");
+if (idx !== -1) {
+  cart1.splice("쿠키");
+}
+console.log(cart1);
 // ── 섹션 5: 문자열에서도 똑같이 쓴다 ──
 
 // includes 와 indexOf 는 문자열에도 있습니다. 사용법이 같습니다.
@@ -182,8 +186,9 @@ console.log(productName);
 // 출력: Apple iPhone
 
 // ✏️ 직접 해보기 5 — 이메일 주소 문자열에 "@" 가 들어 있는지 확인해 보세요.
+const userEmail = "abcdefg@gmail.com";
 
-
+console.log(userEmail.includes("@"));
 // ── 섹션 6: 조건으로 찾으려면 ──
 
 // includes 와 indexOf 는 '값이 정확히 같은 것'만 찾습니다.
@@ -209,7 +214,6 @@ console.log(scores.find((score) => score > 80));
 // 지금은 "정확히 같은 값은 includes / indexOf,
 //         조건으로 찾는 건 반복문(나중엔 find)" 로 정리해 두세요.
 
-
 // ── 섹션 7: 자주 하는 실수 ──
 
 // [실수 1] 없을 때 0이 나온다고 생각하기
@@ -232,7 +236,6 @@ console.log(nums.includes("1"));
 console.log(nums.includes(Number("1")));
 // 출력: true
 
-
 // ── 정리 ──
 
 // 1. includes(값)  있으면 true — 존재 확인은 이걸 쓴다.
@@ -241,7 +244,6 @@ console.log(nums.includes(Number("1")));
 // 4. indexOf + splice 로 '찾아서 지우기'. -1 검사를 꼭 할 것.
 // 5. 문자열에도 includes / indexOf / startsWith / endsWith 가 있다.
 // 6. 조건으로 찾으려면 반복문(또는 08단원의 find).
-
 
 // ============================================================
 // 직접 해보기 정답
