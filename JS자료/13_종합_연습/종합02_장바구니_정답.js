@@ -19,12 +19,10 @@ const cart = [
 console.log("===== 장바구니 =====");
 // 출력: ===== 장바구니 =====
 
-
 // ───── 문제 1 ─────
 console.log(products.filter(({ stock }) => stock > 0).map(({ name }) => name));
 // 출력: [ '아메리카노', '카페라떼', '쿠키' ]
 // filter 로 고르고 map 으로 이름만 뽑는 체이닝입니다.
-
 
 // ───── 문제 2 ─────
 function findProduct(id) {
@@ -38,7 +36,6 @@ console.log(findProduct(99));
 // find 는 못 찾으면 undefined 를 돌려줍니다. filter 였다면 빈 배열이 나옵니다.
 // 결과를 바로 쓰기 전에 확인하는 습관을 들이세요. findProduct(99)?.name
 
-
 // ───── 문제 3 ─────
 cart.forEach(({ id, count }) => {
   const product = findProduct(id);
@@ -48,7 +45,6 @@ cart.forEach(({ id, count }) => {
 // 출력: 쿠키 x3 = 9000원
 // 장바구니에는 id 와 개수만 있고 이름·가격은 상품 목록에 있습니다.
 // 이렇게 데이터를 나눠 두면 가격이 바뀌어도 한 곳만 고치면 됩니다.
-
 
 // ───── 문제 4 ─────
 function getCartTotal(cartItems) {
@@ -63,14 +59,15 @@ console.log(`총액 ${getCartTotal(cart)}원`);
 // reduce 안에서도 구조분해를 쓸 수 있습니다.
 // 콜백에 중괄호를 썼으므로 return 을 반드시 적어야 합니다.
 
-
 // ───── 문제 5 ─────
 function addToCart(cartItems, id, count) {
   const exists = cartItems.find((item) => item.id === id);
 
   if (exists) {
     // 이미 있으면: 그 항목만 개수를 늘린 새 객체로 바꾼 새 배열
-    return cartItems.map((item) => (item.id === id ? { ...item, count: item.count + count } : item));
+    return cartItems.map((item) =>
+      item.id === id ? { ...item, count: item.count + count } : item,
+    );
   }
 
   // 없으면: 뒤에 새 항목을 붙인 새 배열
@@ -89,7 +86,6 @@ console.log(cart);
 // map + 스프레드로 "그 항목만 바꾼 새 배열" 을 만드는 것이 핵심 패턴입니다.
 // { id, count } 는 { id: id, count: count } 의 줄임 표현입니다.
 
-
 // ───── 문제 6 ─────
 function removeFromCart(cartItems, id) {
   return cartItems.filter((item) => item.id !== id);
@@ -99,7 +95,6 @@ console.log(removeFromCart(cart, 1));
 // 출력: [ { id: 4, count: 3 } ]
 // filter 는 새 배열을 돌려주므로 원본이 안 바뀝니다.
 // splice 를 쓰면 원본이 바뀝니다.
-
 
 // ───── 문제 7 ─────
 function hasEnoughStock(cartItems) {
@@ -118,7 +113,6 @@ console.log(hasEnoughStock(tooMany));
 // every 는 "전부 만족해야 true" 입니다. 하나라도 넘치면 false 입니다.
 // some 을 쓰면 "하나라도 넘치는가" 를 물을 수 있습니다.
 
-
 // ───── 문제 8 ─────
 function getFinalPrice(total) {
   if (total >= 30000) {
@@ -132,7 +126,6 @@ console.log(getFinalPrice(17000));
 console.log(getFinalPrice(50000));
 // 출력: 45000
 // 소수 오차가 생길 수 있으므로 돈 계산은 Math.round 로 마무리합니다.
-
 
 // ───── 문제 9 ─────
 function printReceipt(cartItems) {
@@ -159,7 +152,6 @@ printReceipt(cart);
 // 출력: 결제 17000원
 // 작은 함수를 조립해 큰 함수를 만들었습니다.
 // 각 함수를 따로 확인할 수 있어 버그를 찾기 쉽습니다.
-
 
 // ───── 문제 10 ─────
 function addToCartSafe(cartItems, id, count) {
@@ -189,7 +181,6 @@ console.log(addToCartSafe(cart, 3, 1)); // 케이크는 재고 0
 //
 // 조기 반환을 쓰면 "안 되는 경우" 를 위에서 걸러내고
 // 아래는 정상 흐름만 남아 읽기 좋아집니다.
-
 
 // ============================================================
 // 정리 — 이 파일에서 쓴 것들

@@ -29,7 +29,6 @@ const cart = [
 console.log("===== 장바구니 =====");
 // 출력: ===== 장바구니 =====
 
-
 // ───── 문제 1 ───── 판매 가능한 상품
 // 재고가 1개 이상인 상품의 이름만 배열로 만들어 출력하세요.
 //
@@ -37,7 +36,7 @@ console.log("===== 장바구니 =====");
 // [ '아메리카노', '카페라떼', '쿠키' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(products.filter(({ stock }) => stock > 0).map(({ name }) => name));
 
 // ───── 문제 2 ───── 상품 찾기 함수
 // id 를 받아 그 상품 객체를 돌려주는 findProduct 함수를 만드세요.
@@ -48,8 +47,12 @@ console.log("===== 장바구니 =====");
 // undefined
 
 // TODO: 여기에 코드를 쓰세요 (findProduct(2) 와 findProduct(99) 를 출력)
+function findProduct(id) {
+  return products.find((product) => product.id === id);
+}
 
-
+console.log(findProduct(2));
+console.log(findProduct(99));
 // ───── 문제 3 ───── 장바구니 한 줄씩
 // 장바구니의 각 항목을 "이름 x개 = 금액원" 형태로 출력하세요.
 // 이름과 가격은 findProduct 로 찾아야 합니다.
@@ -59,8 +62,10 @@ console.log("===== 장바구니 =====");
 // 쿠키 x3 = 9000원
 
 // TODO: 여기에 코드를 쓰세요
-
-
+cart.forEach(({ id, count }) => {
+  const product = findProduct(id);
+  console.log(`${product.name} x${count} = ${product.price * count}원`);
+});
 // ───── 문제 4 ───── 총액
 // 장바구니 총액을 돌려주는 getCartTotal 함수를 만들고 결과를 출력하세요.
 // reduce 를 쓰세요.
@@ -69,8 +74,14 @@ console.log("===== 장바구니 =====");
 // 총액 17000원
 
 // TODO: 여기에 코드를 쓰세요
+function getCartTotal(cartItems) {
+  return cartItems.reduce((acc, { id, count }) => {
+    const product = findProduct(id);
+    return acc + product.price * count;
+  }, 0);
+}
 
-
+console.log(`총액 ${getCartTotal(cart)}원`);
 // ───── 문제 5 ───── 담기
 // 장바구니와 상품 id, 개수를 받아 '새 장바구니 배열' 을 돌려주는
 // addToCart 함수를 만드세요.
@@ -85,8 +96,20 @@ console.log("===== 장바구니 =====");
 
 // TODO: 여기에 코드를 쓰세요
 // (addToCart(cart, 2, 1) / addToCart(cart, 1, 3) / 원본 cart 를 차례로 출력)
+function addToCart(cartItems, id, count) {
+  const exists = cartItems.find((item) => item.id === id);
 
+  if (exists) {
+    return cartItems.map((item) =>
+      item.id === id ? { ...item, count: item.count + count } : item,
+    );
+  }
+  return [...cartItems, { id, count }];
+}
 
+console.log(addToCart(cart, 2, 1));
+console.log(addToCart(cart, 1, 3));
+console.log(cart);
 // ───── 문제 6 ───── 빼기
 // 장바구니와 상품 id 를 받아 그 항목을 뺀 '새 배열' 을 돌려주는
 // removeFromCart 함수를 만드세요.
@@ -95,8 +118,11 @@ console.log("===== 장바구니 =====");
 // [ { id: 4, count: 3 } ]
 
 // TODO: 여기에 코드를 쓰세요
+function removeFromCart(cartItems, id) {
+  return cartItems.filter((item) => item.id !== id);
+}
 
-
+console.log(removeFromCart(cart, 1));
 // ───── 문제 7 ───── 재고 확인
 // 장바구니의 각 항목이 재고를 넘지 않는지 확인하는
 // hasEnoughStock 함수를 만드세요. 전부 괜찮으면 true 입니다.
@@ -107,8 +133,17 @@ console.log("===== 장바구니 =====");
 
 // TODO: 여기에 코드를 쓰세요
 // (원래 cart 와, 쿠키를 10개 담은 장바구니로 각각 확인)
+function hasEnoughStock(cartItems) {
+  return cartItems.every(({ id, count }) => {
+    const product = findProduct(id);
+    return product.stock >= count;
+  });
+}
 
+console.log(hasEnoughStock(cart));
 
+const tooMany = addToCart(cart, 4, 7);
+console.log(hasEnoughStock(tooMany));
 // ───── 문제 8 ───── 할인
 // 총액을 받아 최종 금액을 돌려주는 getFinalPrice 함수를 만드세요.
 //   3만원 이상이면 10% 할인, 아니면 그대로
@@ -120,9 +155,16 @@ console.log("===== 장바구니 =====");
 
 // TODO: 여기에 코드를 쓰세요
 // (17000 과 50000 을 각각 넣어 출력)
+function getFinalPrice(total) {
+  if (total >= 30000) {
+    return Math.round(total * 0.9);
+  }
+  return total;
+}
 
-
-// ───── 문제 9 ───── 영수증
+console.log(getFinalPrice(17000));
+console.log(getFinalPrice(50000));
+// ───── 문제 9 ───── 영수증 // 어렵다...
 // 아래 형태로 영수증을 출력하는 printReceipt 함수를 만드세요.
 // 위에서 만든 함수들을 조립해서 쓰세요.
 //
@@ -136,8 +178,7 @@ console.log("===== 장바구니 =====");
 
 // TODO: 여기에 코드를 쓰세요
 
-
-// ───── 문제 10 ───── [도전] 품절 상품 담기 막기
+// ───── 문제 10 ───── [도전] 품절 상품 담기 막기 // 겁나 어렵네...
 // addToCart 를 '고치지 말고', 그것을 본떠 addToCartSafe 라는 함수를 새로 만드세요.
 // (앞 문제의 addToCart 는 그대로 두어야 앞 문제 출력이 안 깨집니다)
 // addToCartSafe 는 재고가 0인 상품을 담으려 하면

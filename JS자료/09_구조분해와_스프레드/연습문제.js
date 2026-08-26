@@ -7,7 +7,6 @@
 // TODO 자리에 코드를 쓰고, '기대 출력'과 같은지 확인하세요.
 // 1~17은 기본, 18은 응용, 19는 [도전], 20은 에러 확인입니다.
 
-
 // ───── 문제 1 ───── (개념01 배열 구조분해)
 // 아래 배열에서 첫 값과 두 번째 값을 구조분해로 꺼내 한 줄에 출력하세요.
 
@@ -17,7 +16,8 @@ const colors1 = ["빨강", "파랑", "노랑"];
 // 빨강 파랑
 
 // TODO: 여기에 코드를 쓰세요
-
+const [first1, second1] = colors1;
+console.log(first1, second1);
 
 // ───── 문제 2 ───── (개념01 기본값)
 // 아래 배열에서 두 값을 꺼내되, 두 번째 값이 없으면 "없음" 이 나오게 하세요.
@@ -28,8 +28,8 @@ const one2 = ["사과"];
 // 사과 없음
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const [fruit2, second2 = "없음"] = one2;
+console.log(fruit2, second2);
 // ───── 문제 3 ───── (개념01 나머지)
 // 아래 배열에서 첫 값과 나머지를 나눠 차례로 출력하세요.
 
@@ -40,8 +40,9 @@ const nums3 = [1, 2, 3, 4];
 // [ 2, 3, 4 ]
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const [head3, ...tail3] = nums3;
+console.log(head3);
+console.log(tail3);
 // ───── 문제 4 ───── (개념01 값 교환)
 // 아래 두 변수의 값을 구조분해로 맞바꾼 뒤 출력하세요. 임시 변수를 쓰지 마세요.
 
@@ -52,8 +53,9 @@ let right4 = "오른쪽";
 // 오른쪽 왼쪽
 
 // TODO: 여기에 코드를 쓰세요
+[left4, right4] = [right4, left4];
 
-
+console.log(left4, right4);
 // ───── 문제 5 ───── (개념01 split 과 함께)
 // 아래 날짜 문자열을 "-" 로 나눈 뒤 구조분해로 받아 아래처럼 출력하세요.
 
@@ -63,8 +65,8 @@ const dateText5 = "2026-08-11";
 // 2026년 08월 11일
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const [year5, month5, day5] = dateText5.split("-");
+console.log(`${year5}년 ${month5}월 ${day5}일`);
 // ───── 문제 6 ───── (개념02 객체 구조분해)
 // 아래 객체에서 title 과 price 를 구조분해로 꺼내 한 줄에 출력하세요.
 
@@ -74,8 +76,8 @@ const book6 = { title: "입문서", price: 25000, author: "김작가" };
 // 입문서 25000
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const { title, price } = book6;
+console.log(title, price);
 // ───── 문제 7 ───── (개념02 이름 바꾸기)
 // book6 의 author 를 writer 라는 이름으로 꺼내 출력하세요.
 //
@@ -83,8 +85,8 @@ const book6 = { title: "입문서", price: 25000, author: "김작가" };
 // 김작가
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const { author: writer } = book6;
+console.log(writer);
 // ───── 문제 8 ───── (개념02 기본값)
 // 아래 객체에서 theme 과 fontSize 를 꺼내되,
 // fontSize 가 없으면 14 가 나오게 하세요.
@@ -95,8 +97,8 @@ const config8 = { theme: "dark" };
 // dark 14
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const { theme, fontSize = 14 } = config8;
+console.log(theme, fontSize);
 // ───── 문제 9 ───── (개념02 나머지)
 // 아래 객체에서 password 만 빼고 나머지를 모아 출력하세요.
 
@@ -106,8 +108,8 @@ const account9 = { userId: "abc", password: "1234", nickname: "서연" };
 // { userId: 'abc', nickname: '서연' }
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const { password, ...safe9 } = account9;
+console.log(safe9);
 // ───── 문제 10 ───── (개념02 매개변수 구조분해)
 // { name, city } 를 받아 "이름은 도시 거주" 를 출력하는 함수를 만들고,
 // 아래 객체로 호출하세요. 함수 안에서 user10. 을 붙이면 안 됩니다.
@@ -118,8 +120,11 @@ const user10 = { name: "김민준", age: 20, city: "부산" };
 // 김민준은 부산 거주
 
 // TODO: 여기에 코드를 쓰세요
+function introduce10({ name, city }) {
+  console.log(`${name}은 ${city} 거주`);
+}
 
-
+introduce10(user10);
 // ───── 문제 11 ───── (개념02 콜백 구조분해)
 // 아래 배열을 map 으로 돌면서 이름만 뽑아 출력하세요.
 // 콜백의 매개변수에서 구조분해를 쓰세요.
@@ -133,8 +138,7 @@ const products11 = [
 // [ '아메리카노', '케이크' ]
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(products11.map(({ name }) => name));
 // ───── 문제 12 ───── (개념03 스프레드 복사)
 // 아래 배열을 복사한 뒤 복사본만 오름차순 정렬해 출력하고,
 // 원본이 그대로인지 확인하기 위해 원본도 출력하세요.
@@ -146,8 +150,8 @@ const scores12 = [30, 10, 20];
 // [ 30, 10, 20 ]
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log([...scores12].sort((a, b) => a - b));
+console.log(scores12);
 // ───── 문제 13 ───── (개념03 합치기)
 // 아래 두 배열을 스프레드로 합쳐 출력하세요. concat 을 쓰지 마세요.
 
@@ -158,8 +162,7 @@ const b13 = [3, 4];
 // [ 1, 2, 3, 4 ]
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log([...a13, ...b13]);
 // ───── 문제 14 ───── (개념03 함수 인자로 펼치기)
 // 아래 배열의 최댓값을 Math.max 로 구해 출력하세요.
 
@@ -169,8 +172,7 @@ const temps14 = [45, 88, 62];
 // 88
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(Math.max(...temps14));
 // ───── 문제 15 ───── (개념04 객체 수정)
 // 아래 객체의 age 만 30 으로 바꾼 '새 객체' 를 만들어 출력하고,
 // 원본도 출력하세요. 원본은 바뀌면 안 됩니다.
@@ -182,8 +184,8 @@ const base15 = { name: "박지훈", age: 28 };
 // { name: '박지훈', age: 28 }
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log({ ...base15, age: 30 });
+console.log(base15);
 // ───── 문제 16 ───── (개념04 병합)
 // 기본 설정 위에 사용자 설정을 덮어쓴 결과를 출력하세요.
 // 사용자가 정한 값이 이겨야 합니다.
@@ -195,8 +197,7 @@ const userSetting16 = { theme: "dark" };
 // { theme: 'dark', fontSize: 14 }
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log({ ...defaults16, ...userSetting16 });
 // ───── 문제 17 ───── (개념05 나머지 매개변수)
 // 넘어온 숫자를 모두 더해서 돌려주는 sumAll 함수를 만드세요.
 // 인자 개수는 몇 개든 됩니다.
@@ -208,8 +209,13 @@ const userSetting16 = { theme: "dark" };
 
 // TODO: 여기에 코드를 쓰세요
 // (sumAll(1,2,3,4,5) / sumAll(1,2) / sumAll() 을 차례로 출력)
+function sumAll(...numbers) {
+  return numbers.reduce((acc, n) => acc + n, 0);
+}
 
-
+console.log(sumAll(1, 2, 3, 4, 5));
+console.log(sumAll(1, 2));
+console.log(sumAll());
 // ───── 문제 18 ───── [응용]
 // 아래 문자열을 뒤집어 출력하세요. 스프레드를 쓰세요.
 
@@ -219,8 +225,7 @@ const word18 = "자바스크립트";
 // 트립크스바자
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log([...word18].reverse().join(""));
 // ───── 문제 19 ───── [도전]
 // 아래 할 일 목록에서 id 가 2인 항목만 done 을 true 로 바꾼 '새 배열' 을 만들고,
 // 그 결과를 "제목 완료/미완료" 형태로 출력하세요.
@@ -245,8 +250,15 @@ const todos19 = [
 
 // TODO: 여기에 코드를 쓰세요
 // (마지막 줄은 console.log("원본 확인:", todos19[1].done) 로 확인)
+const updated19 = todos19.map((todo) =>
+  todo.id === 2 ? { ...todo, done: true } : todo,
+);
 
+updated19.forEach(({ text, done }) => {
+  console.log(`${text} ${done ? "완료" : "미완료"}`);
+});
 
+console.log("원본 확인:", todos19[1].done);
 // ───── 문제 20 ───── (에러 확인 — 맨 마지막)
 // 아래 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -254,4 +266,6 @@ const todos19 = [
 // const { value } = null;
 
 // 무슨 에러가 났나요? 값이 있을지 없을지 모를 때는 어떻게 하면 될까요?
-// 답: __________________________________________
+// 답: TypeError: Cannot destructure property 'value' of 'null' as it is null.
+
+// 오른쪽에 기본값을 주면 됩니다. // ex) const { value } = null ?? {};

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -44,6 +44,7 @@
       */
       #q1 {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-size: 24px;
       }
 
       /* ───── 문제 2 ───── (개념01 섹션5) */
@@ -57,6 +58,7 @@
       */
       #q2 {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-size: 2rem;
       }
 
       /* ───── 문제 3 ───── (개념02 섹션2) */
@@ -72,6 +74,7 @@
       */
       #q3 {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-family: "없는글꼴", serif;
       }
 
       /* ───── 문제 4 ───── (개념02 섹션5·6) */
@@ -83,6 +86,8 @@
       */
       #q4 {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-weight: bold;
+        font-style: italic;
       }
 
       /* ───── 문제 5 ───── (개념03 섹션1) */
@@ -95,6 +100,7 @@
       */
       #q5 {
         /* TODO: 여기에 코드를 쓰세요 */
+        line-height: 2.4;
       }
 
       /* ───── 문제 6 ───── (개념03 섹션4) */
@@ -107,6 +113,7 @@
       */
       #q6 {
         /* TODO: 여기에 코드를 쓰세요 */
+        letter-spacing: 3px;
       }
 
       /* ───── 문제 7 ───── (개념04 섹션1) */
@@ -118,6 +125,7 @@
       */
       #q7 {
         /* TODO: 여기에 코드를 쓰세요 */
+        text-align: center;
       }
 
       /* ───── 문제 8 ───── (개념04 섹션3) */
@@ -129,6 +137,7 @@
       */
       #q8 {
         /* TODO: 여기에 코드를 쓰세요 */
+        text-decoration: line-through;
       }
 
       /* ───── 문제 9 ───── (개념04 섹션5) */
@@ -141,6 +150,7 @@
       */
       #q9 {
         /* TODO: 여기에 코드를 쓰세요 */
+        text-transform: uppercase;
       }
 
       /* ───── 문제 10 ───── (개념04 섹션4) */
@@ -153,6 +163,8 @@
       */
       #q10 {
         /* TODO: 여기에 코드를 쓰세요 */
+        text-decoration: none;
+        color: #c0392b;
       }
 
       /* ───── 문제 11 ───── (개념05 섹션3) */
@@ -166,6 +178,7 @@
       */
       #q11 {
         /* TODO: 여기에 코드를 쓰세요 */
+        overflow-wrap: break-word;
       }
 
       /* ───── 문제 12 ───── [응용] (개념01 섹션4·5) */
@@ -181,6 +194,7 @@
       */
       #q12-child {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-size: 1.5rem;
       }
 
       /* ───── 문제 13 ───── [응용] (개념03 섹션2) */
@@ -203,7 +217,7 @@
       */
       #q13-parent {
         background-color: #f0f7ff;
-        line-height: 26px; /* TODO: 이 줄을 고치세요 */
+        line-height: 1.6; /* TODO: 이 줄을 고치세요 */
       }
 
       /* ───── 문제 14 ───── [도전] (개념05 섹션5) */
@@ -219,6 +233,9 @@
       */
       #q14 {
         /* TODO: 여기에 코드를 쓰세요 */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       /* ───── 문제 15 ───── [도전] (개념01·02·03·04 종합) */
@@ -238,6 +255,12 @@
       */
       #q15 {
         /* TODO: 여기에 코드를 쓰세요 */
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-align: center;
+        color: #2d6cdf;
+        line-height: 1.3;
       }
 
       /* ───── 문제 16 ───── [확인] (개념01 섹션7 · 개념04 섹션7) */
@@ -255,9 +278,9 @@
         틀린 곳 3: __________________________________________
       */
       #q16 {
-        font-size: 28;
-        fontweight: bold;
-        text-align: middle;
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
         color: #c0392b;
       }
     </style>
@@ -269,8 +292,9 @@
     <p class="doc-guide">
       이 파일을 <strong>VS Code 로 열고</strong>, 위쪽
       <code>&lt;style&gt;</code> 안의 <strong>빈 자리</strong>에 CSS 를 쓰세요.
-      문제 설명도 전부 그 안에 있습니다. <strong>body 는 고치지 마세요.</strong>
-      저장(Ctrl+S) 하고 브라우저에서 새로고침(F5) 하면 결과가 바뀝니다.<br />
+      문제 설명도 전부 그 안에 있습니다.
+      <strong>body 는 고치지 마세요.</strong> 저장(Ctrl+S) 하고 브라우저에서
+      새로고침(F5) 하면 결과가 바뀝니다.<br />
       1~11 은 기본, 12~13 은 응용, 14~15 는 도전, 16 은 확인 문제입니다.
     </p>
 
@@ -298,8 +322,9 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 5 — 줄 높이 1.8</p>
       <p id="q5">
-        이 문단의 줄 높이를 1.8 로 만드세요. 줄이 여러 개가 되도록 문장을 길게 씁니다.
-        줄과 줄 사이가 넓어지는 것을 확인하세요. 계속 이어 쓰는 문장입니다.
+        이 문단의 줄 높이를 1.8 로 만드세요. 줄이 여러 개가 되도록 문장을 길게
+        씁니다. 줄과 줄 사이가 넓어지는 것을 확인하세요. 계속 이어 쓰는
+        문장입니다.
       </p>
     </div>
 
@@ -325,12 +350,18 @@
 
     <div class="doc-demo">
       <p class="doc-demo-label">문제 10 — 링크 꾸미기</p>
-      <p><a id="q10" href="개념04_정렬과_꾸미기.html">개념04 로 가는 링크입니다</a></p>
+      <p>
+        <a id="q10" href="개념04_정렬과_꾸미기.html"
+          >개념04 로 가는 링크입니다</a
+        >
+      </p>
     </div>
 
     <div class="doc-demo">
       <p class="doc-demo-label">문제 11 — 긴 주소가 상자를 뚫고 나갑니다</p>
-      <p class="q-box" id="q11">https://www.example.com/blog/2026/01/very-long-article-name</p>
+      <p class="q-box" id="q11">
+        https://www.example.com/blog/2026/01/very-long-article-name
+      </p>
     </div>
 
     <div class="doc-demo">
@@ -346,15 +377,17 @@
       <div id="q13-parent">
         부모입니다.
         <p id="q13-child">
-          자식은 28px 입니다. 줄이 여러 줄이 되도록 문장을 길게 씁니다.
-          글자가 위아래로 겹치지 않게 만들어야 합니다.
+          자식은 28px 입니다. 줄이 여러 줄이 되도록 문장을 길게 씁니다. 글자가
+          위아래로 겹치지 않게 만들어야 합니다.
         </p>
       </div>
     </div>
 
     <div class="doc-demo">
       <p class="doc-demo-label">문제 14 — 한 줄로 줄이고 점 세 개</p>
-      <p class="q-box" id="q14">오늘의 공지사항입니다 자세한 내용은 게시판을 확인해 주세요</p>
+      <p class="q-box" id="q14">
+        오늘의 공지사항입니다 자세한 내용은 게시판을 확인해 주세요
+      </p>
     </div>
 
     <div class="doc-demo">
@@ -369,9 +402,18 @@
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>1. 같은 폴더의 <code>연습문제_정답.html</code> 을 열어 결과를 비교하세요.</p>
-      <p>2. 답이 달라도 화면이 같으면 맞은 것입니다. 여러 방법이 있는 문제도 있습니다.</p>
-      <p>3. 안 되는 문제는 개념 파일의 <strong>자주 하는 실수</strong> 섹션을 다시 보세요.</p>
+      <p>
+        1. 같은 폴더의 <code>연습문제_정답.html</code> 을 열어 결과를
+        비교하세요.
+      </p>
+      <p>
+        2. 답이 달라도 화면이 같으면 맞은 것입니다. 여러 방법이 있는 문제도
+        있습니다.
+      </p>
+      <p>
+        3. 안 되는 문제는 개념 파일의 <strong>자주 하는 실수</strong> 섹션을
+        다시 보세요.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

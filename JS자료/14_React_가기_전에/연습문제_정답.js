@@ -9,7 +9,11 @@
 
 // ───── 문제 1 · 2 · 3 ─────
 // import 는 파일 맨 위에 모아 씁니다. 세 문제의 답이 여기 다 들어 있습니다.
-import welcome, { SHIPPING_FEE, addShipping, toPercent as percent } from "./연습문제_도구.js";
+import welcome, {
+  SHIPPING_FEE,
+  addShipping,
+  toPercent as percent,
+} from "./연습문제_도구.js";
 // default(welcome) 가 앞, 중괄호가 뒤입니다. 순서가 반대면 SyntaxError 입니다.
 // toPercent 는 as 로 이름을 바꿔 가져왔습니다.
 

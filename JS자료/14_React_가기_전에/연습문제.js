@@ -12,8 +12,11 @@
 //        (아래 TODO 자리가 아니라 이 헤더 바로 밑입니다)
 
 // TODO: 문제 1~3의 import 를 여기에 쓰세요
-
-
+import welcome, {
+  SHIPPING_FEE,
+  addShipping,
+  toPercent as percent,
+} from "./연습문제_도구.js";
 // ───── 문제 1 ───── (개념01 import)
 // 연습문제_도구.js 에서 SHIPPING_FEE 와 addShipping 을 가져와
 // 배송비와, 12000원짜리에 배송비를 더한 값을 차례로 출력하세요.
@@ -23,8 +26,8 @@
 // 15000
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(SHIPPING_FEE);
+console.log(addShipping(12000));
 // ───── 문제 2 ───── (개념01 as)
 // toPercent 를 percent 라는 이름으로 가져와 0.35 를 넣어 출력하세요.
 //
@@ -32,8 +35,7 @@
 // 35%
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(percent(0.35));
 // ───── 문제 3 ───── (개념01 default)
 // 연습문제_도구.js 의 default 를 가져와 "김민준" 을 넣어 출력하세요.
 // 이름은 마음대로 지어도 됩니다.
@@ -42,8 +44,7 @@
 // 우리편의점에 오신 김민준님 환영합니다
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(welcome("김민준"));
 // ───── 문제 4 ───── (개념03 Math.random)
 // 1 이상 100 이하의 정수를 만들어 randomScore 에 담고,
 // 그 값이 범위 안에 들어오는지 true/false 로 출력하세요.
@@ -55,8 +56,8 @@
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const randomScore = Math.floor(Math.random() * 100) + 1;
+console.log(randomScore >= 1 && randomScore <= 100);
 // ───── 문제 5 ───── (개념03 정수 확인)
 // 문제 4에서 만든 randomScore 가 정수인지 출력하세요.
 // (소수가 나오면 Math.floor 를 빠뜨린 것입니다)
@@ -65,8 +66,7 @@
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(Number.isInteger(randomScore));
 // ───── 문제 6 ───── (개념03 배열에서 뽑기)
 // 아래 배열에서 무작위로 하나를 뽑아 picked 에 담고,
 // 뽑은 것이 원래 배열 안에 있는 값인지 출력하세요.
@@ -77,8 +77,8 @@ const drinks = ["아메리카노", "라떼", "녹차", "주스"];
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const picked = drinks[Math.floor(Math.random() * drinks.length)];
+console.log(drinks.includes(picked));
 // ───── 문제 7 ───── (개념03 Date 만들기)
 // 2026년 3월 5일로 Date 를 만들어 openDay 에 담고,
 // 연도와 '일' 을 차례로 출력하세요.
@@ -89,8 +89,10 @@ const drinks = ["아메리카노", "라떼", "녹차", "주스"];
 // 5
 
 // TODO: 여기에 코드를 쓰세요
+const openDay = new Date(2026, 2, 5);
 
-
+console.log(openDay.getFullYear());
+console.log(openDay.getDate());
 // ───── 문제 8 ───── (개념03 getMonth)
 // openDay 의 월을 '사람이 읽는 숫자' 로 출력하세요.
 //
@@ -98,8 +100,7 @@ const drinks = ["아메리카노", "라떼", "녹차", "주스"];
 // 3
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(openDay.getMonth() + 1);
 // ───── 문제 9 ───── (개념03 날짜 포맷)
 // openDay 를 "2026-03-05" 형태로 출력하세요.
 //
@@ -110,18 +111,29 @@ const drinks = ["아메리카노", "라떼", "녹차", "주스"];
 // 2026-03-05
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const mm = String(openDay.getMonth() + 1).padStart(2, "0");
+const dd = String(openDay.getDate()).padStart(2, "0");
+console.log(`${openDay.getFullYear()}-${mm}-${dd}`);
 // ───── 문제 10 ───── (개념04 class)
 // 이름과 가격을 받는 Menu 라는 class 를 만들고,
 // "아메리카노" 4000 으로 하나 만들어 이름과 가격을 함께 출력하세요.
 //
 // 기대 출력:
 // 아메리카노 4000
+class Menu {
+  constructor(name, price) {
+    this.name = name;
+    this.price = price;
+  }
 
+  label() {
+    return `${this.name} ${this.price}원`;
+  }
+}
+
+const americano = new Menu("아메리카노", 4000);
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(americano.name, americano.price);
 // ───── 문제 11 ───── (개념04 메소드)
 // Menu 에 label() 메소드를 추가하세요.
 // "아메리카노 4000원" 형태를 돌려줘야 합니다.
@@ -130,8 +142,7 @@ const drinks = ["아메리카노", "라떼", "녹차", "주스"];
 // 아메리카노 4000원
 
 // TODO: 문제 10의 class 안에 함께 쓰세요
-
-
+console.log(americano.label());
 // ───── 문제 12 ───── [응용]
 // 아래 메뉴 배열을 Menu 객체 배열로 바꾸고(map),
 // 4500원 이상인 것만 골라(filter) label() 결과를 출력하세요.
@@ -146,8 +157,10 @@ const menuData = [
 // [ '라떼 4500원', '케이크 6000원' ]
 
 // TODO: 여기에 코드를 쓰세요
+const menus = menuData.map(({ name, price }) => new Menu(name, price));
+const expensive = menus.filter((m) => m.price >= 4500).map((m) => m.label());
 
-
+console.log(expensive);
 // ───── 문제 13 ───── [도전]
 // 오늘부터 2026년 12월 25일까지 며칠 남았는지 구하는
 // daysUntilChristmas 함수를 만드세요.
@@ -164,8 +177,17 @@ const menuData = [
 // true
 
 // TODO: 여기에 코드를 쓰세요
+function daysUntilChristmas() {
+  const today = new Date();
+  const christmas = new Date(2026, 11, 25);
+  const oneDay = 1000 * 60 * 60 * 24;
 
+  return Math.ceil((christmas - today) / oneDay);
+}
 
+const left = daysUntilChristmas();
+console.log(typeof left);
+console.log(Number.isInteger(left));
 // ───── 문제 14 ───── (에러 확인 — 맨 마지막)
 // 아래 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -173,4 +195,5 @@ const menuData = [
 // const bad = Menu("라떼", 4500);
 
 // 무슨 에러가 났나요? 무엇을 빠뜨린 걸까요?
-// 답: __________________________________________
+// 답: TypeError: Class constructor Menu cannot be invoked without 'new'
+//  class 는 '틀' 이라서 그냥 부를 수 없다. 그래서 'new' 를 붙여야 틀로 객체를 하나 찍어낸다.

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -64,23 +64,29 @@
     <h1>14단원 연습문제 — localStorage</h1>
 
     <p class="guide">
-      script 안의 TODO 자리에 코드를 쓰고 저장한 뒤, 브라우저를 <strong>새로고침</strong>
-      하세요. <strong>F12 → Console</strong> 도 함께 보세요.<br />
+      script 안의 TODO 자리에 코드를 쓰고 저장한 뒤, 브라우저를
+      <strong>새로고침</strong> 하세요. <strong>F12 → Console</strong> 도 함께
+      보세요.<br />
       1~5는 기본, 6은 응용, 7은 [도전]입니다.
 
       <br /><br />
-      <strong>이 파일은 앞의 연습문제.js 와 따로입니다.</strong> localStorage 는 브라우저에만
-      있어서 node 로는 못 돌립니다.
+      <strong>이 파일은 앞의 연습문제.js 와 따로입니다.</strong> localStorage 는
+      브라우저에만 있어서 node 로는 못 돌립니다.
 
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
       <h3>문제 6 — 마지막 검색어 기억하기</h3>
-      <input type="text" id="searchInput" placeholder="아무거나 입력하고 Enter" />
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="아무거나 입력하고 Enter"
+      />
       <div class="output" id="out6">아직 검색한 적이 없습니다</div>
 
       <h3>문제 7 — 방문 횟수 세기</h3>
@@ -97,7 +103,9 @@
 
       // 문제를 여러 번 풀어도 결과가 같도록 1~5에서 쓸 것만 먼저 비웁니다.
       // (문제 6·7이 쓰는 값은 남겨 둡니다. 새로고침해도 남아야 하니까요)
-      ["nickname", "point", "user", "colors"].forEach((k) => localStorage.removeItem(k));
+      ["nickname", "point", "user", "colors"].forEach((k) =>
+        localStorage.removeItem(k),
+      );
 
       // ───── 문제 1 ───── (개념02 저장하고 꺼내기)
       // "nickname" 이라는 이름으로 "김민준" 을 저장한 뒤, 꺼내서 콘솔에 찍으세요.
@@ -105,13 +113,15 @@
       // 기대 결과 (콘솔): 김민준
 
       // TODO: 여기에 코드를 쓰세요
-
+      localStorage.setItem("nickname", "김민준");
+      console.log(localStorage.getItem("nickname"));
       // ───── 문제 2 ───── (개념02 없는 값)
       // 저장한 적 없는 "phone" 을 꺼내서 콘솔에 찍으세요.
       //
       // 기대 결과 (콘솔): null
 
       // TODO: 여기에 코드를 쓰세요
+      console.log(localStorage.getItem("phone"));
 
       // ───── 문제 3 ───── (개념02 문자열 함정)
       // "point" 라는 이름으로 숫자 100 을 저장하세요.
@@ -125,6 +135,12 @@
       // 두 번째 줄이 10050 이 나왔다면 Number 로 바꾸는 것을 빠뜨린 것입니다.
 
       // TODO: 여기에 코드를 쓰세요
+      localStorage.setItem("point", 100);
+
+      const point = localStorage.getItem("point");
+      console.log(point, typeof point);
+
+      console.log(Number(point) + 50);
 
       // ───── 문제 4 ───── (개념02 객체 저장)
       // 아래 객체를 "user" 라는 이름으로 저장했다가 꺼내서, city 만 찍으세요.

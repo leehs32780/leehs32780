@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -98,8 +98,7 @@
 
     <p class="guide">
       이 파일은 브라우저로 <strong>더블클릭</strong>해서 엽니다.
-      <strong>F12 → Console</strong> 도 함께 보세요.
-      <br /><br />
+      <strong>F12 → Console</strong> 도 함께 보세요. <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 위쪽
       <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다.
       <code>&lt;script type="text/babel"&gt;</code> 안부터 읽으세요.
@@ -174,7 +173,7 @@
       // 같은 일이 JSX 에서도 그대로 일어납니다. 진짜로 해 봅시다.
 
       function makeTitleBad() {
-        return
+        return;
         <h1>오늘의 메뉴</h1>;
       }
 
@@ -218,12 +217,11 @@
       // 그래서 소괄호를 씁니다.
 
       function makeTitleGood() {
-        return (
-          <h1>오늘의 메뉴</h1>
-        );
+        return;
+        <h1>오늘의 메뉴</h1>;
+        console.log(makeTitleGood().type);
       }
 
-      console.log(makeTitleGood().type);
       // 콘솔: h1
 
       // 소괄호가 무슨 일을 한 걸까요? 두 가지입니다.
@@ -236,7 +234,9 @@
       //
       // 변환 결과를 보면 세미콜론이 사라진 것이 보입니다.
 
-      console.log(toJs("function App() {\n  return (\n    <h1>안녕</h1>\n  );\n}"));
+      console.log(
+        toJs("function App() {\n  return (\n    <h1>안녕</h1>\n  );\n}"),
+      );
       // 콘솔: function App() { return /*#__PURE__*/React.createElement("h1", null, "안녕"); }
 
       // 섹션 1의 결과와 나란히 놓고 비교해 보세요.
@@ -300,7 +300,10 @@
       // 들여쓰기는 화면에 아무 영향이 없습니다. 사람이 읽으라고 하는 것입니다.
       // 개념01에서 확인했던 것을 다시 확인해 봅시다.
 
-      console.log(toJs("<div><h3>제목</h3></div>") === toJs("<div>\n  <h3>제목</h3>\n</div>"));
+      console.log(
+        toJs("<div><h3>제목</h3></div>") ===
+          toJs("<div>\n  <h3>제목</h3>\n</div>"),
+      );
       // 콘솔: true
 
       // 실제로 여러 줄로 쓴 화면을 하나 만들어 봅시다.
@@ -340,22 +343,20 @@
 
       const spaceTest = (
         <div className="output">
-          <p>
-            아메리카노는
-            4000원입니다
-          </p>
+          <p>아메리카노는 4000원입니다</p>
           <p>
             <span>김민준</span>
             <span>이서연</span>
           </p>
           <p>
-            <span>김민준</span>{" "}
-            <span>이서연</span>
+            <span>김민준</span> <span>이서연</span>
           </p>
         </div>
       );
 
-      const rootSpace = ReactDOM.createRoot(document.querySelector("#rootSpace"));
+      const rootSpace = ReactDOM.createRoot(
+        document.querySelector("#rootSpace"),
+      );
       rootSpace.render(spaceTest);
       // 화면: 데모 ② 에 세 줄이 보입니다. 둘째 줄만 두 이름이 붙어 있습니다.
 
@@ -438,6 +439,9 @@
 
       // ✏️ 직접 해보기 5 — menu 를 map 으로 <p>{item}</p> 배열로 만들고
       //                    items2.length 와 items2[2].props 를 콘솔에 찍어 보세요.
+      const items2 = menu.map((item) => <p>{item}</p>);
+      console.log(items2.length);
+      console.log(items2[2].props);
 
       // ── 섹션 6: 자주 하는 실수 ──
 
@@ -540,29 +544,33 @@
       <h2>정리</h2>
       <ol>
         <li>
-          <code>return</code> 뒤에서 줄을 바꾸면 자바스크립트가 세미콜론을 자동으로 넣어
-          <code>undefined</code> 가 됩니다. 에러는 안 납니다.
+          <code>return</code> 뒤에서 줄을 바꾸면 자바스크립트가 세미콜론을
+          자동으로 넣어 <code>undefined</code> 가 됩니다. 에러는 안 납니다.
         </li>
         <li>
-          그래서 여러 줄 JSX 는 <code>return (</code> 처럼 소괄호를 같은 줄에 열고
-          <code>);</code> 로 닫습니다.
+          그래서 여러 줄 JSX 는 <code>return (</code> 처럼 소괄호를 같은 줄에
+          열고 <code>);</code> 로 닫습니다.
         </li>
         <li>
-          소괄호는 JSX 전용 문법이 아닙니다. 값이 길 때 감싸는 평범한 소괄호입니다.
+          소괄호는 JSX 전용 문법이 아닙니다. 값이 길 때 감싸는 평범한
+          소괄호입니다.
         </li>
         <li>
-          안으로 들어갈 때마다 두 칸씩 들여쓰고, 형제 태그는 같은 칸에 둡니다. 들여쓰기는
-          화면에 영향이 없습니다.
+          안으로 들어갈 때마다 두 칸씩 들여쓰고, 형제 태그는 같은 칸에 둡니다.
+          들여쓰기는 화면에 영향이 없습니다.
         </li>
         <li>
-          글자 사이에서 줄을 바꾸면 공백 한 칸이 남고, 태그 사이에서 줄을 바꾸면 아무것도 안
-          남습니다. 띄우려면 <code>{" "}</code> 를 넣습니다.
+          글자 사이에서 줄을 바꾸면 공백 한 칸이 남고, 태그 사이에서 줄을 바꾸면
+          아무것도 안 남습니다. 띄우려면 <code>{" "}</code> 를 넣습니다.
         </li>
         <li>
           코드에서 줄을 바꿔도 화면에서는 안 나뉩니다. 화면에서 줄을 나누려면
           <code>&lt;br /&gt;</code> 을 씁니다.
         </li>
-        <li>JSX 를 배열에 담을 수 있습니다. 화면에 목록으로 그리는 것은 05단원입니다.</li>
+        <li>
+          JSX 를 배열에 담을 수 있습니다. 화면에 목록으로 그리는 것은
+          05단원입니다.
+        </li>
       </ol>
     </div>
   </body>

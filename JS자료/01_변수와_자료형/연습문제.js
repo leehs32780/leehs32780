@@ -13,7 +13,6 @@
 // 순서대로 푸세요. 문제 1~13은 기본, 14~15는 응용, 16은 [도전]입니다.
 // 문제 17은 에러를 직접 보는 문제라 맨 뒤에 있습니다.
 
-
 // ───── 문제 1 ───── (개념01)
 // 다음 문장을 화면에 출력하세요.
 //
@@ -21,7 +20,7 @@
 // 자바스크립트 시작!
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log("자바스크립트 시작!");
 
 // ───── 문제 2 ───── (개념01)
 // console.log 를 딱 한 번만 써서 아래처럼 한 줄에 출력하세요.
@@ -31,8 +30,7 @@
 // 삼각김밥 1200 원
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log("삼각김밥", 1200, "원");
 // ───── 문제 3 ───── (개념02)
 // cafeName 이라는 변수에 "봄날카페" 를 담고 출력하세요.
 // 카페 이름은 바뀌지 않으니 const 로 만드세요.
@@ -41,7 +39,8 @@
 // 봄날카페
 
 // TODO: 여기에 코드를 쓰세요
-
+const cafeName = "봄날카페";
+console.log(cafeName);
 
 // ───── 문제 4 ───── (개념02)
 // stock 이라는 변수에 10 을 담아 출력한 뒤, 값을 7로 바꿔서 다시 출력하세요.
@@ -52,7 +51,8 @@
 // 7
 
 // TODO: 여기에 코드를 쓰세요
-
+let stock = 10;
+console.log(stock);
 
 // ───── 문제 5 ───── (개념02)
 // 아래 두 변수를 더한 값을 출력하세요.
@@ -64,7 +64,7 @@ const milk = 1500;
 // 4700
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(bread + milk);
 
 // ───── 문제 6 ───── (개념03)
 // 아래 세 값의 '값'과 '자료형'을 한 줄씩 같이 출력하세요.
@@ -77,7 +77,9 @@ const milk = 1500;
 // true boolean
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(42, typeof 42);
+console.log("42", typeof "42");
+console.log(true, typeof true);
 
 // ───── 문제 7 ───── (개념03)
 // 아래 변수를 + 로 이어 붙여서 한 문장으로 출력하세요.
@@ -88,8 +90,7 @@ const city = "부산";
 // 부산 여행 가자
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(city + " 여행 가자");
 // ───── 문제 8 ───── (개념03)
 // "대한민국만세" 가 몇 글자인지 출력하세요.
 //
@@ -97,8 +98,7 @@ const city = "부산";
 // 6
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log("대한민국만세".length);
 // ───── 문제 9 ───── (개념04)
 // myScore 가 60보다 큰지 비교한 결과를 isPass 라는 변수에 담고 출력하세요.
 
@@ -108,8 +108,8 @@ const myScore = 85;
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const isPass = myScore > 60;
+console.log(isPass);
 // ───── 문제 10 ───── (개념04)
 // selectedMenu 라는 변수를 만들되, 아직 아무것도 안 골랐다는 뜻으로
 // null 을 담아 출력하세요. 그다음 "김밥" 으로 바꿔서 다시 출력하세요.
@@ -119,8 +119,10 @@ const myScore = 85;
 // 김밥
 
 // TODO: 여기에 코드를 쓰세요
-
-
+let selectedMenu = null;
+console.log(selectedMenu);
+selectedMenu = "김밥";
+console.log(selectedMenu);
 // ───── 문제 11 ───── (개념05)
 // 아래 두 값은 입력창에서 받아온 값이라 문자열입니다.
 // 두 값을 더한 결과가 7500 이 나오게 출력하세요.
@@ -132,8 +134,7 @@ const input2 = "4500";
 // 7500
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(Number(input1) + Number(input2));
 // ───── 문제 12 ───── (개념05)
 // 아래 값에서 숫자 부분만 뽑아서 출력하세요.
 
@@ -146,8 +147,7 @@ const height = "180cm";
 // 180
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(parseInt(height));
 // ───── 문제 13 ───── (개념05)
 // 아래 세 값을 불리언으로 바꿔서 한 줄씩 출력하세요.
 //   0  /  ""  /  "0"
@@ -159,8 +159,9 @@ const height = "180cm";
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(Boolean(0));
+console.log(Boolean(""));
+console.log(Boolean("0"));
 // ───── 문제 14 ───── [응용]
 // 아래 숫자가 몇 자리 숫자인지 출력하세요.
 // 힌트: 숫자에는 .length 가 없습니다. 먼저 문자열로 바꾸세요.
@@ -171,8 +172,7 @@ const bigNumber2 = 987654321;
 // 9
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(String(bigNumber2).length);
 // ───── 문제 15 ───── [응용]
 // 아래 변수로 두 줄을 출력하세요.
 //   첫째 줄: before 에 5 를 그냥 + 한 결과
@@ -186,8 +186,8 @@ const before = "10";
 // 15
 
 // TODO: 여기에 코드를 쓰세요
-
-
+console.log(before + 5);
+console.log(Number(before) + 5);
 // ───── 문제 16 ───── [도전]
 // 편의점 영수증 한 줄을 만듭니다.
 // 지금까지 배운 것을 한 번에 씁니다.
@@ -202,8 +202,8 @@ const itemCount = 3;
 // 우유 3개 = 4500원
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const itemTotal = Number(itemPrice) * itemCount;
+console.log(itemName + " " + itemCount + "개 = " + itemTotal + "원");
 // ───── 문제 17 ───── (에러 확인 — 맨 마지막)
 // 아래 두 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -213,4 +213,4 @@ const itemCount = 3;
 // fixedValue = "변경";
 
 // 무슨 에러가 났나요? 왜 그럴까요?
-// 답: __________________________________________
+// 답: TypeError: Assignment to constant variable.

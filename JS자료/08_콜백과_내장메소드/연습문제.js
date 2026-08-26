@@ -38,13 +38,7 @@ runTwice(attendance);
 // 화이팅
 
 // TODO: 여기에 코드를 쓰세요
-function runTwice(callback) {
-  callback();
-  callback();
-}
-runTwice(() => {
-  console.log("화이팅");
-});
+runTwice(() => console.log("화이팅"));
 // ───── 문제 3 ───── (개념02 forEach)
 // 아래 배열을 forEach 로 한 줄씩 출력하세요.
 
@@ -73,14 +67,15 @@ subjects4.forEach((subject, index) => {
 });
 // ───── 문제 5 ───── (개념02 객체 배열)
 // 아래 배열을 forEach 로 "이름 가격원" 형태로 출력하세요.
-
 const menu5 = [
   { name: "아메리카노", price: 4000 },
   { name: "케이크", price: 6000 },
 ];
-menu5.forEach((subject) => {
-  console.log(`${subject.name} ${subject.price}원`);
+
+menu5.forEach((item) => {
+  console.log(`${item.name} ${item.price}원`);
 });
+
 // 기대 출력:
 // 아메리카노 4000원
 // 케이크 6000원
@@ -91,8 +86,7 @@ menu5.forEach((subject) => {
 // 아래 배열의 각 값을 2배로 만든 새 배열을 출력하세요.
 
 const nums6 = [1, 2, 3];
-const array = nums6.map((n) => n * 2);
-console.log(array);
+console.log(nums6.map((n) => n * 2));
 // 기대 출력:
 // [ 2, 4, 6 ]
 
@@ -102,8 +96,7 @@ console.log(array);
 // 아래 점수 배열을 ["90점", "85점", "70점"] 형태로 바꿔 출력하세요.
 
 const scores7 = [90, 85, 70];
-const nums = scores7.map((s) => `${s}점`);
-console.log(nums);
+console.log(scores7.map((s) => `${s}점`));
 // 기대 출력:
 // [ '90점', '85점', '70점' ]
 
@@ -118,18 +111,16 @@ const users8 = [
   { name: "박지훈", age: 28 },
 ];
 
+console.log(users8.map((user) => user.name));
+
 // 기대 출력:
 // [ '김민준', '이서연', '박지훈' ]
 
-// TODO: 여기에 코드를 쓰세요
-const nickName = users8.map((n) => n.name);
-console.log(nickName);
 // ───── 문제 9 ───── (개념04 filter)
 // 아래 점수 중 60점 이상만 골라 출력하세요.
 
 const scores9 = [90, 55, 78, 40, 88];
-const box = scores9.filter((b) => b >= 60);
-console.log(box);
+console.log(scores9.filter((score) => score >= 60));
 // 기대 출력:
 // [ 90, 78, 88 ]
 
@@ -149,7 +140,7 @@ const products10 = [
 // [ '라떼', '쿠키' ]
 
 // TODO: 여기에 코드를 쓰세요
-console.log(products10.filter((k) => k.stock === 0).map((k) => k.name));
+console.log(products10.filter((p) => p.stock === 0).map((p) => p.name));
 // ───── 문제 11 ───── (개념04 find)
 // products10 에서 이름이 "케이크" 인 상품의 가격을 출력하세요.
 //
@@ -157,8 +148,7 @@ console.log(products10.filter((k) => k.stock === 0).map((k) => k.name));
 // 6000
 
 // TODO: 여기에 코드를 쓰세요
-const cake = products10.find((f) => f.name === "케이크");
-console.log(cake.price);
+console.log(products10.find((p) => p.name === "케이크").price);
 // ───── 문제 12 ───── (개념04 findIndex)
 // products10 에서 재고가 0인 첫 상품의 위치를 출력하세요.
 //
@@ -166,7 +156,7 @@ console.log(cake.price);
 // 1
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(products10.findIndex((p) => p.stock === 0));
 // ───── 문제 13 ───── (개념04 some / every)
 // products10 에 대해 두 가지를 차례로 출력하세요.
 //   1) 품절인 상품이 하나라도 있는가
@@ -177,7 +167,8 @@ console.log(cake.price);
 // false
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(products10.some((p) => p.stock === 0));
+console.log(products10.every((p) => p.price >= 5000));
 // ───── 문제 14 ───── (개념05 reduce)
 // 아래 배열의 합계를 reduce 로 구해 출력하세요. 시작값을 꼭 넣으세요.
 
@@ -187,7 +178,7 @@ const nums14 = [10, 20, 30, 40];
 // 100
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(nums14.reduce((acc, n) => acc + n, 0));
 // ───── 문제 15 ───── (개념05 reduce 객체 배열)
 // 아래 장바구니의 총액(가격 × 개수의 합)을 reduce 로 구해 출력하세요.
 
@@ -201,7 +192,7 @@ const cart15 = [
 // 23000
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(cart15.reduce((acc, item) => acc + item.price * item.count, 0));
 // ───── 문제 16 ───── (개념06 sort)
 // 아래 배열을 작은 수부터 정렬해 출력하세요.
 
@@ -211,7 +202,7 @@ const nums16 = [10, 9, 100, 1];
 // [ 1, 9, 10, 100 ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(nums16.sort((a, b) => a - b));
 // ───── 문제 17 ───── (개념06 sort 객체 배열)
 // products10 을 가격이 낮은 순으로 정렬해 이름만 배열로 출력하세요.
 // 그다음 원본이 그대로인지 확인하려고 products10 의 이름 배열도 출력하세요.
@@ -222,7 +213,13 @@ const nums16 = [10, 9, 100, 1];
 // [ '아메리카노', '라떼', '케이크', '쿠키' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(
+  products10
+    .slice()
+    .sort((a, b) => a.price - b.price)
+    .map((p) => p.name),
+);
+console.log(products10.map((p) => p.name));
 // ───── 문제 18 ───── [응용]
 // products10 에서 재고가 있는 상품만 골라, 그 상품들의
 // "가격 × 재고" 를 모두 더한 값을 출력하세요.
@@ -232,7 +229,11 @@ const nums16 = [10, 9, 100, 1];
 // 재고 자산 58000원
 
 // TODO: 여기에 코드를 쓰세요
+const assets18 = products10
+  .filter((p) => p.stock > 0)
+  .reduce((acc, p) => acc + p.price * p.stock, 0);
 
+console.log(`재고 자산 ${assets18}원`);
 // ───── 문제 19 ───── [도전]
 // 아래 투표 결과에서 항목별 표 수를 세어 객체로 만들어 출력하세요.
 // reduce 의 시작값을 빈 객체 {} 로 두면 됩니다.
@@ -243,7 +244,12 @@ const votes19 = ["짜장", "짬뽕", "짜장", "볶음밥", "짜장", "짬뽕"];
 // { '짜장': 3, '짬뽕': 2, '볶음밥': 1 }
 
 // TODO: 여기에 코드를 쓰세요
+const counts19 = votes19.reduce((acc, item) => {
+  acc[item] = (acc[item] ?? 0) + 1;
+  return acc;
+}, {});
 
+console.log(counts19);
 // ───── 문제 20 ───── (에러 확인 — 맨 마지막)
 // 아래 두 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -252,4 +258,5 @@ const votes19 = ["짜장", "짬뽕", "짜장", "볶음밥", "짜장", "짬뽕"];
 // scoreObject.forEach((v) => console.log(v));
 
 // 무슨 에러가 났나요? 객체를 하나씩 돌려면 무엇을 써야 할까요?
-// 답: __________________________________________
+// 답: TypeError: scoreObject.forEach is not a function
+// Object.keys / values / entries 는 '배열'을 돌려주므로 그 뒤에는 forEach, map, filter 를 마음껏 이어 쓸 수 있습니다.

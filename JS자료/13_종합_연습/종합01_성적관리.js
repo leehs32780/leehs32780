@@ -25,7 +25,6 @@ const subjects = ["국어", "영어", "수학"];
 console.log("===== 성적 관리 프로그램 =====");
 // 출력: ===== 성적 관리 프로그램 =====
 
-
 // ───── 문제 1 ───── 학생 수
 // 전체 학생이 몇 명인지 출력하세요.
 //
@@ -33,7 +32,7 @@ console.log("===== 성적 관리 프로그램 =====");
 // 전체 5명
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(`전체 ${students.length}명`);
 
 // ───── 문제 2 ───── 총점 구하는 함수
 // 점수 배열을 받아 총점을 돌려주는 getTotal 함수를 만드세요.
@@ -44,8 +43,11 @@ console.log("===== 성적 관리 프로그램 =====");
 // 김민준 총점 245
 
 // TODO: 여기에 코드를 쓰세요
+function getTotal(scores) {
+  return scores.reduce((acc, score) => acc + score, 0);
+}
 
-
+console.log(`김민준 총점 ${getTotal(students[0].scores)}`);
 // ───── 문제 3 ───── 평균 구하는 함수
 // 점수 배열을 받아 평균을 돌려주는 getAverage 함수를 만드세요.
 // 문제 2의 getTotal 을 안에서 쓰세요.
@@ -57,8 +59,11 @@ console.log("===== 성적 관리 프로그램 =====");
 // 이서연 평균 91.7
 
 // TODO: 여기에 코드를 쓰세요
+function getAverage(scores) {
+  return getTotal(scores) / scores.length;
+}
 
-
+console.log(`이서연 평균 ${getAverage(students[1].scores).toFixed(1)}`);
 // ───── 문제 4 ───── 등급 정하는 함수
 // 평균 점수를 받아 등급을 돌려주는 getGrade 함수를 만드세요.
 //   90 이상 A / 80 이상 B / 70 이상 C / 60 이상 D / 그 외 F
@@ -69,8 +74,17 @@ console.log("===== 성적 관리 프로그램 =====");
 // 40점 → F
 
 // TODO: 여기에 코드를 쓰세요
+function getGrade(average) {
+  if (average >= 90) return "A";
+  if (average >= 80) return "B";
+  if (average >= 70) return "C";
+  if (average >= 60) return "D";
+  return "F";
+}
 
-
+console.log(`95점 → ${getGrade(95)}`);
+console.log(`72점 → ${getGrade(72)}`);
+console.log(`40점 → ${getGrade(40)}`);
 // ───── 문제 5 ───── 전체 명단 출력
 // 모든 학생의 "이름 총점 평균 등급" 을 한 줄씩 출력하세요.
 // forEach 와 위에서 만든 함수들을 쓰세요.
@@ -83,8 +97,13 @@ console.log("===== 성적 관리 프로그램 =====");
 // 정하늘 153점 평균 51.0 (F)
 
 // TODO: 여기에 코드를 쓰세요
+students.forEach(({ name, scores }) => {
+  const total = getTotal(scores);
+  const average = getAverage(scores);
+  const grade = getGrade(average);
 
-
+  console.log(`${name} ${total}점 평균 ${average.toFixed(1)} (${grade})`);
+});
 // ───── 문제 6 ───── 합격자만
 // 평균 60점 이상인 학생의 이름만 배열로 만들어 출력하세요.
 // filter 와 map 을 이어 쓰세요.
@@ -93,8 +112,11 @@ console.log("===== 성적 관리 프로그램 =====");
 // [ '김민준', '이서연', '박지훈', '최유진' ]
 
 // TODO: 여기에 코드를 쓰세요
+const passed = students
+  .filter(({ scores }) => getAverage(scores) >= 60)
+  .map(({ name }) => name);
 
-
+console.log(passed);
 // ───── 문제 7 ───── 1등 찾기
 // 평균이 가장 높은 학생의 이름과 평균을 출력하세요.
 //
@@ -102,8 +124,15 @@ console.log("===== 성적 관리 프로그램 =====");
 // 1등: 이서연 (91.7)
 
 // TODO: 여기에 코드를 쓰세요
+let top = students[0];
 
+students.forEach((student) => {
+  if (getAverage(student.scores) > getAverage(top.scores)) {
+    top = student;
+  }
+});
 
+console.log(`1등: ${top.name} (${getAverage(top.scores).toFixed(1)})`);
 // ───── 문제 8 ───── 과목별 평균
 // 과목마다 전체 학생의 평균을 구해 출력하세요.
 // subjects 배열과 인덱스를 함께 쓰세요.
@@ -120,8 +149,13 @@ console.log("===== 성적 관리 프로그램 =====");
 // 수학 평균 73.6
 
 // TODO: 여기에 코드를 쓰세요
+subjects.forEach((subject, index) => {
+  // 모든 학생의 그 과목 점수만 모읍니다
+  const scoresOfSubject = students.map((student) => student.scores[index]);
+  const average = getAverage(scoresOfSubject);
 
-
+  console.log(`${subject} 평균 ${average.toFixed(1)}`);
+});
 // ───── 문제 9 ───── 등급별 인원
 // 등급마다 몇 명인지 세어 객체로 만들어 출력하세요.
 // reduce 를 쓰세요.
@@ -130,8 +164,13 @@ console.log("===== 성적 관리 프로그램 =====");
 // { B: 1, A: 1, D: 1, C: 1, F: 1 }
 
 // TODO: 여기에 코드를 쓰세요
+const gradeCount = students.reduce((acc, { scores }) => {
+  const grade = getGrade(getAverage(scores));
+  acc[grade] = (acc[grade] ?? 0) + 1;
+  return acc;
+}, {});
 
-
+console.log(gradeCount);
 // ───── 문제 10 ───── [도전] 등수 매기기
 // 평균이 높은 순으로 정렬해서 등수를 붙여 출력하세요.
 // 그다음 students[0].name 을 출력해 원본이 그대로인지 확인하세요.
@@ -146,8 +185,17 @@ console.log("===== 성적 관리 프로그램 =====");
 // 김민준
 
 // TODO: 여기에 코드를 쓰세요
+const ranked = [...students].sort(
+  (a, b) => getAverage(b.scores) - getAverage(a.scores),
+);
 
+ranked.forEach((student, index) => {
+  console.log(
+    `${index + 1}위 ${student.name} ${getAverage(student.scores).toFixed(1)}`,
+  );
+});
 
+console.log(students[0].name);
 // ───── 문제 11 ───── [도전] 재시험 대상
 // 한 과목이라도 60점 미만인 학생의 이름과 해당 과목을 출력하세요.
 //
@@ -162,3 +210,16 @@ console.log("===== 성적 관리 프로그램 =====");
 // 정하늘: 국어(50), 영어(55), 수학(48)
 
 // TODO: 여기에 코드를 쓰세요
+students.forEach(({ name, scores }) => {
+  const failed = [];
+
+  scores.forEach((score, index) => {
+    if (score < 60) {
+      failed.push(`${subjects[index]}(${score})`);
+    }
+  });
+
+  if (failed.length > 0) {
+    console.log(`${name}: ${failed.join(", ")}`);
+  }
+});

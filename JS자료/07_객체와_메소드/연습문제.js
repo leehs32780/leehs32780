@@ -146,9 +146,10 @@ console.log(origin10);
 const person11 = {
   name: "최유진",
   introduce() {
-    console.log(`안녕하세요, ${person11.name}입니다`);
+    console.log(`안녕하세요, ${this.name}입니다`);
   },
 };
+
 person11.introduce();
 // ───── 문제 12 ───── (개념03 this 로 값 바꾸기)
 // count 가 0 이고, increase 메소드로 1씩 늘리는 객체 counter12 를 만드세요.
@@ -158,7 +159,18 @@ person11.introduce();
 // 3
 
 // TODO: 여기에 코드를 쓰세요
+const counter12 = {
+  count: 0,
+  increase() {
+    this.count++;
+  },
+};
 
+counter12.increase();
+counter12.increase();
+counter12.increase();
+
+console.log(counter12.count);
 // ───── 문제 13 ───── (개념04 for...in)
 // 아래 객체를 for...in 으로 돌면서 "이름: 값" 형태로 출력하세요.
 
@@ -170,7 +182,9 @@ const user13 = { name: "정하늘", age: 28, city: "대구" };
 // city: 대구
 
 // TODO: 여기에 코드를 쓰세요
-
+for (const key in user13) {
+  console.log(`${key}: ${user13[key]}`);
+}
 // ───── 문제 14 ───── (개념04 Object.keys)
 // 아래 객체의 속성 개수를 출력하세요.
 
@@ -180,7 +194,7 @@ const scores14 = { 국어: 90, 영어: 85, 수학: 70, 과학: 95 };
 // 4
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(Object.keys(scores14).length);
 // ───── 문제 15 ───── (개념04 Object.values)
 // 위 scores14 의 점수 합계를 출력하세요.
 //
@@ -188,7 +202,11 @@ const scores14 = { 국어: 90, 영어: 85, 수학: 70, 과학: 95 };
 // 340
 
 // TODO: 여기에 코드를 쓰세요
-
+let sum15 = 0;
+for (const score of Object.values(scores14)) {
+  sum15 += score;
+}
+console.log(sum15);
 // ───── 문제 16 ───── (개념05 객체 배열)
 // 아래는 객체가 담긴 배열입니다. 실무 데이터가 거의 이 모양입니다.
 // 두 번째 상품의 이름과, 세 번째 상품의 가격을 차례로 출력하세요.
@@ -204,7 +222,8 @@ const products16 = [
 // 6000
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(products16[1].name);
+console.log(products16[2].price);
 // ───── 문제 17 ───── (개념05 객체 배열 반복)
 // products16 을 for...of 로 돌면서 "이름 가격원" 을 한 줄씩 출력하세요.
 // 그다음 재고가 0인 상품의 이름을 "품절: OOO" 형태로 출력하세요.
@@ -216,7 +235,19 @@ const products16 = [
 // 품절: 라떼
 
 // TODO: 여기에 코드를 쓰세요
+for (const product of products16) {
+  console.log(`${product.name} ${product.price}원`);
+}
 
+let soldOut17 = null;
+for (const product of products16) {
+  if (product.stock === 0) {
+    soldOut17 = product;
+    break;
+  }
+}
+
+console.log(`품절: ${soldOut17.name}`);
 // ───── 문제 18 ───── [응용]
 // 아래 장바구니에서 각 줄과 합계를 출력하세요.
 // 각 줄의 금액은 price × count 입니다.
@@ -234,7 +265,13 @@ const cart16 = [
 // 합계 23000원
 
 // TODO: 여기에 코드를 쓰세요
-
+let total16 = 0;
+for (const item of cart16) {
+  const sub = item.price * item.count;
+  console.log(`${item.name} x${item.count} = ${sub}원`);
+  total16 += sub;
+}
+console.log(`합계 ${total16}원`);
 // ───── 문제 19 ───── [도전]
 // 아래 학생 목록에서 평균 점수가 가장 높은 학생의 이름과 평균을 출력하세요.
 // 평균은 소수 첫째 자리까지 표시합니다.
@@ -249,7 +286,22 @@ const students17 = [
 // 이서연 91.7
 
 // TODO: 여기에 코드를 쓰세요
+let topName = "";
+let topAverage = 0;
 
+for (const student of students17) {
+  let sum = 0;
+  for (const score of student.scores) {
+    sum += score;
+  }
+  const average = sum / student.scores.length;
+  if (average > topAverage) {
+    topAverage = average;
+    topName = student.name;
+  }
+}
+
+console.log(`${topName} ${topAverage.toFixed(1)}`);
 // ───── 문제 20 ───── (에러 확인 — 맨 마지막)
 // 아래 두 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -258,4 +310,5 @@ const students17 = [
 // console.log(empty18.seller.name);
 
 // 무슨 에러가 났나요? 에러 없이 처리하려면 어떤 기호를 쓰면 될까요?
-// 답: __________________________________________
+// 답: TypeError: Cannot read properties of undefined (reading 'name') //
+// 옵셔널 체이닝을 사용하면 ?.앞의 평가 대상이 undefined나 null일 경우, 만약에 발생하는 대신에 undefined반환됩니다. (?.)

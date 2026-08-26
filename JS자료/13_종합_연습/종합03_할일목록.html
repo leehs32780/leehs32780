@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -89,15 +89,17 @@
     <h1>종합 03 — 할 일 목록</h1>
 
     <p class="guide">
-      10~11단원(DOM·이벤트)과 03·05~09단원(조건문·함수·배열·객체·콜백·구조분해)을
-      한 번에 쓰는 실습입니다.<br />
-      script 의 TODO 를 채우고 새로고침하세요. <strong>F12 → Console</strong> 도 함께
-      보세요. 막히면 <strong>종합03_할일목록_정답.html</strong> 을 보세요.
-    
+      10~11단원(DOM·이벤트)과
+      03·05~09단원(조건문·함수·배열·객체·콜백·구조분해)을 한 번에 쓰는
+      실습입니다.<br />
+      script 의 TODO 를 채우고 새로고침하세요. <strong>F12 → Console</strong> 도
+      함께 보세요. 막히면 <strong>종합03_할일목록_정답.html</strong> 을 보세요.
+
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <form id="todoForm">
@@ -160,6 +162,16 @@
       //   currentFilter 가 "all" 이므로 항목 2개짜리 배열이 나와야 합니다.
       //
       // TODO: 여기에 코드를 쓰세요
+      function getVisibleTodos() {
+        if (currentFilter === "active") {
+          return todos.filter((todo) => !todo.done);
+        }
+
+        if (currentFilter === "done") {
+          return todos.filter((todo) => todo.done);
+        }
+        return todos;
+      }
 
       // ───── 문제 2 ───── 화면 그리기
       // getVisibleTodos 로 얻은 목록을 todoList 안에 li 로 그리는

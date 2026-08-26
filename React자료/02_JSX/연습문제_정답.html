@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -98,8 +98,7 @@
 
     <p class="guide">
       먼저 스스로 풀어 본 다음에 보세요. 화면과 함께
-      <strong>F12 → Console</strong> 도 확인하세요.
-      <br /><br />
+      <strong>F12 → Console</strong> 도 확인하세요. <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 위쪽
       <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다.
       <code>&lt;script type="text/babel"&gt;</code> 안부터 읽으세요.
@@ -180,7 +179,11 @@
 
       // ───── 문제 5 ─────
 
-      const answer5 = <p>{user.name}님은 {user.age >= 19 ? "성인" : "미성년"}입니다</p>;
+      const answer5 = (
+        <p>
+          {user.name}님은 {user.age >= 19 ? "성인" : "미성년"}입니다
+        </p>
+      );
 
       console.log(user.age >= 19 ? "성인" : "미성년");
       // 콘솔: 성인
@@ -229,7 +232,9 @@
       // ───── 문제 8 ─────
 
       const answer8 = (
-        <p style={{ color: "#c00", backgroundColor: "#fff8dc" }}>노란 바탕에 빨간 글자</p>
+        <p style={{ color: "#c00", backgroundColor: "#fff8dc" }}>
+          노란 바탕에 빨간 글자
+        </p>
       );
 
       console.log(answer8.props.style);
@@ -310,7 +315,9 @@
 
       const answer13 = (
         <>
-          <p style={{ color: isOpen ? "green" : "gray" }}>{isOpen ? "영업 중" : "준비 중"}</p>
+          <p style={{ color: isOpen ? "green" : "gray" }}>
+            {isOpen ? "영업 중" : "준비 중"}
+          </p>
           <p>{menu.length}종류를 팝니다</p>
         </>
       );
@@ -423,23 +430,33 @@
     <div class="summary">
       <h2>이 연습문제에서 확인한 것</h2>
       <ol>
-        <li>JSX 는 값입니다. 변수에 담기고 <code>type</code>·<code>props</code> 를 가집니다.</li>
         <li>
-          값을 넣을 때는 중괄호를 씁니다. 중괄호 안에는 <strong>식</strong>만 들어갑니다.
+          JSX 는 값입니다. 변수에 담기고 <code>type</code>·<code>props</code> 를
+          가집니다.
+        </li>
+        <li>
+          값을 넣을 때는 중괄호를 씁니다. 중괄호 안에는 <strong>식</strong>만
+          들어갑니다.
         </li>
         <li>
           <code>class</code> 는 <code>className</code>, CSS 이름은 카멜케이스,
           <code>style</code> 에는 객체를 넣습니다.
         </li>
         <li>
-          속성 값에 변수를 넣을 때는 중괄호만 씁니다. 따옴표와 같이 쓰면 글자가 됩니다.
+          속성 값에 변수를 넣을 때는 중괄호만 씁니다. 따옴표와 같이 쓰면 글자가
+          됩니다.
         </li>
         <li>
           태그 두 개는 하나로 감쌉니다. 화면에 남기기 싫으면
           <code>&lt;&gt;...&lt;/&gt;</code> 를 씁니다.
         </li>
-        <li>여러 줄 JSX 는 소괄호로 감쌉니다. <code>return</code> 뒤에서 줄을 바꾸지 않습니다.</li>
-        <li>객체는 화면에 못 넣습니다. 속성을 꺼내거나 글자로 바꿔서 넣습니다.</li>
+        <li>
+          여러 줄 JSX 는 소괄호로 감쌉니다. <code>return</code> 뒤에서 줄을
+          바꾸지 않습니다.
+        </li>
+        <li>
+          객체는 화면에 못 넣습니다. 속성을 꺼내거나 글자로 바꿔서 넣습니다.
+        </li>
       </ol>
     </div>
   </body>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -108,44 +108,62 @@
       /* ───── 문제 1 ───── (개념02 섹션 1) */
       #q1 {
         /* TODO: 여기에 코드를 쓰세요 */
+        display: block;
       }
 
       /* ───── 문제 2 ───── (개념02 섹션 2·4) */
       #q2 {
         /* TODO: 여기에 코드를 쓰세요 */
+        display: inline-block;
+        width: 180px;
+        height: 60px;
       }
 
       /* ───── 문제 3 ───── (개념02 섹션 5) */
       #q3 {
         /* TODO: 여기에 코드를 쓰세요 */
+        display: none;
       }
 
       /* ───── 문제 4 ───── (개념02 섹션 5) */
       #q4 {
         /* TODO: 여기에 코드를 쓰세요 */
+        visibility: hidden;
       }
 
       /* ───── 문제 5 ───── (개념03 섹션 2·3) */
       #q5 {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: relative;
+        left: 40px;
+        top: 20px;
       }
 
       /* ───── 문제 6 ───── (개념03 섹션 3·4) */
       #q6 {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: relative;
+        top: -12px;
       }
 
       /* ───── 문제 7 ───── (개념04 섹션 2) */
       #q7Card {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: relative;
       }
       #q7Badge {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: absolute;
+        top: 8px;
+        right: 8px;
       }
 
       /* ───── 문제 8 ───── (개념04 섹션 1·2) */
       #q8Box {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
       }
 
       /* ───── 문제 9 ───── (개념05 섹션 2·3) */
@@ -154,11 +172,14 @@
         margin-left: 50px;
         background: #d8f0d8;
         /* TODO: 여기에 코드를 쓰세요 */
+        position: relative;
+        z-index: 3;
       }
 
       /* ───── 문제 10 ───── (개념05 섹션 5) */
       #q10Thumb {
         /* TODO: 여기에 코드를 쓰세요 */
+        float: left;
       }
 
       /* ───── 문제 11 ───── (개념02 섹션 4) */
@@ -168,6 +189,9 @@
         padding: 8px;
         text-align: center;
         /* TODO: 여기에 코드를 쓰세요 */
+        display: inline-block;
+        width: 150px;
+        height: 70px;
       }
 
       /* ───── 문제 12 ───── (개념04 섹션 4) */
@@ -177,6 +201,8 @@
         padding: 8px 12px;
         font-weight: bold;
         /* TODO: 여기에 코드를 쓰세요 */
+        position: sticky;
+        top: 0;
       }
 
       /* ───── 문제 13 ───── (개념04 섹션 2 · 개념05 섹션 3) */
@@ -186,6 +212,10 @@
         font-size: 13px;
         padding: 4px 10px;
         /* TODO: 여기에 코드를 쓰세요 */
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        z-index: 2;
       }
 
       /* ───── 문제 14 ───── (개념02 섹션 4 · 개념04 섹션 2) */
@@ -195,9 +225,13 @@
         text-align: center;
         line-height: 60px;
         /* TODO: 여기에 코드를 쓰세요 */
+        display: inline-block;
+        width: 150px;
+        height: 60px;
       }
       #q14Item2 {
         /* TODO: 여기에 코드를 쓰세요 */
+        position: relative;
       }
       #q14New {
         background: #c0392b;
@@ -206,6 +240,9 @@
         line-height: 1.4;
         padding: 2px 6px;
         /* TODO: 여기에 코드를 쓰세요 */
+        position: absolute;
+        top: 4px;
+        right: 4px;
       }
 
       /* ───── 문제 15 ───── (개념03 섹션 2 · 개념05 섹션 3) */
@@ -218,6 +255,7 @@
         left: 20px;
         z-index: 3;
         /* TODO: 여기에 한 줄을 더하세요 */
+        position: relative;
       }
     </style>
   </head>
@@ -240,9 +278,10 @@
     <p class="doc-sub">11단원 · display · position · z-index · float</p>
 
     <p class="doc-guide">
-      이 파일 위쪽 <code>&lt;style&gt;</code> 안에 <strong>문제 1부터 15까지의 빈자리</strong>가
-      순서대로 들어 있습니다. 그 자리에 코드를 쓰고 저장한 뒤 새로고침하세요.
-      아래 상자들의 모양이 문제의 "기대 화면" 과 같아지면 맞은 것입니다.
+      이 파일 위쪽 <code>&lt;style&gt;</code> 안에
+      <strong>문제 1부터 15까지의 빈자리</strong>가 순서대로 들어 있습니다. 그
+      자리에 코드를 쓰고 저장한 뒤 새로고침하세요. 아래 상자들의 모양이 문제의
+      "기대 화면" 과 같아지면 맞은 것입니다.
     </p>
 
     <!-- ───── 문제 1 ───── (개념02 섹션 1) -->
@@ -406,11 +445,11 @@
         <p class="q-txt">
           이 글은 왼쪽 네모를 피해 흐르게 될 문장입니다. 문장이 충분히 길어야
           네모 옆을 지나 아래까지 이어지는 모습을 볼 수 있습니다. 신문 기사에서
-          사진 옆에 글이 붙어 있는 모양을 떠올리면 됩니다. 이 방식은 지금도
-          글 옆에 그림을 놓을 때 쓰입니다. 화면을 좌우로 나누는 일에는 쓰지 않습니다.
-          그림과 글이 서로 다른 상자에 들어 있는데도 한 덩어리처럼 보이는 것이
-          이 방식의 좋은 점입니다. 이쯤 오면 글줄이 네모 아래로 내려와
-          상자 왼쪽 끝에서 시작하는 것이 보입니다.
+          사진 옆에 글이 붙어 있는 모양을 떠올리면 됩니다. 이 방식은 지금도 글
+          옆에 그림을 놓을 때 쓰입니다. 화면을 좌우로 나누는 일에는 쓰지
+          않습니다. 그림과 글이 서로 다른 상자에 들어 있는데도 한 덩어리처럼
+          보이는 것이 이 방식의 좋은 점입니다. 이쯤 오면 글줄이 네모 아래로
+          내려와 상자 왼쪽 끝에서 시작하는 것이 보입니다.
         </p>
       </div>
     </div>
@@ -540,8 +579,14 @@
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>같은 폴더의 <code>연습문제_정답.html</code> 을 열어 화면을 나란히 비교해 보세요.</p>
-      <p>모양이 같아도 쓴 방법이 다를 수 있습니다. 정답 파일의 해설을 꼭 읽으세요.</p>
+      <p>
+        같은 폴더의 <code>연습문제_정답.html</code> 을 열어 화면을 나란히 비교해
+        보세요.
+      </p>
+      <p>
+        모양이 같아도 쓴 방법이 다를 수 있습니다. 정답 파일의 해설을 꼭
+        읽으세요.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

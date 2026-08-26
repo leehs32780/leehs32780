@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -29,8 +29,8 @@
     <p class="doc-guide">
       각 상자 안에 코드를 쓰세요. 문제 설명과 기대 결과는
       <strong>VS Code 에서 이 파일의 소스</strong>에 주석으로 적혀 있습니다.
-      브라우저에는 여러분이 만든 결과만 보입니다.
-      칸이 밋밋하게 보이는 것은 정상입니다. 꾸미는 것은 09~10단원입니다.
+      브라우저에는 여러분이 만든 결과만 보입니다. 칸이 밋밋하게 보이는 것은
+      정상입니다. 꾸미는 것은 09~10단원입니다.
     </p>
 
     <!-- ───── 문제 1 ───── (개념01 섹션1·섹션3) -->
@@ -46,7 +46,9 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 1 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <form id="a1Form">
+        <p>이름 <input id="a1Input" type="text" name="userName" /></p>
+      </form>
     </div>
 
     <!-- ───── 문제 2 ───── (개념01 섹션5) -->
@@ -60,7 +62,15 @@
     -->
     <div class="doc-demo">
       <p class="doc-demo-label">문제 2 — 아래 줄을 고치세요</p>
-      <p>이메일 <input type="text" name="userMail" /></p>
+      <p>
+        이메일
+        <input
+          id="a2Input"
+          type="text"
+          name="userMail"
+          placeholder="이메일을 입력하세요"
+        />
+      </p>
     </div>
 
     <!-- ───── 문제 3 ───── (개념01 섹션4) -->
@@ -75,7 +85,9 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 3 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        사는 곳 <input id="a3Input" type="text" name="userCity" value="부산" />
+      </p>
     </div>
 
     <!-- ───── 문제 4 ───── (개념02 섹션2) -->
@@ -89,7 +101,10 @@
     -->
     <div class="doc-demo">
       <p class="doc-demo-label">문제 4 — 아래 줄을 고치세요</p>
-      <p><label>나이</label> <input type="text" name="userAge" /></p>
+      <p>
+        <label id="a4Label" for="userAge">나이</label>
+        <input id="userAge" type="text" name="userAge" />
+      </p>
     </div>
 
     <!-- ───── 문제 5 ───── (개념02 섹션3·섹션4) -->
@@ -106,7 +121,12 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 5 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label id="a5Label"
+          ><input id="a5Check" type="checkbox" name="agree" /> 약관에
+          동의합니다</label
+        >
+      </p>
     </div>
 
     <!-- ───── 문제 6 ───── (개념02 섹션5) -->
@@ -124,7 +144,17 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 6 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <fieldset id="a6Set">
+        <legend id="a6Legend">배송 정보</legend>
+        <p>
+          <label for="recvName">받는 사람</label>
+          <input id="recvName" type="text" name="recvName" />
+        </p>
+        <p>
+          <label for="recvAddr">주소</label>
+          <input id="recvAddr" type="text" name="recvAddr" />
+        </p>
+      </fieldset>
     </div>
 
     <!-- ───── 문제 7 ───── (개념03 섹션1·섹션2) -->
@@ -146,7 +176,22 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 7 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label for="ansPw">비밀번호</label>
+        <input id="ansPw" type="password" name="pw" />
+      </p>
+      <p>
+        <label for="ansMail">이메일</label>
+        <input id="ansMail" type="email" name="mail" />
+      </p>
+      <p>
+        <label for="ansAge">나이</label>
+        <input id="ansAge" type="number" name="age" />
+      </p>
+      <p>
+        <label for="ansBirth">생일</label>
+        <input id="ansBirth" type="date" name="birth" />
+      </p>
     </div>
 
     <!-- ───── 문제 8 ───── (개념03 섹션3) -->
@@ -166,7 +211,30 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 8 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label
+          ><input id="a8Movie" type="checkbox" name="hobby" value="movie" />
+          영화</label
+        >
+      </p>
+      <p>
+        <label
+          ><input
+            id="a8Music"
+            type="checkbox"
+            name="hobby"
+            value="music"
+            checked
+          />
+          음악</label
+        >
+      </p>
+      <p>
+        <label
+          ><input id="a8Book" type="checkbox" name="hobby" value="book" />
+          독서</label
+        >
+      </p>
     </div>
 
     <!-- ───── 문제 9 ───── (개념03 섹션4) -->
@@ -189,7 +257,24 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 9 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label
+          ><input id="a9Card" type="radio" name="pay" value="card" checked />
+          카드</label
+        >
+      </p>
+      <p>
+        <label
+          ><input id="a9Cash" type="radio" name="pay" value="cash" />
+          현금</label
+        >
+      </p>
+      <p>
+        <label
+          ><input id="a9Bank" type="radio" name="pay" value="bank" />
+          계좌이체</label
+        >
+      </p>
     </div>
 
     <!-- ───── 문제 10 ───── (개념04 섹션1·섹션2) -->
@@ -210,7 +295,14 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 10 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label for="a10Select">배송 방법</label>
+        <select id="a10Select" name="ship">
+          <option value="normal">일반 배송</option>
+          <option value="quick" selected>빠른 배송</option>
+          <option value="dawn">새벽 배송</option>
+        </select>
+      </p>
     </div>
 
     <!-- ───── 문제 11 ───── (개념04 섹션4·섹션5) -->
@@ -228,7 +320,8 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 11 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p><label for="a11Area">배송 요청 사항</label></p>
+      <p><textarea id="a11Area" name="memo" rows="5" cols="40"></textarea></p>
     </div>
 
     <!-- ───── 문제 12 ───── (개념05 섹션2·섹션3) -->
@@ -245,7 +338,13 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 12 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <form id="a12Form">
+        <p>
+          <label for="a12Input">제목</label>
+          <input id="a12Input" type="text" name="title" />
+        </p>
+        <p><button id="a12Btn" type="button">미리 보기</button></p>
+      </form>
     </div>
 
     <!-- ───── 문제 13 ───── [응용] (개념04 섹션3 + 개념02 섹션3) -->
@@ -271,7 +370,21 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 13 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <p>
+        <label id="a13Label"
+          >지역
+          <select id="a13Select" name="region">
+            <optgroup label="수도권">
+              <option value="seoul">서울</option>
+              <option value="incheon">인천</option>
+            </optgroup>
+            <optgroup label="영남">
+              <option value="busan">부산</option>
+              <option value="daegu">대구</option>
+            </optgroup>
+          </select>
+        </label>
+      </p>
     </div>
 
     <!-- ───── 문제 14 ───── [응용] (개념06 섹션1·섹션2·섹션5) -->
@@ -294,7 +407,23 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 14 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <form id="a14Form">
+        <p>
+          <label for="n14">이름 (필수, 최대 5자)</label>
+          <input id="n14" type="text" name="userName" required maxlength="5" />
+        </p>
+        <p>
+          <label for="o14">주문번호</label>
+          <input
+            id="o14"
+            type="text"
+            name="orderNo"
+            value="A-2026-001"
+            readonly
+          />
+        </p>
+        <p><button id="a14Btn" type="submit">보내기</button></p>
+      </form>
     </div>
 
     <!-- ───── 문제 15 ───── [도전] (개념01 ~ 개념06 전체) -->
@@ -325,7 +454,81 @@
     <div class="doc-demo">
       <p class="doc-demo-label">문제 15 — 여기에 쓰세요</p>
       <!-- TODO: 여기에 코드를 쓰세요 -->
-
+      <form id="a15Form">
+        <fieldset id="a15Base">
+          <legend id="a15BaseLegend">기본 정보</legend>
+          <p>
+            <label for="j15Name">이름 (필수)</label>
+            <input id="j15Name" type="text" name="userName" required />
+          </p>
+          <p>
+            <label for="j15Mail">이메일 (필수)</label>
+            <input id="j15Mail" type="email" name="userMail" required />
+          </p>
+          <p>
+            <label for="j15Pw">비밀번호 (최소 8자)</label>
+            <input id="j15Pw" type="password" name="pw" minlength="8" />
+          </p>
+        </fieldset>
+        <fieldset id="a15Extra">
+          <legend id="a15ExtraLegend">추가 정보</legend>
+          <p>성별</p>
+          <p>
+            <label
+              ><input
+                id="j15Male"
+                type="radio"
+                name="gender"
+                value="male"
+                checked
+              />
+              남자</label
+            >
+          </p>
+          <p>
+            <label
+              ><input
+                id="j15Female"
+                type="radio"
+                name="gender"
+                value="female"
+              />
+              여자</label
+            >
+          </p>
+          <p>관심 분야</p>
+          <p>
+            <label
+              ><input
+                id="j15Sport"
+                type="checkbox"
+                name="interest"
+                value="sport"
+              />
+              운동</label
+            >
+          </p>
+          <p>
+            <label
+              ><input
+                id="j15Cook"
+                type="checkbox"
+                name="interest"
+                value="cook"
+              />
+              요리</label
+            >
+          </p>
+          <p><label for="j15Intro">자기소개</label></p>
+          <p>
+            <textarea id="j15Intro" name="intro" rows="4" cols="40"></textarea>
+          </p>
+        </fieldset>
+        <p>
+          <button id="a15Submit" type="submit">가입하기</button>
+          <button id="a15Reset" type="reset">되돌리기</button>
+        </p>
+      </form>
     </div>
 
     <!-- ───── 문제 16 ───── [확인] (개념02 섹션2 + 개념03 섹션4 + 개념05 섹션2) -->
@@ -356,26 +559,54 @@
     -->
     <div class="doc-demo">
       <p class="doc-demo-label">문제 16 — 아래 코드를 고치세요</p>
-      <form id="checkForm">
+      <form id="a16Form">
         <p>
-          <label id="checkLabel" for="userName">이름</label>
-          <input id="username" type="text" name="userName" />
+          <label id="a16Label" for="fixName">이름</label>
+          <input id="fixName" type="text" name="userName" />
         </p>
-        <fieldset id="checkSet">
-          <legend id="checkLegend">결제 수단</legend>
-          <p><label><input id="checkCard" type="radio" name="pay1" value="card" /> 카드</label></p>
-          <p><label><input id="checkCash" type="radio" name="pay2" value="cash" /> 현금</label></p>
+        <fieldset id="a16Set">
+          <legend id="a16Legend">결제 수단</legend>
+          <p>
+            <label
+              ><input
+                id="a16Card"
+                type="radio"
+                name="payFix"
+                value="card"
+                checked
+              />
+              카드</label
+            >
+          </p>
+          <p>
+            <label
+              ><input id="a16Cash" type="radio" name="payFix" value="cash" />
+              현금</label
+            >
+          </p>
         </fieldset>
-        <p><button id="checkBtn">미리 보기</button></p>
+        <p><button id="a16Btn" type="button">미리 보기</button></p>
       </form>
     </div>
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>1. 브라우저에서 <strong>글자를 눌러 보고</strong> 이름표가 연결됐는지 확인하세요.</p>
-      <p>2. 라디오 버튼은 <strong>세 개를 다 눌러 봐야</strong> 하나만 켜지는지 알 수 있습니다.</p>
-      <p>3. 버튼은 <strong>실제로 눌러 봐야</strong> 제출되는지 아닌지 알 수 있습니다.</p>
-      <p>4. <code>연습문제_정답.html</code> 을 열어 코드와 결과를 나란히 비교하세요.</p>
+      <p>
+        1. 브라우저에서 <strong>글자를 눌러 보고</strong> 이름표가 연결됐는지
+        확인하세요.
+      </p>
+      <p>
+        2. 라디오 버튼은 <strong>세 개를 다 눌러 봐야</strong> 하나만 켜지는지
+        알 수 있습니다.
+      </p>
+      <p>
+        3. 버튼은 <strong>실제로 눌러 봐야</strong> 제출되는지 아닌지 알 수
+        있습니다.
+      </p>
+      <p>
+        4. <code>연습문제_정답.html</code> 을 열어 코드와 결과를 나란히
+        비교하세요.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

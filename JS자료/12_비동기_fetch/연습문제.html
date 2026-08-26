@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -68,18 +68,20 @@
     <h1>12단원 연습문제 — 비동기와 fetch</h1>
 
     <p class="guide">
-      <strong>6번부터는 인터넷 연결이 필요합니다.</strong> TODO 자리에 코드를 쓰고
-      저장한 뒤 새로고침하세요. <strong>F12 → Console</strong> 을 반드시 함께 보세요.<br />
+      <strong>6번부터는 인터넷 연결이 필요합니다.</strong> TODO 자리에 코드를
+      쓰고 저장한 뒤 새로고침하세요. <strong>F12 → Console</strong> 을 반드시
+      함께 보세요.<br />
       1~12는 기본, 13은 응용, 14는 [도전], 15는 에러 확인입니다.
-    
+
       <br /><br />
       <strong>인터넷이 막혀 있어 안 된다면</strong> 이 파일 아래쪽
-      <code>&lt;script&gt;</code> 바로 위에 있는 <code>오프라인_대체.js</code> 줄에서
-      주석 기호를 지우세요. 인터넷 없이도 똑같이 동작합니다.
-      <br /><br />
+      <code>&lt;script&gt;</code> 바로 위에 있는
+      <code>오프라인_대체.js</code> 줄에서 주석 기호를 지우세요. 인터넷 없이도
+      똑같이 동작합니다. <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 이 파일 위쪽의
-      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을 만드는 코드입니다.
-      이 자료에서는 가르치지 않습니다. <code>&lt;script&gt;</code> 안부터 읽으세요.
+      <code>&lt;style&gt;</code> 과 <code>&lt;body&gt;</code> 는 화면 모양을
+      만드는 코드입니다. 이 자료에서는 가르치지 않습니다.
+      <code>&lt;script&gt;</code> 안부터 읽으세요.
     </p>
 
     <div class="demo">
@@ -140,18 +142,24 @@
       // 기대 결과 (화면): 누르자마자 "기다리는 중..." 이 나오고, 2초 뒤 "2초가 지났습니다" 로 바뀝니다.
       //                  누르자마자 바로 "2초가 지났습니다" 가 나오면 괄호를 붙여 즉시 실행한 것입니다.
       // TODO: 여기에 코드를 쓰세요
+      document.querySelector("#timerBtn").addEventListener("click", () => {
+        out1.textContent = "기다리는 중...";
 
+        setTimeout(() => {
+          out1.textContent = "2초가 지났습니다";
+        }, 2000);
+      });
       // ───── 문제 2 ───── (개념01 실행 순서)
       // 아래 세 줄을 실행하면 콘솔에 어떤 순서로 찍힐까요?
       // 먼저 예상을 적어 보고, 주석을 풀어 확인하세요.
       //
-      // 내 예상: __________________
+      // 내 예상: A C B = setTimeout은 할 일 다 끝내고 나중에 하겠다는 의미라서 //
 
       // console.log("A");
       // setTimeout(() => console.log("B"), 0);
       // console.log("C");
 
-      // ───── 문제 3 ───── (개념01 setInterval)
+      // ───── 문제 3 ───── (개념01 setInterval) // 어려워서 X //
       // countBtn 을 누르면 out3 에 3, 2, 1 을 1초 간격으로 보여 주고
       // 0이 되면 "끝!" 을 넣은 뒤 반드시 clearInterval 로 멈추세요.
 
@@ -180,7 +188,14 @@
       //
       // 기대 결과 (화면): 누르면 "진행 중..." 이 나오고, 1초 뒤 "1초 뒤 완료" 로 바뀝니다.
       // TODO: 여기에 코드를 쓰세요
+      document.querySelector("#promiseBtn").addEventListener("click", () => {
+        out4.className = "output";
+        out4.textContent = "진행 중...";
 
+        delay(1000).then(() => {
+          out4.textContent = "1초 뒤 완료";
+        });
+      });
       // ───── 문제 5 ───── (개념02 catch)
       // rejectBtn 을 누르면 delay(1000, true) 를 실행하고,
       // 실패했을 때 out4 에 "오류: 일부러 실패했습니다" 를 넣으세요.

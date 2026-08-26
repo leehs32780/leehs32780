@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -98,15 +98,15 @@
 
     <p class="guide">
       이 파일은 브라우저로 <strong>더블클릭</strong>해서 엽니다.
-      <strong>F12 → Console 을 먼저 열어 두세요.</strong> 이 파일은 콘솔을 보는 것이
-      절반입니다.
-      <br /><br />
+      <strong>F12 → Console 을 먼저 열어 두세요.</strong> 이 파일은 콘솔을 보는
+      것이 절반입니다. <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 위쪽
       <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다.
       <code>&lt;script type="text/babel"&gt;</code> 안부터 읽으세요.
       <br /><br />
-      ★ 이 파일에는 <strong>일부러 경고를 내는 버튼</strong>이 하나 있습니다. 섹션 1의
-      "key 없이 그려 보기" 입니다. 그 버튼을 누르기 전까지 콘솔은 깨끗합니다.
+      ★ 이 파일에는 <strong>일부러 경고를 내는 버튼</strong>이 하나 있습니다.
+      섹션 1의 "key 없이 그려 보기" 입니다. 그 버튼을 누르기 전까지 콘솔은
+      깨끗합니다.
     </p>
 
     <div id="root"></div>
@@ -171,7 +171,11 @@
             </button>
 
             <div className="output">
-              {show ? <NoKeyList /> : <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>}
+              {show ? (
+                <NoKeyList />
+              ) : (
+                <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>
+              )}
             </div>
           </div>
         );
@@ -275,7 +279,7 @@
       // 화면: 아메리카노 / 라떼 두 줄 (key 값인 americano · latte 는 안 보입니다)
 
       // ✏️ 직접 해보기 2 — F12 → Elements 탭에서 위 목록의 <li> 를 찾아보세요.
-      //                    key="americano" 같은 속성이 붙어 있나요?
+      //                    key="americano" 같은 속성이 붙어 있나요? // 중복되는게 없어서 //
 
       // ── 섹션 3: 무엇을 key 로 쓰나 ──
 
@@ -369,6 +373,7 @@
 
       // slice(1) 은 맨 앞 하나를 뺀 새 배열을 돌려줍니다. 원본은 그대로입니다(JS자료 06단원).
       const afterDelete = beforeDelete.slice(1);
+      // id: 1 이 줄이 없어지고 나머지만 출력 //
 
       console.log(beforeDelete.map((todo) => todo.text));
       // 콘솔: ['우유 사기', '책 반납', '청소하기']
@@ -428,11 +433,16 @@
             <p>
               두 목록은 데이터도 같고 코드도 같습니다. key 만 다릅니다.
               <br />
-              [맨 앞 항목 지우기] 를 누르고 <strong>이름표와 입력칸을 비교</strong>하세요.
+              [맨 앞 항목 지우기] 를 누르고{" "}
+              <strong>이름표와 입력칸을 비교</strong>하세요.
             </p>
 
-            <button onClick={() => setTodos(todos.slice(1))}>맨 앞 항목 지우기</button>
-            <button onClick={() => setTodos(START_TODOS)}>처음으로 되돌리기</button>
+            <button onClick={() => setTodos(todos.slice(1))}>
+              맨 앞 항목 지우기
+            </button>
+            <button onClick={() => setTodos(START_TODOS)}>
+              처음으로 되돌리기
+            </button>
 
             <div className="output">
               <p>① key={"{index}"} — 자리 번호를 key 로</p>
@@ -593,7 +603,8 @@
 
         return (
           <span>
-            {text} <button onClick={() => setLike(like + 1)}>좋아요 {like}</button>
+            {text}{" "}
+            <button onClick={() => setLike(like + 1)}>좋아요 {like}</button>
           </span>
         );
       }
@@ -611,7 +622,9 @@
               지금까지 {drawCount}번 다시 그렸습니다.
             </p>
 
-            <button onClick={() => setDrawCount(drawCount + 1)}>화면 다시 그리기</button>
+            <button onClick={() => setDrawCount(drawCount + 1)}>
+              화면 다시 그리기
+            </button>
 
             <div className="output">
               <p>① key={"{Math.random()}"} — 매번 새 값</p>
@@ -703,13 +716,15 @@
       <h2>정리</h2>
       <ol>
         <li>
-          <code>map</code> 으로 목록을 그릴 때는 각 줄에 <code>key</code> 를 붙입니다.
-          안 붙이면 콘솔에
-          <em>Each child in a list should have a unique "key" prop</em> 경고가 납니다.
+          <code>map</code> 으로 목록을 그릴 때는 각 줄에 <code>key</code> 를
+          붙입니다. 안 붙이면 콘솔에
+          <em>Each child in a list should have a unique "key" prop</em> 경고가
+          납니다.
         </li>
         <li>
-          <code>key</code> 는 React 가 <strong>이 줄이 아까 그 줄인지</strong> 알아보는
-          이름표입니다. 화면(HTML)에는 나가지 않습니다.
+          <code>key</code> 는 React 가
+          <strong>이 줄이 아까 그 줄인지</strong> 알아보는 이름표입니다.
+          화면(HTML)에는 나가지 않습니다.
         </li>
         <li>
           좋은 <code>key</code> 는 두 가지 조건뿐입니다.
@@ -719,7 +734,10 @@
           데이터에 <code>id</code> 가 있으면 그걸 쓰세요. 가장 안전합니다.
         </li>
         <li>
-          <strong><code>index</code> 를 key 로 쓰면 목록이 바뀔 때 조용히 어긋납니다.</strong>
+          <strong
+            ><code>index</code> 를 key 로 쓰면 목록이 바뀔 때 조용히
+            어긋납니다.</strong
+          >
           앞 항목을 지우면 입력값·체크·state 가 엉뚱한 줄에 남습니다.
         </li>
         <li>

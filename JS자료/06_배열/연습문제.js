@@ -42,7 +42,8 @@ const week3 = ["월", "화", "수", "목", "금"];
 // 금
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(week3.length);
+console.log(week3[week3.length - 1]);
 // ───── 문제 4 ───── (개념01 값 바꾸기)
 // 아래 배열의 두 번째 값을 "우동" 으로 바꾸고 배열 전체를 출력하세요.
 
@@ -52,7 +53,8 @@ const menu4 = ["김밥", "라면", "돈까스"];
 // [ '김밥', '우동', '돈까스' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+menu4[1] = "우동";
+console.log(menu4);
 // ───── 문제 5 ───── (개념02 push)
 // 빈 배열 basket5 를 만들고 push 로 "사과", "바나나", "포도" 를 넣어 출력하세요.
 //
@@ -60,7 +62,10 @@ const menu4 = ["김밥", "라면", "돈까스"];
 // [ '사과', '바나나', '포도' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+const basket5 = [];
+basket5.push("사과");
+basket5.push("바나나", "포도");
+console.log(basket5);
 // ───── 문제 6 ───── (개념02 pop)
 // 아래 배열에서 마지막 값을 빼내어 출력하고, 남은 배열도 출력하세요.
 
@@ -71,7 +76,9 @@ const stack6 = ["첫째", "둘째", "셋째"];
 // [ '첫째', '둘째' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+const last6 = stack6.pop();
+console.log(last6);
+console.log(stack6);
 // ───── 문제 7 ───── (개념02 splice)
 // 아래 배열의 1번 자리에 "화" 를 끼워 넣고 출력하세요. 지우면 안 됩니다.
 
@@ -81,7 +88,8 @@ const days7 = ["월", "수", "목"];
 // [ '월', '화', '수', '목' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+days7.splice(1, 0, "화");
+console.log(days7);
 // ───── 문제 8 ───── (개념03 slice)
 // 아래 배열에서 20, 30, 40 만 잘라내어 출력하고,
 // 그다음 원본이 그대로인지 확인하기 위해 원본도 출력하세요.
@@ -93,7 +101,8 @@ const nums8 = [10, 20, 30, 40, 50];
 // [ 10, 20, 30, 40, 50 ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(nums8.slice(1, 4));
+console.log(nums8);
 // ───── 문제 9 ───── (개념03 concat)
 // 아래 두 배열을 합쳐서 출력하세요. + 를 쓰면 안 됩니다.
 
@@ -104,7 +113,7 @@ const b9 = [3, 4];
 // [ 1, 2, 3, 4 ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(a9.concat(b9));
 // ───── 문제 10 ───── (개념03 join)
 // 아래 배열을 ", " 로 이어 붙인 문자열로 출력하세요.
 
@@ -114,7 +123,7 @@ const fruits10 = ["사과", "바나나", "포도"];
 // 사과, 바나나, 포도
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(fruits10.join(", "));
 // ───── 문제 11 ───── (개념03 split)
 // 아래 문자열을 "-" 기준으로 나눠 배열로 만들어 출력하세요.
 
@@ -124,7 +133,7 @@ const text11 = "월-화-수";
 // [ '월', '화', '수' ]
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(text11.split("-"));
 // ───── 문제 12 ───── (개념04 includes)
 // 아래 배열에 "라떼" 가 있는지, "녹차" 가 있는지 차례로 출력하세요.
 
@@ -135,7 +144,8 @@ const menu12 = ["아메리카노", "라떼", "케이크"];
 // false
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(menu12.includes("라떼"));
+console.log(menu12.includes("녹차"));
 // ───── 문제 13 ───── (개념04 indexOf)
 // 아래 배열에서 "포도" 의 위치와 "귤" 의 위치를 차례로 출력하세요.
 
@@ -146,7 +156,8 @@ const list13 = ["사과", "바나나", "포도"];
 // -1
 
 // TODO: 여기에 코드를 쓰세요
-
+console.log(list13.indexOf("포도"));
+console.log(list13.indexOf("귤"));
 // ───── 문제 14 ───── (개념05 for...of)
 // 아래 배열의 값을 for...of 로 한 줄씩 출력하세요.
 
@@ -158,7 +169,9 @@ const scores14 = [90, 85, 70];
 // 70
 
 // TODO: 여기에 코드를 쓰세요
-
+for (const score of scores14) {
+  console.log(score);
+}
 // ───── 문제 15 ───── (개념05 합계와 평균)
 // 아래 배열의 합계와 평균을 차례로 출력하세요.
 
@@ -169,7 +182,13 @@ const prices15 = [1200, 4500, 3000];
 // 2900
 
 // TODO: 여기에 코드를 쓰세요
+let sum15 = 0;
+for (const price of prices15) {
+  sum15 += price;
+}
 
+console.log(sum15);
+console.log(sum15 / prices15.length);
 // ───── 문제 16 ───── (개념05 조건으로 모으기)
 // 아래 나이 배열에서 19세 이상만 새 배열에 모아 출력하세요.
 
@@ -179,7 +198,14 @@ const ages16 = [15, 22, 34, 17, 40];
 // [ 22, 34, 40 ]
 
 // TODO: 여기에 코드를 쓰세요
+const adults16 = [];
+for (const age of ages16) {
+  if (age >= 19) {
+    adults16.push(age);
+  }
+}
 
+console.log(adults16);
 // ───── 문제 17 ───── [응용]
 // 두 배열은 같은 순서로 짝을 이룹니다. (cart17[0] 의 가격이 prices17[0])
 // 아래처럼 번호를 붙여 한 줄씩 출력하고, 마지막에 합계를 출력하세요.
@@ -199,7 +225,13 @@ const prices17 = [4500, 6000, 3000];
 // 합계 13500원
 
 // TODO: 여기에 코드를 쓰세요
+let total17 = 0;
+for (let i = 0; i < cart17.length; i++) {
+  console.log(`${i + 1}. ${cart17[i]} ${prices17[i]}원`);
+  total17 += prices17[i];
+}
 
+console.log(`합계 ${total17}원`);
 // ───── 문제 18 ───── [도전]
 // 아래 기온 배열에서 가장 높은 기온과 그것이 몇 번째인지 출력하세요.
 // 번호는 1부터 셉니다.
@@ -215,7 +247,17 @@ const temps18 = [23, 31, 18, 27];
 // 최고 기온 31도 (2번째)
 
 // TODO: 여기에 코드를 쓰세요
+let maxTemp = temps18[0];
+let maxIndex = 0;
 
+for (let i = 0; i < temps18.length; i++) {
+  if (temps18[i] > maxTemp) {
+    maxTemp = temps18[i];
+    maxIndex = i;
+  }
+}
+
+console.log(`최고 기온 ${maxTemp}도 (${maxIndex + 1}번째)`);
 // ───── 문제 19 ───── (에러 확인 — 맨 마지막)
 // 아래 두 줄의 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -224,4 +266,4 @@ const temps18 = [23, 31, 18, 27];
 // notArray.push("!");
 
 // 무슨 에러가 났나요? 문자열에는 왜 push 가 없을까요?
-// 답: __________________________________________
+// 답: TypeError: notArray.push is not a function // push 는 배열이 가진 메소드이다. 문자열에는 없습니다.

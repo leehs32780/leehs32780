@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -34,13 +34,17 @@
     ============================================================ -->
 
     <h1 class="doc-head">06단원 연습문제 — 시맨틱 구조</h1>
-    <p class="doc-sub">06단원 · div, span, header, nav, main, section, article, aside, footer</p>
+    <p class="doc-sub">
+      06단원 · div, span, header, nav, main, section, article, aside, footer
+    </p>
 
     <p class="doc-guide">
       각 상자 안에 코드를 쓰고 저장한 뒤 새로고침(F5) 하세요.
-      <strong>자세한 문제 설명과 기대하는 결과는 코드 주석에 적혀 있습니다.</strong>
-      VS Code 에서 이 파일을 열어 문제 번호를 찾아 읽으세요.
-      화면이 밋밋하게 나오는 것이 정상입니다.
+      <strong
+        >자세한 문제 설명과 기대하는 결과는 코드 주석에 적혀 있습니다.</strong
+      >
+      VS Code 에서 이 파일을 열어 문제 번호를 찾아 읽으세요. 화면이 밋밋하게
+      나오는 것이 정상입니다.
     </p>
 
     <!-- ───── 문제 1 ───── (개념01 섹션1)
@@ -57,11 +61,17 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 1 — 세 줄을 div 로 묶기</h2>
-      <p class="doc-desc">제목 한 줄과 문단 두 줄을 <code>&lt;div&gt;</code> 하나로 묶으세요.</p>
+      <p class="doc-desc">
+        제목 한 줄과 문단 두 줄을 <code>&lt;div&gt;</code> 하나로 묶으세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 1 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <div id="a1Box">
+          <h3>동네 축구 모임</h3>
+          <p>매주 토요일 아침 8시에 모입니다.</p>
+          <p>초보자도 환영합니다.</p>
+        </div>
       </div>
     </section>
 
@@ -78,11 +88,15 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 2 — 문장 속 값을 span 으로 묶기</h2>
-      <p class="doc-desc">가격 부분만 <code>&lt;span class="price"&gt;</code> 로 묶으세요.</p>
+      <p class="doc-desc">
+        가격 부분만 <code>&lt;span class="price"&gt;</code> 로 묶으세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 2 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <p id="a2Line">
+          오늘의 국수는 <span class="price" id="a2Price">7,000원</span>입니다.
+        </p>
       </div>
     </section>
 
@@ -102,13 +116,20 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 3 — div 판과 section 판을 같이 써 보기</h2>
       <p class="doc-desc">
-        같은 내용을 <code>&lt;div&gt;</code> 와 <code>&lt;section&gt;</code> 으로 각각 감싸고
-        결과가 같은지 확인하세요.
+        같은 내용을 <code>&lt;div&gt;</code> 와
+        <code>&lt;section&gt;</code> 으로 각각 감싸고 결과가 같은지 확인하세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 3 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <div id="a3Div">
+          <h4>여는 시간</h4>
+          <p>평일은 9시부터 18시까지입니다.</p>
+        </div>
+        <section id="a3Sec">
+          <h4>여는 시간</h4>
+          <p>평일은 9시부터 18시까지입니다.</p>
+        </section>
       </div>
     </section>
 
@@ -125,11 +146,16 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 4 — header 만들기</h2>
-      <p class="doc-desc">가게 이름과 한 줄 소개를 <code>&lt;header&gt;</code> 로 묶으세요.</p>
+      <p class="doc-desc">
+        가게 이름과 한 줄 소개를 <code>&lt;header&gt;</code> 로 묶으세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 4 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <header id="a4Header">
+          <h3>골목 분식</h3>
+          <p>1998년부터 한자리에서</p>
+        </header>
       </div>
     </section>
 
@@ -149,12 +175,19 @@
       <h2 class="doc-sec-title">문제 5 — nav 로 메뉴 만들기</h2>
       <p class="doc-desc">
         <code>&lt;nav&gt;</code> 안에 <code>&lt;ul&gt;</code>,
-        <code>&lt;li&gt;</code>, <code>&lt;a&gt;</code> 로 메뉴 세 개를 만드세요.
+        <code>&lt;li&gt;</code>, <code>&lt;a&gt;</code> 로 메뉴 세 개를
+        만드세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 5 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <nav id="a5Nav">
+          <ul id="a5List">
+            <li><a href="개념03_페이지_뼈대_태그.html">메뉴판</a></li>
+            <li><a href="개념03_페이지_뼈대_태그.html">오시는 길</a></li>
+            <li><a href="개념03_페이지_뼈대_태그.html">사진</a></li>
+          </ul>
+        </nav>
       </div>
     </section>
 
@@ -174,11 +207,16 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 6 — footer 만들기</h2>
-      <p class="doc-desc">주소와 저작권 표시를 <code>&lt;footer&gt;</code> 로 묶으세요.</p>
+      <p class="doc-desc">
+        주소와 저작권 표시를 <code>&lt;footer&gt;</code> 로 묶으세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 6 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <footer id="a6Footer">
+          <p>골목 분식 · 서울시 어딘가 5길 12</p>
+          <p id="a6Copy">&copy; 2026 골목 분식</p>
+        </footer>
       </div>
     </section>
 
@@ -195,12 +233,16 @@
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 7 — 제목이 있는 section 만들기</h2>
       <p class="doc-desc">
-        <code>&lt;section&gt;</code> 을 쓰고 <strong>제목을 반드시 같이</strong> 넣으세요.
+        <code>&lt;section&gt;</code> 을 쓰고
+        <strong>제목을 반드시 같이</strong> 넣으세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 7 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <section id="a7Section">
+          <h3>주차 안내</h3>
+          <p>가게 뒤편에 세 자리가 있습니다.</p>
+        </section>
       </div>
     </section>
 
@@ -218,11 +260,17 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 8 — article 로 후기 하나 만들기</h2>
-      <p class="doc-desc">후기 하나를 <code>&lt;article&gt;</code> 로 감싸세요.</p>
+      <p class="doc-desc">
+        후기 하나를 <code>&lt;article&gt;</code> 로 감싸세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 8 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <article id="a8Article">
+          <h3>김밥이 맛있어요</h3>
+          <p>2026년 8월 5일</p>
+          <p>재료가 아주 신선했습니다.</p>
+        </article>
       </div>
     </section>
 
@@ -239,11 +287,20 @@
     -->
     <section class="doc-sec">
       <h2 class="doc-sec-title">문제 9 — aside 로 곁다리 만들기</h2>
-      <p class="doc-desc">추천 목록을 <code>&lt;aside&gt;</code> 로 감싸세요.</p>
+      <p class="doc-desc">
+        추천 목록을 <code>&lt;aside&gt;</code> 로 감싸세요.
+      </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 9 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <aside id="a9Aside">
+          <h4>오늘의 추천</h4>
+          <ul>
+            <li>라면</li>
+            <li>김밥</li>
+            <li>떡볶이</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
@@ -274,7 +331,9 @@
                           시맨틱 태그로 바꾼 것만으로는 화면이 절대 안 바뀝니다.
     -->
     <section class="doc-sec">
-      <h2 class="doc-sec-title">문제 10 [응용] — div 만 있는 코드를 시맨틱으로</h2>
+      <h2 class="doc-sec-title">
+        문제 10 [응용] — div 만 있는 코드를 시맨틱으로
+      </h2>
       <p class="doc-desc">
         <code>&lt;div&gt;</code> 만 쓴 코드를 알맞은 시맨틱 태그로 바꿔 쓰세요.
         화면은 하나도 안 바뀌어야 합니다.
@@ -282,7 +341,18 @@
       <div class="doc-demo">
         <p class="doc-demo-label">문제 10 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <div id="a10Wrap">
+          <header>
+            <h4>골목 분식</h4>
+          </header>
+          <section>
+            <h4>오늘의 국수</h4>
+            <p>멸치 육수로 끓였습니다.</p>
+          </section>
+          <footer>
+            <p>문의 02-000-0000</p>
+          </footer>
+        </div>
       </div>
     </section>
 
@@ -293,13 +363,13 @@
 
         (가) 쇼핑몰 상품 목록에 있는 상품 카드 하나
              (사진, 상품 이름, 가격, 담기 단추가 들어 있음)
-
+//  <p id="a11a"><strong>(가) 상품 카드 하나 → <code>article</code></strong><br /></p>
         (나) 회사 소개 페이지의 "찾아오시는 길" 부분
-
+// <p id="a11b"><strong>(나) 찾아오시는 길 → <code>section</code></strong><br /></p>
         (다) 글 아래에 붙는 "이 글을 쓴 사람" 소개 상자
-
+// <p id="a11c"><strong>(다) 글쓴이 소개 상자 → <code>aside</code></strong><br /></p>
         (라) 두 문단을 나란히 두려고 한 번 감싼 껍데기
-
+// <p id="a11d"><strong>(라) 그냥 감싼 껍데기 → <code>div</code></strong><br /></p>
       풀 때는 개념04 섹션5 의 흐름도를 위에서부터 차례로 던지세요.
         1. 떼어 내도 말이 되나?  2. 지워도 되나?  3. 제목을 붙일 수 있나?  4. 아니면 div
 
@@ -311,8 +381,8 @@
       <h2 class="doc-sec-title">문제 11 [응용] — 어떤 태그를 쓸지 고르기</h2>
       <p class="doc-desc">
         네 가지 상황에 <code>article</code> · <code>section</code> ·
-        <code>aside</code> · <code>div</code> 중 무엇을 쓸지 고르세요.
-        답은 종이에 적으세요.
+        <code>aside</code> · <code>div</code> 중 무엇을 쓸지 고르세요. 답은
+        종이에 적으세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 11 · 종이에 적는 문제입니다</p>
@@ -334,7 +404,9 @@
                           "이 글의 머리말" 이 아니라 "페이지의 머리말" 이 되어 버립니다.
     -->
     <section class="doc-sec">
-      <h2 class="doc-sec-title">문제 12 [응용] — 글 한 편에 머리말과 꼬리말 붙이기</h2>
+      <h2 class="doc-sec-title">
+        문제 12 [응용] — 글 한 편에 머리말과 꼬리말 붙이기
+      </h2>
       <p class="doc-desc">
         <code>&lt;article&gt;</code> <strong>안에</strong>
         <code>&lt;header&gt;</code> 와 <code>&lt;footer&gt;</code> 를 넣으세요.
@@ -342,7 +414,16 @@
       <div class="doc-demo">
         <p class="doc-demo-label">문제 12 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <article id="a12Article">
+          <header id="a12Header">
+            <h3>떡볶이 국물 남기지 않는 법</h3>
+            <p>2026년 8월 8일</p>
+          </header>
+          <p>마지막에 밥을 볶으면 됩니다.</p>
+          <footer id="a12Footer">
+            <p>글쓴이 : 최은지</p>
+          </footer>
+        </article>
       </div>
     </section>
 
@@ -377,7 +458,33 @@
       <div class="doc-demo">
         <p class="doc-demo-label">문제 13 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        <article id="a13PostA">
+          <header>
+            <h3>여름 김치 담그기</h3>
+            <p>2026년 7월 30일</p>
+          </header>
+          <p>소금 양을 줄이는 것이 요령입니다.</p>
+          <footer>
+            <p>글쓴이 : 김민준</p>
+          </footer>
+        </article>
+        <article id="a13PostB">
+          <header>
+            <h3>냉면 육수 내기</h3>
+            <p>2026년 8월 2일</p>
+          </header>
+          <p>동치미 국물을 반 섞으면 시원합니다.</p>
+          <footer>
+            <p>글쓴이 : 이서연</p>
+          </footer>
+        </article>
+        <aside id="a13Aside">
+          <h4>많이 본 글</h4>
+          <ul>
+            <li>김밥 싸기</li>
+            <li>된장 끓이기</li>
+          </ul>
+        </aside>
       </div>
     </section>
 
@@ -410,7 +517,9 @@
                           색이나 배치가 필요하면 07단원부터 CSS 로 합니다.
     -->
     <section class="doc-sec">
-      <h2 class="doc-sec-title">문제 14 [도전] — 페이지 한 장 통째로 조립하기</h2>
+      <h2 class="doc-sec-title">
+        문제 14 [도전] — 페이지 한 장 통째로 조립하기
+      </h2>
       <p class="doc-desc">
         <code>header</code> · <code>nav</code> · <code>main</code> ·
         <code>article</code> · <code>section</code> · <code>aside</code> ·
@@ -419,7 +528,61 @@
       <div class="doc-demo">
         <p class="doc-demo-label">문제 14 · 여기에 쓰세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
+        <header id="a14SiteHeader">
+          <h3>골목 분식</h3>
+          <p>1998년부터 한자리에서</p>
+        </header>
 
+        <nav id="a14Nav">
+          <ul>
+            <li><a href="개념05_전체_구조_만들기.html">메뉴판</a></li>
+            <li><a href="개념05_전체_구조_만들기.html">오시는 길</a></li>
+            <li><a href="개념05_전체_구조_만들기.html">사진</a></li>
+          </ul>
+        </nav>
+
+        <main id="a14Main">
+          <article id="a14Article">
+            <header id="a14PostHeader">
+              <h3>오늘의 국수</h3>
+              <p>2026년 8월 11일</p>
+            </header>
+
+            <section id="a14Ingredient">
+              <h4>재료</h4>
+              <ul>
+                <li>멸치</li>
+                <li>다시마</li>
+                <li>소면</li>
+              </ul>
+            </section>
+
+            <section id="a14Order">
+              <h4>끓이는 순서</h4>
+              <ol>
+                <li>육수를 20분 끓입니다.</li>
+                <li>면을 3분 삶습니다.</li>
+              </ol>
+            </section>
+
+            <footer id="a14PostFooter">
+              <p>글쓴이 : 사장님</p>
+            </footer>
+          </article>
+
+          <aside id="a14Aside">
+            <h4>곁들이면 좋아요</h4>
+            <ul>
+              <li>김밥</li>
+              <li>단무지</li>
+            </ul>
+          </aside>
+        </main>
+
+        <footer id="a14SiteFooter">
+          <p>골목 분식 · 서울시 어딘가 5길 12</p>
+          <p>&copy; 2026 골목 분식</p>
+        </footer>
       </div>
     </section>
 
@@ -455,23 +618,35 @@
                           꺾쇠를 &lt; &gt; 로 안 바꾼 것입니다.
     -->
     <section class="doc-sec">
-      <h2 class="doc-sec-title">문제 15 [확인] — 잘못된 곳 네 군데 찾아 고치기</h2>
+      <h2 class="doc-sec-title">
+        문제 15 [확인] — 잘못된 곳 네 군데 찾아 고치기
+      </h2>
       <p class="doc-desc">
-        에러도 안 나고 화면도 멀쩡한데 <strong>잘못된 코드</strong>입니다.
-        네 군데를 찾아 고친 코드를 적으세요.
+        에러도 안 나고 화면도 멀쩡한데 <strong>잘못된 코드</strong>입니다. 네
+        군데를 찾아 고친 코드를 적으세요.
       </p>
       <div class="doc-demo">
         <p class="doc-demo-label">문제 15 · 고친 코드를 글자 그대로 적으세요</p>
         <!-- TODO: 여기에 코드를 쓰세요 -->
-
+        &lt;header&gt;골목 분식&lt;/header&gt; &lt;main&gt; &lt;section&gt;
+        &lt;h3&gt;오늘의 국수&lt;/h3&gt; &lt;p&gt;멸치 육수로
+        끓였습니다.&lt;/p&gt; &lt;/section&gt; &lt;/main&gt; &lt;footer&gt;
+        &lt;p&gt;문의 02-000-0000&lt;/p&gt; &lt;/footer&gt;
       </div>
     </section>
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>1. <code>연습문제_정답.html</code> 을 열어 코드를 나란히 대조하세요.</p>
-      <p>2. 화면이 같아도 <strong>태그가 다르면 다른 답</strong>입니다. 코드를 보세요.</p>
-      <p>3. 06단원까지가 HTML 파트입니다. 07단원부터 이 뼈대에 CSS 를 입힙니다.</p>
+      <p>
+        1. <code>연습문제_정답.html</code> 을 열어 코드를 나란히 대조하세요.
+      </p>
+      <p>
+        2. 화면이 같아도 <strong>태그가 다르면 다른 답</strong>입니다. 코드를
+        보세요.
+      </p>
+      <p>
+        3. 06단원까지가 HTML 파트입니다. 07단원부터 이 뼈대에 CSS 를 입힙니다.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

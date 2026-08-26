@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -49,6 +49,7 @@
                    display: flex 를 안 썼거나 상자(.tile) 쪽에 쓴 것입니다. */
       .p1-stage {
         /* TODO: 여기에 코드를 쓰세요 */
+        display: flex;
       }
 
       /* ───── 문제 2 ───── (개념02 섹션3)
@@ -60,6 +61,8 @@
          이렇게 되면 틀린 것: 왼쪽부터 1 2 3 이면 -reverse 를 안 붙인 것입니다. */
       .p2-stage {
         /* TODO: 여기에 코드를 쓰세요 */
+        display: flex;
+        flex-direction: row-reverse;
       }
 
       /* ───── 문제 3 ───── (개념02 섹션5)
@@ -71,6 +74,7 @@
       .p3-stage {
         display: flex;
         /* TODO: 여기에 코드를 쓰세요 */
+        flex-wrap: wrap;
       }
 
       /* ───── 문제 4 ───── (개념03 섹션2)
@@ -83,6 +87,7 @@
       .p4-stage {
         display: flex;
         /* TODO: 여기에 코드를 쓰세요 */
+        justify-content: center;
       }
 
       /* ───── 문제 5 ───── (개념03 섹션2)
@@ -94,6 +99,7 @@
       .p5-stage {
         display: flex;
         /* TODO: 여기에 코드를 쓰세요 */
+        justify-content: space-between;
       }
 
       /* ───── 문제 6 ───── (개념03 섹션4)
@@ -105,6 +111,7 @@
       .p6-stage {
         display: flex;
         /* TODO: 여기에 코드를 쓰세요 */
+        gap: 20px;
       }
 
       /* ───── 문제 7 ───── (개념04 섹션2)
@@ -116,6 +123,7 @@
         display: flex;
         height: 140px;
         /* TODO: 여기에 코드를 쓰세요 */
+        align-items: center;
       }
 
       /* ───── 문제 8 ───── (개념04 섹션5)
@@ -128,6 +136,8 @@
         display: flex;
         height: 140px;
         /* TODO: 여기에 코드를 쓰세요 */
+        justify-content: center;
+        align-items: center;
       }
 
       /* ───── 문제 9 ───── (개념05 섹션1)
@@ -141,6 +151,7 @@
       }
       .p9-first {
         /* TODO: 여기에 코드를 쓰세요 */
+        flex-grow: 1;
       }
 
       /* ───── 문제 10 ───── (개념05 섹션4)
@@ -155,6 +166,7 @@
       }
       .p10-stage .tile {
         /* TODO: 여기에 코드를 쓰세요 */
+        flex: 1;
       }
 
       /* ───── 문제 11 ───── [응용] (개념06 섹션1)
@@ -172,6 +184,9 @@
         box-sizing: border-box;
         background: #2d3a4a;
         /* TODO: 여기에 코드를 쓰세요 */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
       .p11-brand {
         margin: 0;
@@ -203,6 +218,7 @@
       }
       .p12-middle {
         /* TODO: 여기에 코드를 쓰세요 */
+        align-self: flex-end;
       }
 
       /* ───── 문제 13 ───── [도전] (개념06 섹션4)
@@ -220,6 +236,8 @@
       .p13-stage {
         display: flex;
         /* TODO: 여기에 코드를 쓰세요 (간격과 교차축 정렬) */
+        gap: 20px;
+        align-items: flex-start;
       }
       .p13-main {
         background: #fff;
@@ -227,6 +245,7 @@
         padding: 12px 14px;
         box-sizing: border-box;
         /* TODO: 여기에 코드를 쓰세요 (남는 폭 전부) */
+        flex: 1;
       }
       .p13-side {
         background: #f4f7fb;
@@ -234,6 +253,7 @@
         padding: 12px 14px;
         box-sizing: border-box;
         /* TODO: 여기에 코드를 쓰세요 (폭 200px 고정) */
+        flex: 0 0 200px;
       }
 
       /* ───── 문제 14 ───── [도전] (개념06 섹션2)
@@ -250,6 +270,9 @@
                    가격이 글 바로 아래에 붙어 있다면 카드를 세로 컨테이너로 안 만든 것입니다. */
       .p14-list {
         /* TODO: 여기에 코드를 쓰세요 (가로 배치 · 줄바꿈 · 간격) */
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
       }
       .p14-card {
         background: #fff;
@@ -257,6 +280,9 @@
         padding: 12px 14px;
         box-sizing: border-box;
         /* TODO: 여기에 코드를 쓰세요 (폭 나눠 갖기 · 세로 컨테이너) */
+        flex: 1 1 260px;
+        display: flex;
+        flex-direction: column;
       }
       .p14-title {
         margin: 0 0 6px;
@@ -274,6 +300,7 @@
         color: #2d6cdf;
         font-weight: bold;
         /* TODO: 여기에 코드를 쓰세요 (카드 바닥에 붙이기) */
+        margin-top: auto;
       }
 
       /* ───── 문제 15 ───── [확인] (개념01 섹션5)
@@ -289,8 +316,6 @@
          힌트: 개념01 섹션 5 의 표를 보세요.
                이 두 속성은 둘 다 "컨테이너에 쓰는 것" 칸에 있습니다. */
       .p15-stage {
-      }
-      .p15-stage .tile {
         display: flex;
         justify-content: center;
       }
@@ -301,12 +326,13 @@
     <p class="doc-sub">12단원 · Flexbox</p>
 
     <p class="doc-guide">
-      <strong>이 파일의 <code>&lt;style&gt;</code> 안</strong>에 문제와 빈 자리가 있습니다.
-      VS Code 로 열어서 위에서부터 읽으며 채우세요.
-      한 문제를 채울 때마다 저장하고 브라우저에서 새로고침(F5) 해서 아래 상자를 확인하세요.
-      <br /><br />
-      1~10 은 기본, 11~12 는 응용, 13~14 는 도전, 15 는 확인 문제입니다.
-      15번만 <code>&lt;style&gt;</code> 안의 코드를 옮기는 문제이고 나머지는 채우기만 하면 됩니다.
+      <strong>이 파일의 <code>&lt;style&gt;</code> 안</strong>에 문제와 빈
+      자리가 있습니다. VS Code 로 열어서 위에서부터 읽으며 채우세요. 한 문제를
+      채울 때마다 저장하고 브라우저에서 새로고침(F5) 해서 아래 상자를
+      확인하세요. <br /><br />
+      1~10 은 기본, 11~12 는 응용, 13~14 는 도전, 15 는 확인 문제입니다. 15번만
+      <code>&lt;style&gt;</code> 안의 코드를 옮기는 문제이고 나머지는 채우기만
+      하면 됩니다.
     </p>
 
     <!-- ───── 문제 1 ───── -->
@@ -460,7 +486,8 @@
         <article class="p14-card" id="p14Card2">
           <p class="p14-title">역사</p>
           <p class="p14-text">
-            사진 자료가 많아 두껍습니다. 처음 읽는 분께는 뒤쪽 연표부터 보시길 권합니다.
+            사진 자료가 많아 두껍습니다. 처음 읽는 분께는 뒤쪽 연표부터 보시길
+            권합니다.
           </p>
           <p class="p14-price">21,000원</p>
         </article>
@@ -489,10 +516,17 @@
 
     <div class="doc-summary">
       <p class="doc-summary-title">── 다 풀었으면 ──</p>
-      <p>1. 같은 폴더의 <code>연습문제_정답.html</code> 을 열어 비교해 보세요.</p>
-      <p>2. 답이 달라도 결과가 같으면 맞은 것입니다. 왜 두 방법이 같은지 생각해 보세요.</p>
-      <p>3. 특히 11번은 <code>space-between</code> 말고
-        <code>margin-left: auto</code> 로도 풀 수 있습니다.</p>
+      <p>
+        1. 같은 폴더의 <code>연습문제_정답.html</code> 을 열어 비교해 보세요.
+      </p>
+      <p>
+        2. 답이 달라도 결과가 같으면 맞은 것입니다. 왜 두 방법이 같은지 생각해
+        보세요.
+      </p>
+      <p>
+        3. 특히 11번은 <code>space-between</code> 말고
+        <code>margin-left: auto</code> 로도 풀 수 있습니다.
+      </p>
     </div>
 
     <!-- ===== 아래는 자료 자동 검사용입니다. 학습 내용이 아니니 넘어가세요. =====

@@ -7,7 +7,6 @@
 // TODO 자리에 코드를 쓰고, '기대 출력'과 같은지 확인하세요.
 // 1~15는 기본, 16은 응용, 17은 [도전], 18은 에러 확인입니다.
 
-
 // ───── 문제 1 ───── (개념01)
 // "환영합니다!" 를 출력하는 printWelcome 함수를 만들고 한 번 호출하세요.
 //
@@ -15,8 +14,10 @@
 // 환영합니다!
 
 // TODO: 여기에 코드를 쓰세요
-
-
+function printWelcome() {
+  console.log("환영합니다!");
+}
+printWelcome();
 // ───── 문제 2 ───── (개념01)
 // 아래 두 함수를 만들고, 세 번째 함수 printHeader 에서 순서대로 불러
 // 아래 결과가 나오게 하세요.
@@ -30,8 +31,21 @@
 // *****
 
 // TODO: 여기에 코드를 쓰세요
+function printStar() {
+  console.log("*****");
+}
 
+function printTitle() {
+  console.log("MENU");
+}
 
+function printHeader() {
+  printStar();
+  printTitle();
+  printStar();
+}
+
+printHeader();
 // ───── 문제 3 ───── (개념02 매개변수)
 // 이름을 받아 인사하는 callName 함수를 만들고 "이서연" 으로 호출하세요.
 //
@@ -39,8 +53,10 @@
 // 이서연님, 안녕하세요
 
 // TODO: 여기에 코드를 쓰세요
-
-
+function callName(name) {
+  console.log(`${name}님, 안녕하세요`);
+}
+callName("이서연");
 // ───── 문제 4 ───── (개념02 매개변수 2개)
 // 가로와 세로를 받아 넓이를 출력하는 printArea 함수를 만들고 8, 5 로 호출하세요.
 //
@@ -48,8 +64,10 @@
 // 40
 
 // TODO: 여기에 코드를 쓰세요
-
-
+function printArea(width, height) {
+  console.log(width * height);
+}
+printArea(8, 5);
 // ───── 문제 5 ───── (개념02 기본값)
 // 메뉴와 개수를 받는 order 함수를 만드세요. 개수의 기본값은 1입니다.
 // order("라떼") 와 order("케이크", 3) 을 각각 호출하세요.
@@ -59,8 +77,12 @@
 // 케이크 3개
 
 // TODO: 여기에 코드를 쓰세요
-
-
+function order(menu, count = 1) {
+  console.log(`${menu} ${count}개`);
+}
+order("라떼");
+// 출력: 라떼 1개
+order("케이크", 3);
 // ───── 문제 6 ───── (개념03 return)
 // 두 수를 더해서 '돌려주는' getSum 함수를 만드세요.
 // console.log 를 함수 안에 쓰면 안 됩니다. return 을 쓰세요.
@@ -69,8 +91,10 @@
 // 10
 
 // TODO: 여기에 코드를 쓰세요 (getSum(3, 7) 을 출력)
-
-
+function getSum(a, b) {
+  return a + b;
+}
+console.log(getSum(3, 7));
 // ───── 문제 7 ───── (개념03 return 재사용)
 // 가격과 개수를 받아 총액을 돌려주는 getTotal 함수를 만들고,
 // 결과를 변수에 담아 아래처럼 출력하세요. (4500원 4개)
@@ -79,8 +103,12 @@
 // 합계 18000원
 
 // TODO: 여기에 코드를 쓰세요
+function getTotal(price, count) {
+  return price * count;
+}
 
-
+const total7 = getTotal(4500, 4);
+console.log(`합계 ${total7}원`);
 // ───── 문제 8 ───── (개념03 조기 반환)
 // 나누기 함수 divide 를 만드세요.
 // 나누는 수가 0이면 "0으로 나눌 수 없습니다" 를 돌려주고 즉시 끝냅니다.
@@ -91,8 +119,15 @@
 // 5
 
 // TODO: 여기에 코드를 쓰세요
+function divide(a, b) {
+  if (b === 0) {
+    return "0으로 나눌 수 없습니다";
+  }
+  return a / b;
+}
 
-
+console.log(divide(10, 0));
+console.log(divide(10, 2));
 // ───── 문제 9 ───── (개념03 판단 함수)
 // 점수가 60 이상인지 true/false 로 돌려주는 isPass 함수를 만드세요.
 // if 를 쓰지 말고 비교식을 그대로 return 하세요.
@@ -103,8 +138,11 @@
 // true
 
 // TODO: 여기에 코드를 쓰세요
-
-
+function isPass(score) {
+  return score >= 60;
+}
+console.log(isPass(45));
+console.log(isPass(80));
 // ───── 문제 10 ───── (개념04 함수 표현식)
 // 두 수를 빼는 함수를 '함수 표현식'으로 만들어 minus 변수에 담고,
 // minus(10, 3) 을 출력하세요.
@@ -113,8 +151,10 @@
 // 7
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const minus = function (a, b) {
+  return a - b;
+};
+console.log(minus(10, 3));
 // ───── 문제 11 ───── (개념04 함수를 인자로)
 // 아래 calculate 함수는 이미 만들어져 있습니다.
 // 곱하기 함수를 만들어 calculate 에 넘겨 6 × 7 을 구하세요.
@@ -128,8 +168,11 @@ function calculate(a, b, operation) {
 // 42
 
 // TODO: 여기에 코드를 쓰세요
+function multiply(a, b) {
+  return a * b;
+}
 
-
+console.log(calculate(6, 7, multiply));
 // ───── 문제 12 ───── (개념05 화살표 변환)
 // 아래 함수를 화살표 함수로 바꿔서 arrowDouble 이라는 이름으로 만들고
 // arrowDouble(7) 을 출력하세요.
@@ -142,8 +185,10 @@ function calculate(a, b, operation) {
 // 14
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const arrowDouble = (n) => {
+  return n * 2;
+};
+console.log(arrowDouble(7));
 // ───── 문제 13 ───── (개념05 줄여쓰기)
 // 숫자를 제곱해서 돌려주는 화살표 함수를 '중괄호와 return 없이' 한 줄로 쓰세요.
 // square(9) 를 출력하세요.
@@ -152,8 +197,8 @@ function calculate(a, b, operation) {
 // 81
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const square = (n) => n * n;
+console.log(square(9));
 // ───── 문제 14 ───── (개념05 여러 줄)
 // 가격과 할인율을 받아 할인된 가격을 돌려주는 화살표 함수를 만드세요.
 // 몸통이 여러 줄이므로 중괄호와 return 을 씁니다.
@@ -163,8 +208,11 @@ function calculate(a, b, operation) {
 // 7000
 
 // TODO: 여기에 코드를 쓰세요
-
-
+const getDiscounted = (price, rate) => {
+  const discount = price * rate;
+  return price - discount;
+};
+console.log(getDiscounted(10000, 0.3));
 // ───── 문제 15 ───── (개념06 스코프)
 // 함수 밖에 taxRate 를 0.1 로 만들고,
 // 가격을 받아 세금을 출력하는 printTax 함수를 만들어 10000 으로 호출하세요.
@@ -174,8 +222,12 @@ function calculate(a, b, operation) {
 // 1000
 
 // TODO: 여기에 코드를 쓰세요
+const taxRate = 0.1;
+function printTax(price) {
+  console.log(price * taxRate);
+}
 
-
+printTax(10000);
 // ───── 문제 16 ───── [응용]
 // 편의점 계산기입니다. 함수 두 개를 만드세요.
 //   getRawTotal(price, count)        : 가격 × 개수를 돌려준다
@@ -187,8 +239,19 @@ function calculate(a, b, operation) {
 // 합계 5400원
 
 // TODO: 여기에 코드를 쓰세요
+function getRawTotal(price, count) {
+  return price * count;
+}
+function applyDiscount(total, isMember) {
+  if (!isMember) {
+    return total;
+  }
+  return Math.round(total * 0.9);
+}
+const raw16 = getRawTotal(1200, 5);
+const final16 = applyDiscount(raw16, true);
 
-
+console.log(`합계 ${final16}원`);
 // ───── 문제 17 ───── [도전]
 // 시작 수부터 끝 수까지 모두 더한 값을 돌려주는 getSumRange 함수를 만드세요.
 // getSumRange(1, 10) 과 getSumRange(5, 10) 을 각각 출력하세요.
@@ -202,8 +265,16 @@ function calculate(a, b, operation) {
 // 45
 
 // TODO: 여기에 코드를 쓰세요
+function getSumRange(start, end) {
+  let sum = 0;
+  for (let i = start; i <= end; i++) {
+    sum += i;
+  }
+  return sum;
+}
 
-
+console.log(getSumRange(1, 10));
+console.log(getSumRange(5, 10));
 // ───── 문제 18 ───── (에러 확인 — 맨 마지막)
 // 아래 주석을 풀고 실행해서 어떤 에러가 나는지 확인하세요.
 // 확인했으면 반드시 다시 주석 처리하세요.
@@ -215,4 +286,4 @@ function calculate(a, b, operation) {
 // console.log(secret);
 
 // 무슨 에러가 났나요? secret 을 함수 밖에서 쓰려면 어떻게 고쳐야 할까요?
-// 답: __________________________________________
+// 답: ReferenceError: secret is not defined // 함수 안 중괄호에서 만든 변수는 그 중괄호 안에서만 존재하고, 함수 밖에서는 사라지기 때문이다.
