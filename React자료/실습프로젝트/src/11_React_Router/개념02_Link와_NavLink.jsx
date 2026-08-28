@@ -115,7 +115,9 @@ function NoticeScreen() {
 }
 
 function NotHereScreen() {
-  return <p>이 예제가 아는 주소가 아닙니다. 위의 링크 중 하나를 눌러 시작하세요.</p>;
+  return (
+    <p>이 예제가 아는 주소가 아닙니다. 위의 링크 중 하나를 눌러 시작하세요.</p>
+  );
 }
 
 function CompareDemo() {
@@ -142,8 +144,10 @@ function CompareDemo() {
           <Link to="/r2/notice">공지</Link>
         </p>
         <p>
-          <span style={{ color: "#c00" }}>a 로 이동 (누르면 앱이 다시 시작합니다)</span> —{" "}
-          <a href="/r2">홈</a> | <a href="/r2/menu">메뉴</a> |{" "}
+          <span style={{ color: "#c00" }}>
+            a 로 이동 (누르면 앱이 다시 시작합니다)
+          </span>{" "}
+          — <a href="/r2">홈</a> | <a href="/r2/menu">메뉴</a> |{" "}
           <a href="/r2/notice">공지</a>
         </p>
       </nav>
@@ -224,8 +228,9 @@ function NavLinkDemo() {
       </div>
 
       <p>
-        데모 ① 과 ② 는 같은 BrowserRouter 안에 있습니다. 그래서 어느 쪽 링크를 눌러도 두
-        상자가 함께 바뀝니다. 주소 하나가 화면 여러 곳을 동시에 정하는 것입니다.
+        데모 ① 과 ② 는 같은 BrowserRouter 안에 있습니다. 그래서 어느 쪽 링크를
+        눌러도 두 상자가 함께 바뀝니다. 주소 하나가 화면 여러 곳을 동시에 정하는
+        것입니다.
       </p>
     </div>
   );
@@ -266,7 +271,8 @@ function OutsideLinkDemo() {
         </a>
       </p>
       <p>
-        이런 링크는 Routes 에 등록할 수 없습니다. 우리 앱의 화면이 아니기 때문입니다.
+        이런 링크는 Routes 에 등록할 수 없습니다. 우리 앱의 화면이 아니기
+        때문입니다.
       </p>
     </div>
   );
@@ -339,19 +345,19 @@ export default function Concept02LinkAndNavLink() {
       <h1>개념 02 — Link 와 NavLink</h1>
 
       <p className="guide">
-        데모 ① 에서 <strong>카운터를 3까지 올린 뒤</strong> 파란 링크와 빨간 링크를 각각
-        눌러 보세요. 파란 링크로 이동하면 3이 그대로 남습니다.
+        데모 ① 에서 <strong>카운터를 3까지 올린 뒤</strong> 파란 링크와 빨간
+        링크를 각각 눌러 보세요. 파란 링크로 이동하면 3이 그대로 남습니다.
         <br />
         <br />
-        <strong>빨간 링크를 누르면 앱이 통째로 다시 시작합니다.</strong> 왼쪽 메뉴 선택도
-        풀려서 이 예제가 화면에서 사라지고 맨 위 예제가 열립니다. 고장이 아닙니다. 왼쪽
-        메뉴에서 <strong>개념02 Link와 NavLink</strong> 를 다시 고르세요. 돌아와 보면
-        카운터가 0입니다. 같은 이유로 이 예제에서는{" "}
+        <strong>빨간 링크를 누르면 앱이 통째로 다시 시작합니다.</strong> 왼쪽
+        메뉴 선택도 풀려서 이 예제가 화면에서 사라지고 맨 위 예제가 열립니다.
+        고장이 아닙니다. 왼쪽 메뉴에서 <strong>개념02 Link와 NavLink</strong> 를
+        다시 고르세요. 돌아와 보면 카운터가 0입니다. 같은 이유로 이 예제에서는{" "}
         <strong>새로고침(F5)도 하지 마세요.</strong>
         <br />
         <br />
-        <strong>F12 → Console</strong> 도 함께 열어 두세요. 파일 맨 위에서 찍는 줄이 다시
-        나오는지가 가장 확실한 증거입니다.
+        <strong>F12 → Console</strong> 도 함께 열어 두세요. 파일 맨 위에서 찍는
+        줄이 다시 나오는지가 가장 확실한 증거입니다.
       </p>
 
       <BrowserRouter>
@@ -364,7 +370,7 @@ export default function Concept02LinkAndNavLink() {
       <Summary
         items={[
           "<a> 는 페이지를 서버에서 새로 받아 옵니다. React 가 다시 시작하면서 state 가 전부 사라집니다.",
-          "<Link to=\"...\"> 는 주소만 바꾸고 화면의 그 자리만 다시 그립니다. state 가 그대로 남습니다.",
+          '<Link to="..."> 는 주소만 바꾸고 화면의 그 자리만 다시 그립니다. state 가 그대로 남습니다.',
           "차이는 카운터·왼쪽 메뉴·콘솔 로그 세 가지로 직접 잴 수 있습니다.",
           "Link 의 속성 이름은 href 가 아니라 to 입니다. href 를 쓰면 눌러도 아무 일이 없습니다.",
           "NavLink 는 지금 주소와 맞으면 isActive 를 true 로 넘겨 줍니다. className 에 함수를 넣어 받습니다.",

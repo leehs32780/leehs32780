@@ -79,7 +79,7 @@ function StrictModeDemo() {
 
     return () => {
       console.log("② 정리 함수 실행 — tick 은 " + tick);
-      // 콘솔: ② 정리 함수 실행 — tick 은 0
+      // 콘솔: ② 정리 함수 실행 — tick 은 0 // 이 페이지를 벗어나는 순간에 실행된다 //
     };
   }, [tick]);
 
@@ -177,9 +177,7 @@ function SafeTimer() {
     };
   }, []);
 
-  return (
-    <p className="output">안전한 타이머: {count}번째 신호까지 받음</p>
-  );
+  return <p className="output">안전한 타이머: {count}번째 신호까지 받음</p>;
 }
 
 // [정리 함수가 없는 타이머] — 일부러 빠뜨렸습니다
@@ -194,7 +192,9 @@ function LeakyTimer() {
 
     const id = setInterval(() => {
       safety += 1;
-      console.log("[새는 타이머] " + safety + "번째 신호 — 화면에서 지워도 계속 나옵니다");
+      console.log(
+        "[새는 타이머] " + safety + "번째 신호 — 화면에서 지워도 계속 나옵니다",
+      );
       // 콘솔: [새는 타이머] 1번째 신호 — 화면에서 지워도 계속 나옵니다
 
       setCount(safety);
@@ -252,6 +252,12 @@ function LeakDemo() {
 //     안전한 타이머 : 0.5초마다 한 줄씩
 //     새는 타이머   : 0.5초마다 두 줄씩
 //
+//   [화면에 처음 나타날 때]        [tick +1 을 누를 때]
+//     ① effect 실행 (tick 0)       ② 정리 함수 실행 (tick 0)
+//     ② 정리 함수 실행 (tick 0)     ① effect 실행 (tick 1)
+//     ① effect 실행 (tick 0)
+//
+
 //   섹션 1에서 본 붙였다 뗐다 다시 붙이기 때문입니다.
 //   정리를 안 했으니 첫 번째 타이머가 안 꺼진 채로 두 번째 타이머가 또 생긴 것입니다.
 //   두 줄씩 찍히는 것이 바로 "정리 함수를 빠뜨렸다" 는 증거입니다.
@@ -296,7 +302,7 @@ function SpeedTimerDemo() {
       console.log("[속도 데모] " + delay + "밀리초 타이머 정리");
       // 콘솔: [속도 데모] 500밀리초 타이머 정리
     };
-  }, [delay]); // delay 가 바뀌면 치우고 다시 켭니다
+  }, [delay]); // delay 가 바뀌면 치우고 다시 켭니다 // []이면 처음에만 // 없으면 다시 그릴 때마다
 
   return (
     <div className="demo">
@@ -337,11 +343,11 @@ function SpeedTimerDemo() {
 
 function SubscribeDemo() {
   // 처음 값은 지금 창 너비로 시작합니다.
-  const [width, setWidth] = useState(window.innerWidth);
+  const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     function handleResize() {
-      setWidth(window.innerWidth);
+      setHeight(window.innerHeight);
     }
 
     window.addEventListener("resize", handleResize);
@@ -358,8 +364,8 @@ function SubscribeDemo() {
 
   return (
     <div className="demo">
-      <h3>④ 창 크기 구독하기</h3>
-      <p className="output">지금 창 너비: {width}px</p>
+      <h3>④ 창 높이 구독하기</h3>
+      <p className="output">지금 창 높이: {height}px</p>
       {/* 화면: 지금 창 너비: 1280px  ← 숫자는 여러분 창 크기에 따라 다릅니다 */}
     </div>
   );
@@ -416,14 +422,15 @@ export default function Concept02Cleanup() {
       <h1>개념 02 — 정리 함수</h1>
 
       <p className="guide">
-        <strong>F12 → Console</strong> 을 열고 보세요. 이 파일은 콘솔이 주인공입니다.
+        <strong>F12 → Console</strong> 을 열고 보세요. 이 파일은 콘솔이
+        주인공입니다.
         <br />
         <br />
-        콘솔에 같은 줄이 <strong>두 번씩</strong> 찍히는 이유를 이 파일에서 설명합니다.
-        먼저 섹션 1을 읽으세요.
+        콘솔에 같은 줄이 <strong>두 번씩</strong> 찍히는 이유를 이 파일에서
+        설명합니다. 먼저 섹션 1을 읽으세요.
         <br />
-        <br />이 파일의 타이머들은 <strong>6초 뒤 스스로 멈추게</strong> 해 두었습니다.
-        실습 중에 브라우저가 느려지지 않게 하려는 안전장치입니다.
+        <br />이 파일의 타이머들은 <strong>6초 뒤 스스로 멈추게</strong> 해
+        두었습니다. 실습 중에 브라우저가 느려지지 않게 하려는 안전장치입니다.
       </p>
 
       <StrictModeDemo />

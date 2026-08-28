@@ -53,7 +53,7 @@ function UserPickerDemo() {
     }
 
     loadUser();
-  }, [userId]); // ★ userId 가 바뀔 때마다 다시 받아옵니다
+  }, [userId]); // ★ userId 가 바뀔 때마다 다시 받아옵니다 // 바뀔 때마다 useEffect가 실행된다 // fetch에서 정보를 다시 가져온다 //
 
   return (
     <div className="demo">
@@ -62,6 +62,7 @@ function UserPickerDemo() {
       <button onClick={() => setUserId(1)}>1번</button>
       <button onClick={() => setUserId(2)}>2번</button>
       <button onClick={() => setUserId(3)}>3번</button>
+      <button onClick={() => setUserId(4)}>4번</button>
 
       {loading ? (
         <p className="output">불러오는 중...</p>
@@ -82,7 +83,7 @@ function UserPickerDemo() {
 // 여기서 벌어지는 일을 순서대로 보면 이렇습니다.
 //   1) 버튼을 누른다 → setUserId(2) → state 가 바뀐다
 //   2) 컴포넌트가 다시 실행된다 → 화면이 다시 그려진다
-//   3) React 가 의존성 배열을 확인한다. userId 가 1에서 2로 달라졌다
+//   3) React 가 의존성 배열을 확인한다. userId 가 1에서 2로 달라졌다 // 그 user의 정보가 바뀌었냐만 확인 //
 //   4) effect 를 다시 실행한다 → 2번 사용자를 받아온다
 //   5) setUser 로 state 가 바뀐다 → 화면이 또 그려진다
 //
@@ -110,7 +111,7 @@ function SearchDemo() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // 빈 칸이면 요청을 보내지 않습니다. 보낼 이유가 없으니까요.
+    // 빈 칸이면 요청을 보내지 않습니다. 보낼 이유가 없으니까요. // keyword.trim() - 문자열의 공백을 제거 //
     if (keyword.trim() === "") {
       setPosts([]);
       return; // effect 를 여기서 끝냅니다
@@ -120,7 +121,9 @@ function SearchDemo() {
       const res = await fetch(`${BASE_URL}/posts?userId=${keyword}&_limit=3`);
       const data = await res.json();
 
-      console.log(`[검색] userId 가 ${keyword} 인 글 ${data.length}개를 받았습니다`);
+      console.log(
+        `[검색] userId 가 ${keyword} 인 글 ${data.length}개를 받았습니다`,
+      );
       // 콘솔: [검색] userId 가 1 인 글 3개를 받았습니다
 
       setPosts(data);
@@ -204,7 +207,7 @@ function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const SLOW_ID = 1; // 이 번호만 일부러 늦게 답합니다
+const SLOW_ID = 2; // 이 번호만 일부러 늦게 답합니다
 const SLOW_MS = 250; // 얼마나 늦출지
 
 function RaceProblemDemo() {
@@ -225,7 +228,9 @@ function RaceProblemDemo() {
         await wait(SLOW_MS); // 1번만 일부러 늦게 도착하게 만듭니다
       }
 
-      console.log(`[문제] ${userId}번 응답 도착 → 화면에 그립니다: ${data.name}`);
+      console.log(
+        `[문제] ${userId}번 응답 도착 → 화면에 그립니다: ${data.name}`,
+      );
       // 콘솔: [문제] 2번 응답 도착 → 화면에 그립니다: Ervin Howell
       // 콘솔: [문제] 1번 응답 도착 → 화면에 그립니다: Leanne Graham
 
@@ -303,7 +308,7 @@ function RaceProblemDemo() {
 //       };
 //     }, [userId]);
 //
-// ignore 는 effect 가 실행될 때마다 새로 만들어지는 평범한 변수입니다.
+// ignore 는 effect 가 실행될 때마다 새로 만들어지는 평범한 변수입니다. //
 // 요청 하나마다 자기 몫의 ignore 를 하나씩 가집니다.
 // 그래서 2번 요청이 도착할 때 1번 요청의 ignore 를 건드릴 걱정이 없습니다.
 
@@ -332,10 +337,13 @@ function RaceFixedDemo() {
         console.log(`[해결] ${userId}번 응답 — 지금 화면과 안 맞아서 버립니다`);
         // 콘솔: [해결] 2번 응답 — 지금 화면과 안 맞아서 버립니다
         // 콘솔: [해결] 1번 응답 — 지금 화면과 안 맞아서 버립니다
+        // ignore 는 effect 가 실행될 때마다 새로 만들어지는 평범한 변수입니다. //
         return; // state 를 건드리지 않고 끝냅니다
       }
 
-      console.log(`[해결] ${userId}번 응답 도착 → 화면에 그립니다: ${data.name}`);
+      console.log(
+        `[해결] ${userId}번 응답 도착 → 화면에 그립니다: ${data.name}`,
+      );
       // 콘솔: [해결] 2번 응답 도착 → 화면에 그립니다: Ervin Howell
 
       setName(data.name);
@@ -432,15 +440,15 @@ export default function Concept05RefetchOnChange() {
       <h1>개념 05 — 값이 바뀌면 다시 받기</h1>
 
       <p className="guide">
-        <strong>인터넷 연결이 필요합니다.</strong> <strong>F12 → Console</strong> 을 함께
-        열어 두세요. 요청이 몇 번 나가는지 콘솔로 세어 볼 수 있습니다.
+        <strong>인터넷 연결이 필요합니다.</strong>{" "}
+        <strong>F12 → Console</strong> 을 함께 열어 두세요. 요청이 몇 번
+        나가는지 콘솔로 세어 볼 수 있습니다.
         <br />
-        <br />③ 번 상자는 <strong>일부러 틀리게 만든 예제</strong>입니다. 화면이 뒤늦게
-        옛날 이름으로 되돌아가는 것이 정상입니다. ④ 번이 고친 것입니다.
+        <br />③ 번 상자는 <strong>일부러 틀리게 만든 예제</strong>입니다. 화면이
+        뒤늦게 옛날 이름으로 되돌아가는 것이 정상입니다. ④ 번이 고친 것입니다.
         <br />
-        <br />
-        이 연습용 서버의 사람 이름은 <strong>영어</strong>입니다. Leanne Graham 처럼 나오는
-        것이 정상입니다.
+        <br />이 연습용 서버의 사람 이름은 <strong>영어</strong>입니다. Leanne
+        Graham 처럼 나오는 것이 정상입니다.
       </p>
 
       <UserPickerDemo />

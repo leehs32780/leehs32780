@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -98,12 +98,11 @@
 
     <p class="guide">
       먼저 스스로 풀어 본 다음에 보세요. 직접 눌러 보면서
-      <strong>F12 → Console</strong> 도 함께 확인하세요.
-      <br /><br />
+      <strong>F12 → Console</strong> 도 함께 확인하세요. <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 위쪽
-      <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다.
-      <br /><br />
-      ★ 이 파일도 문제 15의 [key 없이 그려 보기] 를 누르면 <strong>일부러</strong>
+      <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다. <br /><br />
+      ★ 이 파일도 문제 15의 [key 없이 그려 보기] 를 누르면
+      <strong>일부러</strong>
       경고가 납니다. 그 버튼을 누르기 전까지 콘솔은 깨끗합니다.
     </p>
 
@@ -378,7 +377,9 @@
           <div className="demo">
             <h3>문제 9 — index 를 key 로 쓰면</h3>
 
-            <button onClick={() => setList(list.slice(1))}>맨 앞 항목 지우기</button>
+            <button onClick={() => setList(list.slice(1))}>
+              맨 앞 항목 지우기
+            </button>
             <button onClick={() => setList(todos)}>처음으로 되돌리기</button>
 
             <div className="output">
@@ -510,10 +511,16 @@
           <div className="demo">
             <h3>문제 13 [응용] — 필터 버튼</h3>
 
-            <button className={mode === "all" ? "on" : ""} onClick={() => setMode("all")}>
+            <button
+              className={mode === "all" ? "on" : ""}
+              onClick={() => setMode("all")}
+            >
               전체
             </button>
-            <button className={mode === "sale" ? "on" : ""} onClick={() => setMode("sale")}>
+            <button
+              className={mode === "sale" ? "on" : ""}
+              onClick={() => setMode("sale")}
+            >
               판매중
             </button>
             <button
@@ -649,7 +656,11 @@
             </button>
 
             <div className="output">
-              {show ? <BadList /> : <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>}
+              {show ? (
+                <BadList />
+              ) : (
+                <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>
+              )}
             </div>
           </div>
         );

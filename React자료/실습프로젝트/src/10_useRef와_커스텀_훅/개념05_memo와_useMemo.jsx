@@ -90,6 +90,7 @@ function IntroBox() {
 }
 
 // ✏️ 직접 해보기 1 — 위 네 단계 중 사람들이 가장 자주 건너뛰는 단계는 몇 번일까요?
+// 2번 //
 
 // ── 섹션 2: 재는 법 ──
 
@@ -185,10 +186,14 @@ function MemoCompare() {
   const totalMemo = useMemo(() => {
     const s = performance.now();
     const value = slowTotal(cart, HEAVY);
-    console.log(`useMemo 안에서 계산했습니다`, Math.round(performance.now() - s), "ms");
+    console.log(
+      `useMemo 안에서 계산했습니다`,
+      Math.round(performance.now() - s),
+      "ms",
+    );
     // 콘솔: useMemo 안에서 계산했습니다
     return value;
-  }, []); // cart 는 이 파일에서 바뀌지 않으므로 빈 배열입니다
+  }, []); // cart 는 이 파일에서 바뀌지 않으므로 빈 배열입니다/ //
 
   return (
     <div className="demo">
@@ -518,10 +523,11 @@ export default function Concept05MemoAndUseMemo() {
       <h1>개념 05 — memo 와 useMemo</h1>
 
       <p className="guide">
-        <strong>이 파일의 도구들은 먼저 쓰는 것이 아닙니다.</strong> 느려진 다음에
-        재고, 잰 자리만 고칩니다.
+        <strong>이 파일의 도구들은 먼저 쓰는 것이 아닙니다.</strong> 느려진
+        다음에 재고, 잰 자리만 고칩니다.
         <br />
-        F12 → Console 을 열고 각 데모의 버튼을 눌러 콘솔이 어떻게 달라지는지 보세요.
+        F12 → Console 을 열고 각 데모의 버튼을 눌러 콘솔이 어떻게 달라지는지
+        보세요.
       </p>
 
       <IntroBox />

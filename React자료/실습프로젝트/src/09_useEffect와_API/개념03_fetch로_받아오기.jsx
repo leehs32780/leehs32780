@@ -178,7 +178,7 @@ function OnePostDemo() {
 //   1) 컴포넌트가 처음 실행된다. post 는 null 이다.
 //   2) 화면이 그려진다. "아직 못 받았습니다" 가 보인다.
 //   3) useEffect 가 실행되어 요청이 나간다.
-//   4) 데이터가 도착한다. setPost(data) 로 state 가 바뀐다.
+//   4) 데이터가 도착한다. setPost(data) 로 state 가 바뀐다. // 이 이유 때문에 다시 실행된다 //
 //   5) 컴포넌트가 다시 실행된다. 이번엔 post 에 값이 있다.
 //   6) 화면이 다시 그려진다. 제목과 본문이 보인다.
 //
@@ -277,31 +277,32 @@ function FirstRenderDemo() {
 
     loadUser();
   }, []);
+}
 
-  // [방법 3] 아직 없으면 여기서 끝내 버립니다. 아래 줄은 실행되지 않습니다.
-  if (user === null) {
-    return (
-      <div className="demo">
-        <h3>④ 첫 렌더에는 데이터가 없다</h3>
-        <p className="output">사용자 정보를 기다리는 중</p>
-      </div>
-    );
-  }
-
-  // 여기까지 왔다면 user 는 반드시 객체입니다. 마음 놓고 점을 찍어도 됩니다.
+// [방법 3] 아직 없으면 여기서 끝내 버립니다. 아래 줄은 실행되지 않습니다.
+if (user === null) {
   return (
     <div className="demo">
       <h3>④ 첫 렌더에는 데이터가 없다</h3>
+      <p className="output">사용자 정보를 기다리는 중</p>
+    </div>
+  );
+}
+
+// 여기까지 왔다면 user 는 반드시 객체입니다. 마음 놓고 점을 찍어도 됩니다.
+return (
+  <div className="demo">
+    <h3>③ 첫 렌더에는 데이터가 없다</h3>
+    {user === null ? (
+      <p className="output">사용자 정보를 기다리는 중</p>
+    ) : (
       <div className="output">
         <p>이름: {user.name}</p>
         <p>이메일: {user.email}</p>
       </div>
-      {/* 화면: 이름: Leanne Graham / 이메일: Sincere@april.biz */}
-      <button onClick={() => setUser(null)}>받은 정보 지우기</button>
-      {/* 화면(누르면): 사용자 정보를 기다리는 중 — 첫 화면을 다시 볼 수 있습니다 */}
-    </div>
-  );
-}
+    )}
+  </div>
+);
 
 // 콘솔을 보면 "user 가 아직 null 인가?" 가 처음엔 true, 나중엔 false 로 바뀝니다.
 // 컴포넌트가 두 번 실행됐다는 뜻입니다. 데이터가 오기 전에 한 번, 온 뒤에 한 번.
@@ -404,15 +405,18 @@ export default function Concept03FetchInEffect() {
       <h1>개념 03 — fetch 로 받아오기</h1>
 
       <p className="guide">
-        <strong>인터넷 연결이 필요합니다.</strong> <strong>F12 → Console</strong> 과{" "}
-        <strong>Network</strong> 탭을 함께 보면 요청이 나가는 것이 보입니다.
+        <strong>인터넷 연결이 필요합니다.</strong>{" "}
+        <strong>F12 → Console</strong> 과 <strong>Network</strong> 탭을 함께
+        보면 요청이 나가는 것이 보입니다.
         <br />
         <br />
-        인터넷이 막힌 실습실이라면 실습프로젝트 폴더의 <code>index.html</code> 에서{" "}
-        <code>오프라인_대체.js</code> 줄을 감싼 주석만 지우세요.
+        인터넷이 막힌 실습실이라면 실습프로젝트 폴더의 <code>
+          index.html
+        </code>{" "}
+        에서 <code>오프라인_대체.js</code> 줄을 감싼 주석만 지우세요.
         <br />
-        <br />⑤ 번 상자는 <strong>일부러 틀리게 만든 예제</strong>입니다. 제목 자리가
-        비어 있는 것이 정상입니다.
+        <br />⑤ 번 상자는 <strong>일부러 틀리게 만든 예제</strong>입니다. 제목
+        자리가 비어 있는 것이 정상입니다.
       </p>
 
       <button onClick={() => setRestartKey(restartKey + 1)}>

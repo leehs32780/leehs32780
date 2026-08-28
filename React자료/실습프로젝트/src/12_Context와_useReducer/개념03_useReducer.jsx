@@ -152,7 +152,12 @@ function CounterWithReducer() {
 // reducer 는 React 와 아무 상관이 없는 순수한 함수입니다.
 // 그래서 배열 메소드 reduce 에 그대로 넣을 수 있습니다. JS자료 08단원 개념05 그대로입니다.
 
-const steps = [{ type: "add" }, { type: "add" }, { type: "add" }, { type: "remove" }];
+const steps = [
+  { type: "add" },
+  { type: "add" },
+  { type: "add" },
+  { type: "remove" },
+];
 
 console.log(steps.reduce(counterReducer, 0));
 // 콘솔: 2
@@ -374,7 +379,8 @@ export default function Concept03UseReducer() {
         <code>reducer(state, action)</code> 은 JS자료 08단원의{" "}
         <code>reduce((acc, 값) =&gt; 새acc)</code> 와 같은 모양입니다.
         <br />
-        <strong>F12 → Console</strong> 을 열면 섹션 3의 한 바퀴씩 도는 모습을 볼 수 있습니다.
+        <strong>F12 → Console</strong> 을 열면 섹션 3의 한 바퀴씩 도는 모습을 볼
+        수 있습니다.
       </p>
 
       <div className="demo">

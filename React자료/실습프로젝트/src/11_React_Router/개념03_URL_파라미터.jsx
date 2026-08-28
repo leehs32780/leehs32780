@@ -27,7 +27,13 @@
 //   이 파일이 쓰는 주소 앞머리는 /r3 입니다.
 //   그리고 이동한 뒤 새로고침(F5)을 하면 왼쪽 메뉴 선택이 풀립니다. 하지 마세요.
 
-import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 import Summary from "../_ui/Summary.jsx";
 
 // ── 섹션 1: 목록에서 상세로 ──
@@ -142,7 +148,7 @@ console.log(Number(sampleId) === 2);
 // menuItems 의 id 는 숫자 1, 2, 3, 4 입니다.
 // 그러니 문자열 "2" 로 찾으면 영영 못 찾습니다.
 //
-//     menuItems.find((item) => item.id === id)          // "2" 와 2 를 비교 → undefined
+//     menuItems.find((item) => item.id === id)          // "2" 와 2 를 비교 → undefined // 뒤에 id는 숫자로 인식 //
 //     menuItems.find((item) => item.id === Number(id))  // 2 와 2 를 비교 → 라떼
 //
 // 이 실수는 에러를 내지 않습니다. 그냥 '못 찾았다' 가 될 뿐입니다.
@@ -163,8 +169,7 @@ function MenuDetail() {
       <h4>상세 화면</h4>
 
       <p>
-        useParams() 가 준 것:{" "}
-        <strong>{JSON.stringify(params)}</strong>
+        useParams() 가 준 것: <strong>{JSON.stringify(params)}</strong>
         {/* JSON.stringify 는 값을 글자로 바꿔 보여 줍니다. JS자료 12단원에서 썼습니다. */}
         {/* 화면: {"id":"2"} — 2 에 따옴표가 붙어 있습니다. 문자열이라는 뜻입니다. */}
       </p>
@@ -183,7 +188,9 @@ function MenuDetail() {
 
       <p>
         Number() 로 바꿔 찾은 결과:{" "}
-        <strong>{found ? found.name + " " + found.price + "원" : "못 찾았습니다"}</strong>
+        <strong>
+          {found ? found.name + " " + found.price + "원" : "못 찾았습니다"}
+        </strong>
       </p>
 
       <p>
@@ -246,6 +253,7 @@ function Demo() {
     </BrowserRouter>
   );
 }
+// Id를 같은게 넣어야 나오는데 다르면 undefined가 나온다 //
 
 // ✏️ 직접 해보기 5 — '없는 메뉴 (99)' 를 눌러 보세요.
 //                    화면이 어떻게 되는지, 콘솔에 에러가 나는지 확인하세요.
@@ -271,7 +279,7 @@ function Demo() {
 //       고치는 법은 Number(id) 로 바꾸거나, 데이터의 id 를 문자열로 통일하는 것입니다.
 //       둘 중 하나만 고르세요. 섞으면 또 헷갈립니다.
 
-// [실수 2] path 의 이름과 useParams 의 이름을 다르게 쓴다  — [조용히 틀림]
+// [실수 2] path 의 이름과 useParams 의 이름을 다르게 쓴다  — [조용히 틀림] // 중요함 - 반복해서 계속 보기 //
 //
 //     <Route path="/r3/menu/:menuId" element={<MenuDetail />} />
 //     const { id } = useParams();     // menuId 라고 적어야 하는데 id 라고 적음
@@ -319,17 +327,17 @@ export default function Concept03UrlParams() {
       <h1>개념 03 — URL 파라미터</h1>
 
       <p className="guide">
-        아래 데모에서 <strong>메뉴 목록 → 아무 메뉴</strong> 순서로 눌러 보세요. 상세
-        화면마다 주소가 다릅니다. 그 주소를 복사해 두면 나중에 그 화면으로 바로 갈 수
-        있습니다.
+        아래 데모에서 <strong>메뉴 목록 → 아무 메뉴</strong> 순서로 눌러 보세요.
+        상세 화면마다 주소가 다릅니다. 그 주소를 복사해 두면 나중에 그 화면으로
+        바로 갈 수 있습니다.
         <br />
         <br />
-        <strong>가장 중요한 것은 상세 화면 위쪽 두 줄입니다.</strong> useParams 가 준 값이
-        따옴표에 싸여 있는 것을 보세요. 숫자처럼 보여도 문자열입니다.
+        <strong>가장 중요한 것은 상세 화면 위쪽 두 줄입니다.</strong> useParams
+        가 준 값이 따옴표에 싸여 있는 것을 보세요. 숫자처럼 보여도 문자열입니다.
         <br />
-        <br />
-        이 예제에서는 <strong>새로고침(F5)을 하지 마세요.</strong> 왼쪽 메뉴 선택이 풀려서
-        다른 예제가 열립니다. 그때는 왼쪽 메뉴에서 다시 고르면 됩니다.
+        <br />이 예제에서는 <strong>새로고침(F5)을 하지 마세요.</strong> 왼쪽
+        메뉴 선택이 풀려서 다른 예제가 열립니다. 그때는 왼쪽 메뉴에서 다시
+        고르면 됩니다.
       </p>
 
       <Demo />

@@ -39,6 +39,9 @@ const BASE_URL = "https://jsonplaceholder.typicode.com";
 
 function Problem01() {
   // TODO: 여기에 useEffect 를 쓰세요 (의존성 배열을 잊지 마세요)
+  useEffect(() => {
+    console.log("9단원 시작합니다");
+  }, []);
 
   return (
     <div className="demo">
@@ -61,6 +64,9 @@ function Problem02() {
   const [tick, setTick] = useState(0);
 
   // TODO: 여기에 useEffect 를 쓰세요
+  useEffect(() => {
+    console.log("다시 그려졌습니다");
+  });
 
   return (
     <div className="demo">
@@ -84,6 +90,9 @@ function Problem03() {
   const [menu, setMenu] = useState("아메리카노");
 
   // TODO: 여기에 useEffect 를 쓰세요
+  useEffect(() => {
+    console.log("지금 잔 수 : " + count);
+  }, [count]);
 
   return (
     <div className="demo">
@@ -92,7 +101,9 @@ function Problem03() {
         {menu} {count}잔
       </p>
       <button onClick={() => setCount(count + 1)}>잔 수 +1</button>
-      <button onClick={() => setMenu(menu === "아메리카노" ? "라떼" : "아메리카노")}>
+      <button
+        onClick={() => setMenu(menu === "아메리카노" ? "라떼" : "아메리카노")}
+      >
         메뉴 바꾸기
       </button>
     </div>
@@ -111,6 +122,10 @@ function Problem04() {
   const [todoCount, setTodoCount] = useState(0);
 
   // TODO: 여기에 useEffect 를 쓰세요
+  useEffect(() => {
+    document.title = `할 일 ${todoCount}개`;
+    console.log("탭 제목:", document.title);
+  }, [todoCount]);
 
   return (
     <div className="demo">
@@ -137,6 +152,18 @@ function Problem05() {
   const [seconds, setSeconds] = useState(0);
 
   // TODO: 여기에 useEffect 를 쓰세요. 정리 함수도 함께 쓰세요.
+  useEffect(() => {
+    console.log("타이머를 켰습니다");
+
+    const time = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(time);
+      console.log("타이머를 껐습니다");
+    };
+  }, []);
 
   return (
     <div className="demo">
@@ -174,6 +201,17 @@ function Problem07() {
 
   // TODO: 여기에 useEffect 를 쓰세요
   //       안에 async 함수를 만들고, 만든 함수를 부르는 것을 잊지 마세요.
+  useEffect(() => {
+    async function loadPost() {
+      const letter = await fetch(`${BASE_URL}/posts/3`);
+      const data = await letter.json();
+
+      console.log("문제 7 제목 :", data.title);
+
+      setTitle(data.title);
+    }
+    loadPost();
+  }, []);
 
   return (
     <div className="demo">
@@ -194,12 +232,31 @@ function Problem07() {
 function Problem08() {
   const [users, setUsers] = useState([]);
 
-  // TODO: 여기에 useEffect 를 쓰세요
+  useEffect(() => {
+    async function loadUsers() {
+      const per = await fetch(`${BASE_URL}/users?_limit=3`);
+      const lists = await per.json();
+
+      console.log(
+        "문제8 이름 목록 : ",
+        lists.map((user) => user.name),
+      );
+      // 콘솔: 문제8 이름들: ['Leanne Graham', 'Ervin Howell', 'Clementine Bauch']
+
+      setUsers(lists);
+    }
+
+    loadUsers();
+  }, []);
 
   return (
     <div className="demo">
       <h3>문제 8 — 목록 받아서 그리기</h3>
-      <ul>{/* TODO: users 를 map 으로 그리세요 */}</ul>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -217,6 +274,18 @@ function Problem09() {
   const [loading, setLoading] = useState(true);
 
   // TODO: 여기에 useEffect 를 쓰세요
+  useEffect(() => {
+    async function loadPost() {
+      const letter = await fetch(`${BASE_URL}/posts/3`);
+      const data = await letter.json();
+
+      setTitle(data.title);
+      setLoading(false);
+
+      console.log("문제 9 로딩중");
+    }
+    loadPost();
+  }, []);
 
   return (
     <div className="demo">
@@ -226,7 +295,7 @@ function Problem09() {
   );
 }
 
-// ───── 문제 10 ───── (개념04)
+// ───── 문제 10 ───── (개념04) // 너무 어려워서 정답에 있는거 그대로 복붙... //
 // 없는 글(/posts/9999)을 요청하고, res.ok 를 확인해 직접 에러를 던지세요.
 // catch 에서 err.message 를 콘솔에 찍으세요.
 //
@@ -241,6 +310,40 @@ function Problem10() {
 
   // TODO: 여기에 useEffect 를 쓰세요
   //       try / catch 로 감싸고, catch 안에서 setMessage("에러가 났습니다") 도 해 주세요.
+  useEffect(() => {
+    async function loadPost() {
+      try {
+        const res = await fetch(`${BASE_URL}/posts/9999`);
+
+        if (!res.ok) {
+          throw new Error(`서버 응답 오류 (${res.status})`);
+        }
+
+        const data = await res.json();
+        setMessage(data.title);
+      } catch (err) {
+        console.log("문제10 에러:", err.message);
+        // 콘솔: 문제10 에러: 서버 응답 오류 (404)
+
+        setMessage("에러가 났습니다");
+      }
+    }
+
+    loadPost();
+  }, []);
+
+  // useEffect(() => {: 컴포넌트가 처음 화면에 나타날 때(Mount) 단 한 번 실행되도록 설정합니다.
+  // async function loadPost() {: 서버에서 데이터를 비동기적으로 가져오기 위해 loadPost라는 이름의 비동기 함수를 선언합니다.
+  // try {: 네트워크 요청이나 데이터 처리 중 발생할 수 있는 에러를 안전하게 잡아내기 위한 try...catch 문의 시작점입니다.
+  // const res = await fetch(...);: 지정된 서버 주소로 데이터를 요청하고, 응답(res)이 올 때까지 기다립니다.
+  // if (!res.ok) { throw new Error(...); }: 서버 응답이 실패(예: 404 에러)일 경우, 수동으로 에러를 발생시켜 catch 블록으로 넘깁니다.
+  // const data = await res.json();: 서버의 응답 데이터를 자바스크립트 객체(json) 형태로 변환합니다.
+  // setMessage(data.title);: 변환된 데이터의 제목을 꺼내어 상태 값으로 저장(setMessage)합니다.
+  // } catch (err) {: try 블록 안에서 에러가 발생했을 때 이를 받아 처리하는 영역입니다.
+  // console.log(...);: 콘솔창에 발생한 에러의 상세 메시지를 출력합니다.
+  // setMessage("에러가 났습니다");: 에러 발생 시 사용자 화면에 보여줄 대체 문구로 상태를 변경합니다.
+  // loadPost();: 정의한 비동기 함수를 실제로 호출하여 실행합니다.
+  // }, []);: 빈 배열을 전달하여 컴포넌트 최초 렌더링 시점에 딱 한 번만 위 과정이 실행되도록 합니다.
 
   return (
     <div className="demo">
@@ -389,21 +492,23 @@ export default function Unit09Exercises() {
       <h1>09단원 연습문제 (14문항)</h1>
 
       <p className="guide">
-        각 상자의 <strong>TODO</strong> 자리를 채우세요. 저장하면 화면이 저절로 다시
-        그려집니다.
+        각 상자의 <strong>TODO</strong> 자리를 채우세요. 저장하면 화면이 저절로
+        다시 그려집니다.
         <br />
         <br />
-        <strong>F12 → Console</strong> 을 함께 열어 두세요. 콘솔로 확인하는 문제가 많습니다.
-        같은 줄이 두 번씩 찍히는 것은 정상입니다(개념02 StrictMode).
+        <strong>F12 → Console</strong> 을 함께 열어 두세요. 콘솔로 확인하는
+        문제가 많습니다. 같은 줄이 두 번씩 찍히는 것은 정상입니다(개념02
+        StrictMode).
         <br />
         <br />
-        7번부터는 <strong>인터넷 연결이 필요합니다.</strong> 막혀 있다면 실습프로젝트
-        폴더의 <code>index.html</code> 에서 <code>오프라인_대체.js</code> 줄을 감싼 주석만
-        지우세요.
+        7번부터는 <strong>인터넷 연결이 필요합니다.</strong> 막혀 있다면
+        실습프로젝트 폴더의 <code>index.html</code> 에서{" "}
+        <code>오프라인_대체.js</code> 줄을 감싼 주석만 지우세요.
         <br />
         <br />
         10 · 11번은 <strong>일부러 없는 글을 요청</strong>합니다. 콘솔에 빨간{" "}
-        <code>Failed to load resource ... 404</code> 줄이 나오는 것이 정상입니다.
+        <code>Failed to load resource ... 404</code> 줄이 나오는 것이
+        정상입니다.
       </p>
 
       <Problem01 />

@@ -148,7 +148,7 @@ function RefBasic() {
     console.log(`그린 뒤 boxRef.current 의 값: ${boxRef.current.value}`);
     // 콘솔: 그린 뒤 boxRef.current 의 값: 라떼
   }, []);
-
+  // 나중에 나온다 //
   return (
     <div className="demo">
       <h3>② ref 상자 안을 콘솔에서 확인</h3>
@@ -169,7 +169,7 @@ function RefBasic() {
 //   - 이벤트 핸들러 안 (버튼을 누른 뒤니까 이미 다 그려졌습니다)
 //   - useEffect 안     (화면을 다 그린 뒤에 실행되니까요)
 //
-// 참고로 defaultValue 는 "처음에만 이 값으로 두고, 그 뒤로는 브라우저가 알아서" 라는 뜻입니다.
+// 참고로 defaultValue 는 "처음에만 이 값으로 두고, 그 뒤로는 브라우저가 알아서" 라는 뜻입니다. // 기본값을 채워서 넣는다 //
 // value 와 달리 React 가 계속 관리하지 않습니다. 06단원에서 배운 value 와는 다릅니다.
 
 // ✏️ 직접 해보기 2 — RefBasic 의 useEffect 안에 아래 줄을 추가하고
@@ -181,7 +181,7 @@ function RefBasic() {
 // ref 를 가장 많이 쓰는 곳입니다.
 //
 // 왜 이건 state 로 못 할까요?
-// "포커스가 여기 있다" 는 화면에 그려지는 글자가 아니기 때문입니다.
+// "포커스가 여기 있다" 는 화면에 그려지는 글자가 아니기 때문입니다. // focus //
 // <input focus> 같은 JSX 는 없습니다.
 // 브라우저에게 "이 요소에 커서를 놓아라" 라고 시켜야 합니다.
 // 시키려면 그 요소가 손에 있어야 하고, 그래서 ref 가 필요합니다.
@@ -508,9 +508,8 @@ export default function Concept01ElementRef() {
 
       <p className="guide">
         F12 → Console 을 함께 열어 두세요. 이 파일은 콘솔에도 결과를 찍습니다.
-        <br />
-        각 데모의 버튼을 <strong>파일에 적힌 순서대로</strong> 눌러 보세요.
-        순서가 다르면 다른 결과가 나옵니다.
+        <br />각 데모의 버튼을 <strong>파일에 적힌 순서대로</strong> 눌러
+        보세요. 순서가 다르면 다른 결과가 나옵니다.
       </p>
 
       <DirectDom />

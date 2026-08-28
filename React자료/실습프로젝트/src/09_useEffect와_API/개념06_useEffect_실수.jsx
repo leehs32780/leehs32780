@@ -63,7 +63,7 @@ function InfiniteLoopDemo() {
     // 콘솔: [무한 루프] 5번째 실행 — 또 state 를 바꿉니다
 
     setCount(count + 1); // ← effect 안에서 state 를 바꾸고
-  }, [started, count]); // ← 그 state 가 의존성에 들어 있습니다
+  }, [started, count]); // ← 그 state 가 의존성에 들어 있습니다 // count도 있다 //
 
   return (
     <div className="demo">
@@ -202,7 +202,9 @@ function DerivedStateDemo() {
 
   useEffect(() => {
     setBadTotal(COFFEE_PRICE * count);
-    console.log(`[파생 state] effect 가 총액을 다시 계산했습니다: ${COFFEE_PRICE * count}`);
+    console.log(
+      `[파생 state] effect 가 총액을 다시 계산했습니다: ${COFFEE_PRICE * count}`,
+    );
     // 콘솔: [파생 state] effect 가 총액을 다시 계산했습니다: 8000
     // 콘솔: [파생 state] effect 가 총액을 다시 계산했습니다: 12000
   }, [count]);
@@ -210,7 +212,9 @@ function DerivedStateDemo() {
   // [좋은 방법] 그냥 계산합니다. 한 줄입니다.
   const goodTotal = COFFEE_PRICE * count;
 
-  console.log(`[화면 그리는 중] 나쁜 총액 ${badTotal} / 좋은 총액 ${goodTotal}`);
+  console.log(
+    `[화면 그리는 중] 나쁜 총액 ${badTotal} / 좋은 총액 ${goodTotal}`,
+  );
   // 콘솔: [화면 그리는 중] 나쁜 총액 0 / 좋은 총액 8000
   // 콘솔: [화면 그리는 중] 나쁜 총액 8000 / 좋은 총액 8000
   // 콘솔: [화면 그리는 중] 나쁜 총액 8000 / 좋은 총액 12000
@@ -369,10 +373,12 @@ export default function Concept06EffectMistakes() {
       <p className="guide">
         <strong>F12 → Console</strong> 을 함께 열어 두세요.
         <br />
-        <br />① 번의 무한 루프는 <strong>안전하게</strong> 만들어 두었습니다. 버튼을 눌러야
-        시작되고 <strong>다섯 번만 돌고 멈춥니다.</strong> 브라우저가 얼어붙지 않습니다.
+        <br />① 번의 무한 루프는 <strong>안전하게</strong> 만들어 두었습니다.
+        버튼을 눌러야 시작되고 <strong>다섯 번만 돌고 멈춥니다.</strong>{" "}
+        브라우저가 얼어붙지 않습니다.
         <br />
-        <br />③ 번 상자의 &quot;나쁜 총액&quot; 은 <strong>일부러 틀리게 만든 예제</strong>
+        <br />③ 번 상자의 &quot;나쁜 총액&quot; 은{" "}
+        <strong>일부러 틀리게 만든 예제</strong>
         입니다. 잠깐 어긋난 값이 보이는 것이 정상입니다.
       </p>
 

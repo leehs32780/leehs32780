@@ -13,6 +13,7 @@
 export const americanoPrice = 4000;
 export const lattePrice = 4500;
 export const cakePrice = 6000;
+export const riceBallPrice = 1200;
 
 // 값뿐 아니라 함수도 내보낼 수 있습니다.
 export function formatPrice(price) {

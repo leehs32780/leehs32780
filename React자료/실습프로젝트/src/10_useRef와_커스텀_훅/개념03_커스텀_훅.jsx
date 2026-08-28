@@ -121,7 +121,7 @@ function useCounter(initial = 0) {
   function reset() {
     setCount(initial);
   }
-
+  // 한 개만 내보낼 수 있다 // {}를 썼기 때문에 하나의 객체를 내보낸다 // 밑에 return 부분 //
   // 아래는 { count: count, increase: increase, ... } 를 짧게 쓴 것입니다.
   // 키 이름과 변수 이름이 같으면 한 번만 써도 됩니다. '속성 축약' 이라고 부릅니다.
   return { count, increase, decrease, reset };
@@ -278,7 +278,7 @@ function OrderForm() {
   const [saved, setSaved] = useState("");
 
   function handleSubmit(e) {
-    e.preventDefault(); // 06단원. 새로고침을 막습니다.
+    e.preventDefault(); // 06단원. 새로고침을 막습니다. 밑에꺼 2개를 저장한다 //
     setSaved(`${name.value} / ${memo.value}`);
 
     console.log(`저장했습니다: ${name.value} / ${memo.value}`);
@@ -402,7 +402,7 @@ function TwoCounters() {
 function useTimer(interval = 250) {
   const [sec, setSec] = useState(0);
   const timerRef = useRef(null);
-
+  // timerRef는 setInterval을 가지고 있겠다 라는 의미 //
   function start() {
     if (timerRef.current !== null) return;
     timerRef.current = setInterval(() => {
@@ -546,9 +546,11 @@ export default function Concept03CustomHook() {
       <h1>개념 03 — 커스텀 훅</h1>
 
       <p className="guide">
-        커스텀 훅은 <strong>새 문법이 아닙니다.</strong> 훅을 부르는 코드를 함수로 묶은 것입니다.
+        커스텀 훅은 <strong>새 문법이 아닙니다.</strong> 훅을 부르는 코드를
+        함수로 묶은 것입니다.
         <br />
-        섹션 1과 섹션 2의 화면은 똑같습니다. <strong>코드만</strong> 비교해서 보세요.
+        섹션 1과 섹션 2의 화면은 똑같습니다. <strong>코드만</strong> 비교해서
+        보세요.
       </p>
 
       <SectionOne />

@@ -128,7 +128,7 @@ function OrderDemo() {
 // 쓰는 방법이 딱 세 가지입니다.
 //
 //   [A] 배열을 아예 안 씀     useEffect(() => {...});          → 다시 그릴 때마다 매번
-//   [B] 빈 배열              useEffect(() => {...}, []);       → 처음 한 번만
+//   [B] 빈 배열              useEffect(() => {...}, []);       → 처음 한 번만 // 처음 그릴 때 한 번 //
 //   [C] 값을 넣은 배열        useEffect(() => {...}, [count]);  → count 가 바뀌었을 때만
 //
 // [B] 가 왜 '한 번만' 인지 생각해 보면 규칙이 저절로 이해됩니다.
@@ -155,10 +155,10 @@ function DepsDemo() {
 
   // [C] [count] — count 가 바뀌었을 때만
   useEffect(() => {
-    console.log(`C) [count] — 실행 (count 는 ${count})`);
+    console.log(`C) [color] — 실행 (color 는 ${color})`);
     // 콘솔: C) [count] — 실행 (count 는 0)
     // 콘솔: C) [count] — 실행 (count 는 1)
-  }, [count]);
+  }, [color]);
 
   return (
     <div className="demo">
@@ -218,7 +218,7 @@ function TitleDemo() {
 
   useEffect(() => {
     // 화면 밖(브라우저 탭)을 건드립니다. 전형적인 부작용입니다.
-    document.title = `장바구니 ${cartCount}개`;
+    document.title = `커피 ${cartCount}잔`;
 
     console.log("브라우저 탭 제목을 바꿨습니다:", document.title);
     // 콘솔: 브라우저 탭 제목을 바꿨습니다: 장바구니 0개
@@ -230,7 +230,9 @@ function TitleDemo() {
       <h3>③ 담을 때마다 탭 제목이 바뀝니다</h3>
       <p className="output">장바구니: 아메리카노 {cartCount}개</p>
       {/* 화면: 장바구니: 아메리카노 0개 */}
-      <button onClick={() => setCartCount(cartCount + 1)}>아메리카노 담기</button>
+      <button onClick={() => setCartCount(cartCount + 1)}>
+        아메리카노 담기
+      </button>
       {/* 화면(누르면): 장바구니: 아메리카노 1개 — 브라우저 탭 글자도 함께 바뀝니다 */}
     </div>
   );
@@ -329,17 +331,18 @@ export default function Concept01EffectBasics() {
       <h1>개념 01 — useEffect 기본</h1>
 
       <p className="guide">
-        <strong>F12 → Console</strong> 을 함께 열어 두세요. 이 파일은 화면보다 콘솔에
-        더 많은 것이 나옵니다.
+        <strong>F12 → Console</strong> 을 함께 열어 두세요. 이 파일은 화면보다
+        콘솔에 더 많은 것이 나옵니다.
         <br />
         <br />
-        콘솔에 같은 줄이 <strong>두 번씩</strong> 찍힙니다. 정상입니다. 이유는 개념02에서
-        설명합니다.
+        콘솔에 같은 줄이 <strong>두 번씩</strong> 찍힙니다. 정상입니다. 이유는
+        개념02에서 설명합니다.
         <br />
         <br />
         <strong>인터넷이 막힌 실습실이라면</strong> 실습프로젝트 폴더의{" "}
-        <code>index.html</code> 에서 <code>오프라인_대체.js</code> 줄을 감싼 주석만
-        지우세요. 이 단원의 데이터 예제가 인터넷 없이도 똑같이 돌아갑니다.
+        <code>index.html</code> 에서 <code>오프라인_대체.js</code> 줄을 감싼
+        주석만 지우세요. 이 단원의 데이터 예제가 인터넷 없이도 똑같이
+        돌아갑니다.
       </p>
 
       <button onClick={() => setRestartKey(restartKey + 1)}>

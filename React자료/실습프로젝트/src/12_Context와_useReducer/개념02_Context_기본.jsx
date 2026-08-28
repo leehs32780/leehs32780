@@ -103,7 +103,7 @@ function UserMenu() {
 
 function UserBadge() {
   // 여기서 상자를 열어 값을 꺼냅니다. 위에서 아무것도 안 받았습니다.
-  const user = useContext(UserContext);
+  const user = useContext(UserContext); // {{ name: "김민준", age: 20 }} 이 값이 user에 //
   console.log("UserBadge 가 꺼낸 이름: " + user.name);
   // 콘솔: UserBadge 가 꺼낸 이름: 김민준
   return (
@@ -144,7 +144,11 @@ function OutsideBadge() {
   const user = useContext(UserContext);
   console.log("Provider 밖에서 꺼낸 이름: " + user.name);
   // 콘솔: Provider 밖에서 꺼낸 이름: 손님
-  return <div className="output">{user.name} 님 ({user.age}세)</div>;
+  return (
+    <div className="output">
+      {user.name} 님 ({user.age}세)
+    </div>
+  );
 }
 
 // 화면: 손님 님 (0세)
@@ -302,6 +306,9 @@ function GreetingBox() {
   return (
     <div className="output">
       {hello}, {user.name}
+      <UserContext.Provider
+        value={{ name: "김민준", age: 20 }}
+      ></UserContext.Provider>
     </div>
   );
 }
@@ -388,8 +395,9 @@ export default function Concept02ContextBasic() {
       <h1>개념 02 — Context 기본</h1>
 
       <p className="guide">
-        <strong>세 단계</strong>만 기억하세요. <code>createContext</code> 로 상자를
-        만들고, <code>Provider</code> 로 값을 넣고, <code>useContext</code> 로 꺼냅니다.
+        <strong>세 단계</strong>만 기억하세요. <code>createContext</code> 로
+        상자를 만들고, <code>Provider</code> 로 값을 넣고,{" "}
+        <code>useContext</code> 로 꺼냅니다.
         <br />
         <strong>F12 → Console</strong> 도 함께 보세요.
       </p>

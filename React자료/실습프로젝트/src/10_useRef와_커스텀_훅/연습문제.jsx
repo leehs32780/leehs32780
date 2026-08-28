@@ -39,25 +39,38 @@ const menuItems = [
 // 할 일은 세 가지입니다. useRef 로 상자 만들기 / input 에 ref 붙이기 / focus 부르기.
 //
 // 기대 결과 (화면): 버튼을 누르면 입력칸 테두리가 진해지고 커서가 깜빡입니다.
-//                  아무 일도 안 일어나면 input 에 ref={...} 를 안 붙인 것입니다.
+//                  아무 일도 안 일어나면 input 에 ref={...} 를 안 붙인 것입니다. //
 //                  콘솔에 Cannot read properties of null 이 나오면
 //                  ref 는 만들었는데 input 에 안 붙인 것입니다.
 // TODO: 아래 함수 안을 고치세요
 
 function Q1Focus() {
   // TODO 1: 여기에 ref 상자를 만드세요
+  const inputRef = useRef(null);
 
   function handleFocus() {
     // TODO 1: 여기에서 입력칸에 커서를 놓으세요
+    inputRef.current.focus();
+    console.log("문제 1: 입력칸에 커서를 놓았습니다");
   }
 
   return (
     <div className="output">
-      <input placeholder="여기에 커서가 와야 합니다" />
+      <input ref={inputRef} placeholder="여기에 커서가 와야 합니다" />
       <button onClick={handleFocus}>커서 놓기</button>
     </div>
   );
 }
+
+// const inputRef = useRef(null);: DOM 요소를 직접 참조하기 위해 useRef 훅을 사용해 inputRef 상자를 만들고 초기값을 null로 지정합니다.
+// function handleFocus() {: 사용자가 버튼을 클릭했을 때 실행될 이벤트 핸들러 함수를 정의합니다.
+// inputRef.current.focus();: ref로 연결된 실제 <input> DOM 요소(current)에 접근하여 브라우저의 focus() 메서드를 실행, 입력창에 커서를 놓습니다.
+// console.log("문제 1: 입력칸에 커서를 놓았습니다");: 기능이 정상적으로 실행되었음을 확인하기 위해 콘솔 창에 메시지를 출력합니다.
+// return (: 컴포넌트가 화면에 렌더링할 JSX(UI) 구조를 반환하는 시작점입니다.
+// <div className="output">: UI 요소를 감싸고 스타일링하기 위한 부모 div 태그입니다.
+// <input ref={inputRef} placeholder="여기에 커서가 와야 합니다" />: 화면에 표시될 입력창이며, ref={inputRef} 속성을 통해 위에서 만든 inputRef 상자와 이 HTML 요소를 연결합니다.
+// <button onClick={handleFocus}>커서 놓기</button>: 클릭(onClick) 시 handleFocus 함수를 실행하여 입력창에 커서가 가게 만드는 버튼입니다.
+// };: 컴포넌트 함수 정의를 종료합니다.
 
 // ───── 문제 2 ───── (개념01)
 // [지우고 커서 놓기] 를 누르면 입력칸을 비우고, 그 자리에 커서를 놓으세요.
@@ -75,6 +88,9 @@ function Q2ClearAndFocus() {
 
   function handleClear() {
     // TODO 2: 여기에 코드를 쓰세요
+    setText("");
+    inputRef.current.focus();
+    console.log("문제 2: 지우고 커서를 놓았습니다");
   }
 
   return (
@@ -89,6 +105,22 @@ function Q2ClearAndFocus() {
     </div>
   );
 }
+
+// const [text, setText] = useState("아메리카노");: 입력창의 값을 관리하기 위한 상태 text를 만들고 초기값을 "아메리카노"로 설정합니다.
+// const inputRef = useRef(null);: DOM 요소를 직접 참조하기 위해 useRef 훅으로 inputRef 상자를 생성하고 초기값을 null로 지정합니다.
+// function handleClear() {: "지우고 커서 놓기" 버튼을 클릭했을 때 실행될 이벤트 핸들러 함수를 정의합니다.
+// setText("");: 상태 값을 빈 문자열("")로 바꾸어 입력창의 텍스트를 초기화합니다.
+// inputRef.current.focus();: ref로 연결된 실제 <input> DOM 요소에 접근하여 입력창에 커서를 다시 위치시킵니다.
+// console.log("문제 2: 지우고 커서를 놓았습니다");: 기능이 정상적으로 실행되었음을 확인하기 위해 콘솔 창에 메시지를 출력합니다.
+// return (: 화면에 렌더링할 JSX(UI) 구조를 반환하는 시작점입니다.
+// <div className="output">: UI 요소들을 감싸기 위한 부모 div 태그입니다.
+// <input: 실제 화면에 표시될 입력창 컴포넌트의 시작입니다.
+// ref={inputRef}: inputRef 상자와 이 입력창 DOM을 서로 연결합니다.
+// value={text}: 입력창의 값을 text 상태와 동기화(제어 컴포넌트)합니다.
+// onChange={(e) => setText(e.target.value)}: 사용자가 입력창에 글자를 칠 때마다 그 값을 읽어와 text 상태를 업데이트합니다.
+// />: input 태그의 닫는 부분입니다.
+// <button onClick={handleClear}>지우고 커서 놓기</button>: 클릭 시 handleClear 함수를 실행하여 텍스트를 지우고 커서를 놓는 버튼입니다.
+// <div>지금 값: {text || "(비어 있음)"}</div>: 현재 text 상태의 값을 화면에 보여주며, 값이 비어 있으면 "(비어 있음)"을 대신 출력합니다
 
 // ───── 문제 3 ───── (개념01)
 // [케이크로 가기] 를 누르면 목록이 '케이크' 줄까지 스르륵 내려가게 하세요.
@@ -105,6 +137,8 @@ function Q3Scroll() {
 
   function handleGo() {
     // TODO 3: 여기에 코드를 쓰세요
+    cakeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    console.log("문제 3: 케이크 줄로 스크롤했습니다");
   }
 
   return (
@@ -131,6 +165,19 @@ function Q3Scroll() {
   );
 }
 
+// const cakeRef = useRef(null);: 특정 DOM 요소(케이크 항목)를 직접 참조하기 위해 useRef 훅으로 cakeRef 상자를 생성하고 초기값을 null로 지정합니다.
+// function handleGo() {: "케이크로 가기" 버튼을 클릭했을 때 실행될 이벤트 핸들러 함수를 정의합니다.
+// cakeRef.current.scrollIntoView({ behavior: "smooth", block: "center" });: ref로 연결된 케이크 항목이 화면에 보이도록 스크롤을 이동시킵니다. behavior: "smooth"로 부드럽게 움직이고, block: "center"로 화면 중앙에 오도록 정렬합니다.
+// console.log("문제 3: 케이크 줄로 스크롤했습니다");: 스크롤 동작이 정상적으로 실행되었음을 확인하기 위해 콘솔 창에 메시지를 출력합니다.
+// return (: 화면에 렌더링할 JSX(UI) 구조를 반환하는 시작점입니다.
+// <div className="output">: UI 요소들을 감싸기 위한 부모 div 태그입니다.
+// <button onClick={handleGo}>케이크로 가기</button>: 클릭 시 handleGo 함수를 실행하여 케이크 위치로 스크롤을 이동시키는 버튼입니다.
+// <div style={{ ... }}>: 스크롤 박스 영역을 만들기 위한 컨테이너 div입니다. 높이와 세로 스크롤(overflowY: "auto") 등의 스타일이 적용되어 있습니다.
+// <ul>: 메뉴 목록을 감싸는 순서 없는 목록(Unordered List) 태그입니다.
+// {menuNames.map((name) => (: 배열 형태의 메뉴 이름 목록(menuNames)을 순회하며 반복해서 렌더링합니다.
+// <li key={name} ref={name === "케이크" ? cakeRef : null}>: 반복되는 각 목록 항목(<li>)입니다. 항목의 이름이 "케이크"일 때만 cakeRef 상자와 연결하고, 아니면 null을 부여합니다.
+// {name}: 각 목록 항목에 메뉴 이름을 텍스트로 출력합니다
+
 // ───── 문제 4 ───── (개념02)
 // [ref 올리기] 를 누르면 상자 안의 값을 1 올리고,
 // 콘솔에 "지금 진짜 값: N" 을 찍으세요. 화면은 손대지 마세요.
@@ -147,6 +194,8 @@ function Q4RefNoRender() {
 
   function handleUp() {
     // TODO 4: 여기에 코드를 쓰세요
+    countRef.current = countRef.current + 1;
+    console.log(`문제 4: 지금 진짜 값: ${countRef.current}`);
   }
 
   return (
@@ -161,6 +210,19 @@ function Q4RefNoRender() {
   );
 }
 
+// const countRef = useRef(0);: 값이 바뀌어도 컴포넌트를 다시 그리(리렌더링)지 않는 countRef 상자를 만들고 초기값을 0으로 지정합니다.
+// const [tick, setTick] = useState(0);: 화면을 강제로 다시 그리게 만들기 위한 상태 tick을 선언하고 초기값을 0으로 설정합니다.
+// function handleUp() {: "ref 올리기" 버튼을 클릭했을 때 실행될 이벤트 핸들러 함수를 정의합니다.
+// countRef.current = countRef.current + 1;: 화면을 다시 그리지 않고 countRef 상자 안의 실제 값만 1 증가시킵니다.
+// console.log(...);: 값이 정상적으로 올라갔음을 확인하기 위해 콘솔 창에 현재 countRef의 실제 값을 출력합니다.
+// return (: 화면에 렌더링할 JSX(UI) 구조를 반환하는 시작점입니다.
+// <div className="output">: UI 요소들을 감싸기 위한 부모 div 태그입니다.
+// <div>화면에 보이는 값: {countRef.current}</div>: countRef의 값을 화면에 보여주지만, ref는 값이 바뀌어도 리렌더링을 유발하지 않기 때문에 바로 화면에 반영되지 않습니다.
+// <div>다시 그린 횟수: {tick}</div>: tick 상태의 값을 보여주며, 상태가 바뀔 때마다 컴포넌트가 다시 그려진 횟수를 나타냅니다.
+// <div style={{ marginTop: 6 }}>: 버튼들을 가로로 배치하고 위쪽 여백을 주기 위한 스타일이 적용된 div 태그입니다.
+// <button onClick={handleUp}>ref 올리기</button>: 클릭 시 handleUp 함수를 실행하여 countRef의 값을 올리는 버튼입니다.
+// <button onClick={() => setTick(tick + 1)}>다시 그리기</button>: 클릭 시 setTick을 호출하여 컴포넌트를 다시 그리게 만드는 버튼입니다.
+
 // ───── 문제 5 ───── (개념02)
 // 아래 코드는 잘못됐습니다. [담기] 를 눌러도 화면 숫자가 안 바뀝니다.
 // 화면에 보여야 하는 값이 ref 에 들어 있기 때문입니다.
@@ -172,19 +234,28 @@ function Q4RefNoRender() {
 // TODO: 아래 함수 안을 고치세요
 
 function Q5FixToState() {
-  const countRef = useRef(0);
+  const [count, setCount] = useState(0);
 
   function handleAdd() {
-    countRef.current = countRef.current + 1;
+    setCount(count + 1);
   }
 
   return (
     <div className="output">
-      <div>아메리카노 {countRef.current} 잔</div>
+      <div>아메리카노 {count} 잔</div>
       <button onClick={handleAdd}>담기</button>
     </div>
   );
 }
+
+// function Q5FixToState() {: 화면에 보일 UI 조각을 만들어주는 리액트 컴포넌트를 선언합니다.
+// const [count, setCount] = useState(0);: 화면에 바뀔 숫자를 기억하고 관리할 상태(state)를 만듭니다.
+// function handleAdd() {: 버튼을 누르면 숫자를 1 올리기 위해 실행할 함수를 선언합니다.
+// setCount(count + 1);: 기억하고 있던 숫자에 1을 더해준 뒤, 화면을 새로고침(리렌더링)하라고 리액트에 요청합니다.
+// return (: 사용자가 실제로 보게 될 화면의 모양(UI)을 그려내는 시작점입니다.
+// <div className="output">: 화면의 전체 구역을 감싸는 네모 박스(UI 요소)입니다.
+// <div>아메리카노 {count} 잔</div>: 현재 몇 잔인지 글자로 보여주는 화면 영역(UI 요소)입니다.
+// <button onClick={handleAdd}>담기</button>: 사용자가 마우스로 클릭해서 숫자를 올릴 수 있는 버튼(UI 요소)입니다.
 
 // ───── 문제 6 ───── (개념02)
 // 시작·멈춤이 되는 타이머를 완성하세요.
@@ -205,10 +276,18 @@ function Q6Timer() {
 
   function handleStart() {
     // TODO 6: 여기에 코드를 쓰세요
+    if (timerRef.current !== null) return;
+
+    timerRef.current = setInterval(() => {
+      setSec((prev) => prev + 1);
+    }, 500);
   }
 
   function handleStop() {
     // TODO 6: 여기에 코드를 쓰세요
+    clearInterval(timerRef.current);
+    timerRef.current == null;
+    console.log("문제 6 : 멈춤");
   }
 
   // 이 예제를 떠날 때 타이머를 치우는 코드입니다. 이미 적어 뒀습니다(09단원).
@@ -227,6 +306,17 @@ function Q6Timer() {
   );
 }
 
+// const [sec, setSec] = useState(0);: 타이머 초(또는 칸)를 기록할 상태를 선언합니다.
+// const timerRef = useRef(null);: 타이머 ID(인터벌 식별자)를 저장할 ref 상자를 만듭니다.
+// function handleStart() {: "시작" 버튼을 누를 때 실행되는 함수입니다.
+// if (timerRef.current !== null) return;: 이미 타이머가 작동 중이면 중복 실행을 막기 위해 빠져나갑니다.
+// timerRef.current = setInterval(() => { setSec((prev) => prev + 1); }, 500);: 0.5초마다 sec 상태를 1씩 증가시키는 타이머를 실행하고 그 ID를 ref에 저장합니다.
+// function handleStop() {: "멈춤" 버튼을 누를 때 실행되는 함수입니다.
+// clearInterval(timerRef.current);: 작동 중인 타이머를 중단합니다.
+// timerRef.current = null; (참고: 코드의 ==는 대입 연산자 =로 수정해야 합니다): 타이머 ID를 비워줍니다.
+// console.log(...);: 멈춤 로그를 출력합니다.
+// useEffect(() => { return () => { clearInterval(timerRef.current); }; }, []);: 컴포넌트가 화면에서 사라질 때(Unmount) 타이머를 안전하게 정리합니다
+
 // ───── 문제 7 ───── (개념03)
 // useToggle 커스텀 훅을 완성하세요.
 // true / false 를 뒤집는 훅입니다. on 과 toggle 을 돌려주면 됩니다.
@@ -237,14 +327,23 @@ function Q6Timer() {
 
 function useToggle(initial = false) {
   // TODO 7: 여기에 코드를 쓰세요
+  const [on, setOn] = useState(initial);
 
+  function toggle() {
+    setOn((prev) => !prev);
+  }
   // 아래 줄은 아직 안 푼 상태에서도 화면이 나오게 하려고 넣어 둔 것입니다.
   // 문제를 풀면서 통째로 바꾸세요.
-  return { on: initial, toggle: () => {} };
+  return { on, toggle };
 }
 
 function Q7Toggle() {
   const open = useToggle(false);
+
+  function handleToggle() {
+    open.toggle();
+    console.log("문제 7: 영업 상태를 뒤집었습니다");
+  }
 
   return (
     <div className="output">
@@ -253,6 +352,19 @@ function Q7Toggle() {
     </div>
   );
 }
+
+// function useToggle(initial = false) {: 토글 기능을 재사용하기 위해 직접 만드는 커스텀 훅(Custom Hook)을 선언합니다. 초기값은 기본적으로 false로 설정됩니다.
+// const [on, setOn] = useState(initial);: 참/거짓(true/false) 상태를 관리하기 위한 on 상태를 만들고, 전달받은 초기값으로 지정합니다.
+// function toggle() {: 상태를 현재 값과 반대(!prev)로 뒤집어주는 함수를 정의합니다.
+// setOn((prev) => !prev);: 이전 상태 값을 가져와서 반대값으로 업데이트합니다.
+// return { on, toggle };: 컴포넌트에서 상태(on)와 상태를 바꿀 함수(toggle)를 객체 형태로 반환합니다.
+// function Q7Toggle() {: 토글 훅을 사용하여 영업 상태를 보여주는 리액트 컴포넌트를 선언합니다.
+// const open = useToggle(false);: 위에서 만든 커스텀 훅을 호출해 초기값 false를 넣고, 반환된 상태와 함수가 담긴 객체를 open에 받습니다.
+// function handleToggle() {: 버튼을 누를 때 콘솔 출력을 추가로 처리하기 위한 핸들러 함수를 정의합니다. (참고로 아래 JSX에서는 바로 open.toggle을 쓰고 있습니다)
+// return (: 화면에 렌더링할 UI 구조를 반환하는 시작점입니다.
+// <div className="output">: UI 요소들을 감싸는 부모 div 태그입니다.
+// <div>지금 상태: {open.on ? "영업 중" : "준비 중"}</div>: open.on이 참이면 "영업 중", 거짓이면 "준비 중"이라는 텍스트를 화면에 보여줍니다.
+// <button onClick={open.toggle}>바꾸기</button>: 클릭 시 open.toggle 함수를 실행하여 상태를 반대로 뒤집는 버튼입니다.
 
 // ───── 문제 8 ───── (개념03)
 // useInput 커스텀 훅을 완성하세요.
@@ -456,8 +568,7 @@ function Q12Todo() {
       <ul>
         {list.todos.map((todo, index) => (
           <li key={index}>
-            {todo}{" "}
-            <button onClick={() => list.remove(index)}>지우기</button>
+            {todo} <button onClick={() => list.remove(index)}>지우기</button>
           </li>
         ))}
       </ul>
@@ -500,8 +611,8 @@ export default function Practice10RefAndHooks() {
       <h1>10단원 연습문제 — useRef 와 커스텀 훅</h1>
 
       <p className="guide">
-        이 파일을 <strong>직접 고치면서</strong> 푸는 문제입니다. 저장하면 아래 화면이
-        바로 바뀝니다.
+        이 파일을 <strong>직접 고치면서</strong> 푸는 문제입니다. 저장하면 아래
+        화면이 바로 바뀝니다.
         <br />
         <br />
         문제 1~10은 기본, 11은 응용, 12는 도전, 13은 에러 확인입니다. 문제마다{" "}
@@ -562,7 +673,9 @@ export default function Practice10RefAndHooks() {
       </div>
       <div className="demo">
         <h3>문제 13 — 에러 확인</h3>
-        <p>이 문제는 화면이 아니라 코드와 콘솔로 확인합니다. 위 주석을 보세요.</p>
+        <p>
+          이 문제는 화면이 아니라 코드와 콘솔로 확인합니다. 위 주석을 보세요.
+        </p>
       </div>
 
       <Summary

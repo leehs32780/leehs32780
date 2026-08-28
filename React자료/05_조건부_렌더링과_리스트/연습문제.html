@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -104,11 +104,10 @@
       1~12는 기본, 13은 [응용], 14는 [도전], 15는 에러 확인입니다.
       <br /><br />
       <strong>HTML 과 CSS 는 몰라도 됩니다.</strong> 위쪽
-      <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다.
-      <br /><br />
+      <code>&lt;style&gt;</code> 은 화면 모양을 만드는 코드입니다. <br /><br />
       각 문제의 컴포넌트는 이미 만들어져 있습니다. 지우지 말고
-      <code>{/* TODO */}</code> 자리만 채우세요. 문제를 안 푼 상태에서는 회색 상자가
-      비어 있는 것이 정상입니다.
+      <code>{/* TODO */}</code> 자리만 채우세요. 문제를 안 푼 상태에서는 회색
+      상자가 비어 있는 것이 정상입니다.
     </p>
 
     <div id="root"></div>
@@ -161,7 +160,9 @@
         return (
           <div className="demo">
             <h3>문제 1 — 삼항 연산자</h3>
-            <div className="output">{/* TODO: 여기에 코드를 쓰세요 */}</div>
+            <div className="output">
+              {isOpen ? <p>영업 중입니다</p> : <p>준비 중입니다</p>}
+            </div>
           </div>
         );
       }
@@ -180,7 +181,7 @@
         return (
           <div className="demo">
             <h3>문제 2 — && 로 있을 때만 보이기</h3>
-            <div className="output">{/* TODO: 여기에 코드를 쓰세요 */}</div>
+            <div className="output">{newCount > 0 && "새 알림 3개"}</div>
           </div>
         );
       }
@@ -200,7 +201,13 @@
         let badge;
 
         // TODO: 여기에 if 문을 쓰세요
-
+        if (point >= 100) {
+          badge = <p>VIP 회원입니다</p>;
+        } else if (point >= 50) {
+          badge = <p>일반 회원입니다</p>;
+        } else {
+          badge = <p>신규 회원입니다</p>;
+        }
         return (
           <div className="demo">
             <h3>문제 3 — 변수에 담아 두기</h3>
@@ -227,7 +234,9 @@
 
       function ProfileCard({ user }) {
         // TODO: 여기에 일찍 return 하는 코드를 쓰세요
-
+        if (!user) {
+          return <p>회원 정보가 없습니다</p>;
+        }
         return (
           <p>
             {user.name} ({user.age}세)
@@ -261,7 +270,11 @@
           <div className="demo">
             <h3>문제 5 — map 으로 목록 그리기</h3>
             <div className="output">
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {fruits.map((fruits) => (
+                  <li key="fruits">{fruits}</li>
+                ))}
+              </ul>
             </div>
           </div>
         );
@@ -280,7 +293,13 @@
           <div className="demo">
             <h3>문제 6 — 객체 배열 그리기</h3>
             <div className="output">
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {users.map((user) => (
+                  <li key={user.id}>
+                    {user.name} ({user.age}세)
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         );
@@ -309,7 +328,11 @@
           <div className="demo">
             <h3>문제 7 — 컴포넌트에 넘기기</h3>
             <div className="output">
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {menu.map((item) => (
+                  <MenuRow key={item.id} name={item.name} price={item.price} />
+                ))}
+              </ul>
             </div>
           </div>
         );
@@ -337,7 +360,13 @@
           <div className="demo">
             <h3>문제 8 — 무엇을 key 로 쓸까</h3>
             <div className="output">
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {orders.map((order) => (
+                  <li key={order.id}>
+                    {order.id} · {order.name}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         );
@@ -359,14 +388,16 @@
           <div className="demo">
             <h3>문제 9 — index 를 key 로 쓰면</h3>
 
-            <button onClick={() => setList(list.slice(1))}>맨 앞 항목 지우기</button>
+            <button onClick={() => setList(list.slice(1))}>
+              맨 앞 항목 지우기
+            </button>
             <button onClick={() => setList(todos)}>처음으로 되돌리기</button>
 
             <div className="output">
               <ul>
                 {list.map((todo, index) => (
                   // TODO: 아래 key 를 고치세요
-                  <li key={index}>
+                  <li key={todo.id}>
                     {todo.text} <input defaultValue={todo.text} />
                   </li>
                 ))}
@@ -388,7 +419,13 @@
           <div className="demo">
             <h3>문제 10 — 걸러서 그리기</h3>
             <div className="output">
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {menu
+                  .filter((item) => !item.soldOut)
+                  .map((item) => (
+                    <li key={item.id}>{item.name}</li>
+                  ))}
+              </ul>
             </div>
           </div>
         );
@@ -409,7 +446,15 @@
             <h3>문제 11 — 원본을 지키며 정렬하기</h3>
             <div className="output">
               <p>정렬한 목록</p>
-              <ul>{/* TODO: 여기에 코드를 쓰세요 */}</ul>
+              <ul>
+                {[...menu]
+                  .sort((a, b) => a.price - b.price)
+                  .map((item) => (
+                    <li key={item.id}>
+                      {item.name} - {item.price}원
+                    </li>
+                  ))}
+              </ul>
 
               <p>원본 확인</p>
               <ul>
@@ -567,7 +612,11 @@
             </button>
 
             <div className="output">
-              {show ? <BadList /> : <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>}
+              {show ? (
+                <BadList />
+              ) : (
+                <p>아직 안 그렸습니다. 콘솔도 깨끗합니다.</p>
+              )}
             </div>
           </div>
         );

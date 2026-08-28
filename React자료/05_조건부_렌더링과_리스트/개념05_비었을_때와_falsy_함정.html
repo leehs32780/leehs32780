@@ -185,20 +185,19 @@
       // 개념01에서 배운 삼항을 그대로 씁니다. 조건은 "개수가 0이냐" 입니다.
 
       function CartView({ items }) {
+        if (items.length === 0) {
+          return <p>장바구니가 비었습니다. 메뉴를 담아 보세요.</p>;
+        }
         return (
           <div>
             <p>장바구니 ({items.length}개)</p>
-            {items.length === 0 ? (
-              <p>장바구니가 비었습니다. 메뉴를 담아 보세요.</p>
-            ) : (
-              <ul>
-                {items.map((item) => (
-                  <li key={item.id}>
-                    {item.name} — {item.price}원
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ul>
+              {items.map((item) => (
+                <li key={item.id}>
+                  {item.name} — {item.price}원
+                </li>
+              ))}
+            </ul>
           </div>
         );
       }
@@ -307,8 +306,8 @@
       // 이 함정은 안 생깁니다. 대신 다른 문제가 생깁니다. 섹션 6 [실수 2] 를 보세요.
 
       // ✏️ 직접 해보기 3 — 콘솔에 아래 두 줄을 쳐 보고 결과가 어떻게 다른지 보세요.
-      //                    0 && "안녕"
-      //                    1 && "안녕"
+      //                    0 && "안녕" // 0
+      //                    1 && "안녕" // 안녕
 
       // ── 섹션 4: 안전하게 쓰는 법 ──
 
@@ -353,8 +352,8 @@
 
             <div className="output">
               <p>
-                ① {"{cart.length && ...}"} → [{cart.length && <span>있음</span>}
-                ]
+                ① {"{cart.length && ...}"} → [
+                {!!cart.length && <span>있음</span>}]
               </p>
               <p>
                 ② {"{cart.length > 0 && ...}"} → [
@@ -430,7 +429,8 @@
             <div className="output">
               <p>① 그냥 계산 → 완료율 {rate}%</p>
               <p>
-                ② 비었는지 먼저 확인 → 완료율 {todos.length > 0 ? rate : 0}%
+                ② 비었는지 먼저 확인 →{" "}
+                {todos.length > 0 && <p>완료율 {rate}%</p>}%
               </p>
             </div>
           </div>

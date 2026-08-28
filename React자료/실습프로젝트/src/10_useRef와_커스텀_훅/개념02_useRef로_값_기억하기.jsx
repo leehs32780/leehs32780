@@ -519,9 +519,11 @@ export default function Concept02ValueRef() {
       <h1>개념 02 — useRef 로 값 기억하기</h1>
 
       <p className="guide">
-        이 파일은 <strong>콘솔을 함께 봐야</strong> 뜻이 통합니다. F12 → Console 을 열어 두세요.
+        이 파일은 <strong>콘솔을 함께 봐야</strong> 뜻이 통합니다. F12 → Console
+        을 열어 두세요.
         <br />
-        데모 ② 는 <strong>[ref 올리기] 를 세 번 누른 다음 [state 올리기]</strong> 순서로
+        데모 ② 는{" "}
+        <strong>[ref 올리기] 를 세 번 누른 다음 [state 올리기]</strong> 순서로
         눌러 보세요.
       </p>
 
