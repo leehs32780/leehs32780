@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AirportCard from "./AirportCard";
 import AppOverlays from "./AppOverlays";
 import Header from "./Header";
@@ -11,7 +11,6 @@ import {
   destinations,
   airportAddresses,
   formatPrice,
-  demoAccount,
   travelScenes,
   destinationAirports,
   getArrivalCountries,
@@ -36,6 +35,8 @@ export default function App() {
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [isPopularOpen, setIsPopularOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimerRef = useRef(null);
   const [flightResults, setFlightResults] = useState([]);
   const [returnFlightResults, setReturnFlightResults] = useState([]);
   const [searchedTrip, setSearchedTrip] = useState(null);
@@ -47,10 +48,22 @@ export default function App() {
     email: "",
   });
   const [paymentForm, setPaymentForm] = useState({
+    method: "kakao",
+    agreed: false,
+  });
+  const [savedCards, setSavedCards] = useState([]);
+  const [editingCardId, setEditingCardId] = useState(null);
+  const [sitePaymentPin, setSitePaymentPin] = useState("");
+  const [sitePinForm, setSitePinForm] = useState({
+    current: "",
+    newPin: "",
+    confirm: "",
+  });
+  const [cardForm, setCardForm] = useState({
+    cardName: "",
     cardNumber: "",
     expiry: "",
     cvc: "",
-    agreed: false,
   });
   const [paymentPinOpen, setPaymentPinOpen] = useState(false);
   const [paymentPin, setPaymentPin] = useState("");
@@ -66,6 +79,22 @@ export default function App() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [loginForm, setLoginForm] = useState({ id: "", password: "" });
   const [loginError, setLoginError] = useState("");
+  const [authMode, setAuthMode] = useState("login");
+  const [signupForm, setSignupForm] = useState({
+    id: "",
+    name: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [signupError, setSignupError] = useState("");
+  const [findIdName, setFindIdName] = useState("");
+  const [resetForm, setResetForm] = useState({
+    id: "",
+    name: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [recoveryMessage, setRecoveryMessage] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", avatar: "pilot" });
@@ -103,8 +132,48 @@ export default function App() {
   // 브라우저에 저장된 사용자가 있으면 로그인 상태를 복원합니다.
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("skyfinder-user");
-    return savedUser ? JSON.parse(savedUser) : null;
+    if (!savedUser) return null;
+
+    const parsedUser = JSON.parse(savedUser);
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+
+    // 예전에 제공하던 기본 계정의 로그인 기록은 제거합니다.
+    if (
+      parsedUser.id === "skyfinder" &&
+      !savedAccounts.some(({ id }) => id === parsedUser.id)
+    ) {
+      localStorage.removeItem("skyfinder-user");
+      return null;
+    }
+
+    return parsedUser;
   });
+
+  useEffect(() => {
+    if (!user) {
+      setSavedCards([]);
+      setSitePaymentPin("");
+      return;
+    }
+    const stored = JSON.parse(
+      localStorage.getItem(`skyfinder-payment-${user.id}`) ?? "[]",
+    );
+    const cards = Array.isArray(stored)
+      ? stored
+      : stored
+        ? [{ ...stored, id: stored.id ?? Date.now() }]
+        : [];
+    const storedPin =
+      localStorage.getItem(`skyfinder-site-pin-${user.id}`) ??
+      cards.find(({ pin }) => pin)?.pin ??
+      "";
+    setSavedCards(cards.map(({ pin, ...card }) => card));
+    setSitePaymentPin(storedPin);
+    if (storedPin)
+      localStorage.setItem(`skyfinder-site-pin-${user.id}`, storedPin);
+  }, [user]);
 
   // 공항 카드 바깥을 클릭하면 열려 있던 상세 주소를 닫습니다.
   useEffect(() => {
@@ -117,6 +186,8 @@ export default function App() {
     document.addEventListener("click", closeAirportCard);
     return () => document.removeEventListener("click", closeAirportCard);
   }, []);
+
+  useEffect(() => () => clearTimeout(searchTimerRef.current), []);
 
   // 사용자가 작성한 질문만 브라우저 저장소에 보관합니다.
   useEffect(() => {
@@ -158,6 +229,7 @@ export default function App() {
   // 항공권 검색 버튼 처리
   const searchFlights = (event) => {
     event.preventDefault();
+    clearTimeout(searchTimerRef.current);
     const isComplete =
       form.departure &&
       form.arrival &&
@@ -165,21 +237,33 @@ export default function App() {
       (form.tripType === "one-way" || form.returnDate);
 
     if (!isComplete) {
+      setIsSearching(false);
       setMessage("출발지, 도착지와 여행 날짜를 모두 입력해 주세요.");
       setFlightResults([]);
       setReturnFlightResults([]);
       return;
     }
 
-    setSearchedTrip({ ...form });
-    setFlightResults(createFlightSchedules(form));
+    const submittedForm = { ...form };
+    setIsSearching(true);
+    setMessage("");
+    setFlightResults([]);
     setReturnFlightResults([]);
     setSelectedOutbound(null);
     setSelectedFlight(null);
-    setMessage(`${form.departure} → ${form.arrival} 항공편 6개를 찾았습니다.`);
+    searchTimerRef.current = setTimeout(() => {
+      const schedules = createFlightSchedules(submittedForm);
+      setSearchedTrip(submittedForm);
+      setFlightResults(schedules);
+      setMessage(
+        `${submittedForm.departure} → ${submittedForm.arrival} 항공편 ${schedules.length}개를 찾았습니다.`,
+      );
+      setIsSearching(false);
+    }, 3000);
   };
 
   const selectOutboundFlight = (flight) => {
+    // 편도는 선택 즉시 예매 창을 열고, 왕복은 가는 편을 저장한 뒤 오는 편을 생성합니다.
     if (searchedTrip.tripType === "one-way") {
       setSelectedFlight(flight);
       return;
@@ -205,14 +289,30 @@ export default function App() {
   };
 
   const requestPaymentPin = (event) => {
+    // 탑승객 정보와 결제수단 선택이 끝나면 최종 비밀번호 확인 창을 엽니다.
     event.preventDefault();
+    if (!user || !sitePaymentPin) {
+      window.alert(
+        "결제 전에 프로필에서 SKY FINDER 결제 PIN 6자리를 설정해 주세요.",
+      );
+      return;
+    }
     setPaymentPin("");
     setPaymentPinOpen(true);
   };
 
   const reserveFlight = (event) => {
+    // 결제 승인 후 예약 객체를 만들고 최신 예약과 전체 예약 목록에 모두 저장합니다.
     event.preventDefault();
-    if (paymentPin.length !== 4) return;
+    if (paymentPin.length !== 6) return;
+    const selectedCard = paymentForm.method.startsWith("card:")
+      ? savedCards.find(({ id }) => `card:${id}` === paymentForm.method)
+      : savedCards[0];
+    if (paymentPin !== sitePaymentPin) {
+      window.alert("결제 PIN이 일치하지 않습니다.");
+      setPaymentPin("");
+      return;
+    }
     const reservationNumber = `SF${Date.now().toString().slice(-8)}`;
     const totalAmount = (selectedOutbound?.price ?? 0) + selectedFlight.price;
     const reservation = {
@@ -225,8 +325,17 @@ export default function App() {
       payment: {
         status: "결제 완료",
         amount: totalAmount,
-        method: "신용/체크카드",
-        lastFour: paymentForm.cardNumber.replace(/\s/g, "").slice(-4),
+        method: paymentForm.method.startsWith("card:")
+          ? selectedCard.cardName
+          : {
+              kakao: "카카오페이",
+              naver: "네이버페이",
+              toss: "토스페이",
+              payco: "페이코",
+            }[paymentForm.method],
+        lastFour: paymentForm.method.startsWith("card:")
+          ? selectedCard.lastFour
+          : "",
       },
       ownerId: user?.id ?? "guest",
     };
@@ -247,24 +356,28 @@ export default function App() {
     setPaymentPin("");
     setSelectedFlight(null);
     setBookingForm({ passengerName: "", phone: "", email: "" });
-    setPaymentForm({ cardNumber: "", expiry: "", cvc: "", agreed: false });
+    setPaymentForm({ method: "kakao", agreed: false });
   };
 
   // 로그인 및 로그아웃 처리
   const login = (event) => {
+    // localStorage의 가입 계정 중 입력한 아이디와 비밀번호가 같은 계정을 찾습니다.
     event.preventDefault();
-
-    if (
-      loginForm.id !== demoAccount.id ||
-      loginForm.password !== demoAccount.password
-    ) {
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+    const account = savedAccounts.find(
+      ({ id, password }) =>
+        id === loginForm.id && password === loginForm.password,
+    );
+    if (!account) {
       setLoginError("아이디 또는 비밀번호가 올바르지 않습니다.");
       return;
     }
 
     const loggedInUser = {
-      id: demoAccount.id,
-      name: demoAccount.name,
+      id: account.id,
+      name: account.name,
       avatar: "pilot",
     };
     localStorage.setItem("skyfinder-user", JSON.stringify(loggedInUser));
@@ -274,16 +387,251 @@ export default function App() {
     setLoginOpen(false);
     setLoginSuccess(true);
   };
+  const signup = (event) => {
+    // 아이디 중복과 비밀번호 조건을 검사한 뒤 새 계정을 브라우저에 저장합니다.
+    event.preventDefault();
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+    if (savedAccounts.some(({ id }) => id === signupForm.id.trim())) {
+      setSignupError("이미 사용 중인 아이디입니다.");
+      return;
+    }
+    if (signupForm.password.length < 4) {
+      setSignupError("비밀번호는 4자리 이상 입력해 주세요.");
+      return;
+    }
+    if (signupForm.password !== signupForm.confirmPassword) {
+      setSignupError("비밀번호가 서로 일치하지 않습니다.");
+      return;
+    }
+    const newAccount = {
+      id: signupForm.id.trim(),
+      name: signupForm.name.trim(),
+      password: signupForm.password,
+    };
+    localStorage.setItem(
+      "skyfinder-accounts",
+      JSON.stringify([...savedAccounts, newAccount]),
+    );
+    setLoginForm({ id: newAccount.id, password: "" });
+    setSignupForm({ id: "", name: "", password: "", confirmPassword: "" });
+    setSignupError("");
+    setAuthMode("login");
+    setLoginError("회원가입이 완료되었습니다. 비밀번호를 입력해 로그인하세요.");
+  };
+  const findId = (event) => {
+    // 가입할 때 사용한 이름이 같은 모든 아이디를 찾아 안내합니다.
+    event.preventDefault();
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+    const matchedIds = savedAccounts
+      .filter(({ name }) => name === findIdName.trim())
+      .map(({ id }) => id);
+
+    setRecoveryMessage(
+      matchedIds.length
+        ? `가입한 아이디: ${matchedIds.join(", ")}`
+        : "입력한 이름으로 가입된 아이디가 없습니다.",
+    );
+  };
+  const resetPassword = (event) => {
+    // 아이디와 이름으로 본인을 확인한 뒤 해당 계정의 비밀번호만 교체합니다.
+    event.preventDefault();
+    if (resetForm.password.length < 4) {
+      setRecoveryMessage("새 비밀번호는 4자리 이상 입력해 주세요.");
+      return;
+    }
+    if (resetForm.password !== resetForm.confirmPassword) {
+      setRecoveryMessage("새 비밀번호가 서로 일치하지 않습니다.");
+      return;
+    }
+
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+    const accountIndex = savedAccounts.findIndex(
+      ({ id, name }) =>
+        id === resetForm.id.trim() && name === resetForm.name.trim(),
+    );
+    if (accountIndex < 0) {
+      setRecoveryMessage("아이디와 이름이 일치하는 계정을 찾을 수 없습니다.");
+      return;
+    }
+
+    const updatedAccounts = savedAccounts.map((account, index) =>
+      index === accountIndex
+        ? { ...account, password: resetForm.password }
+        : account,
+    );
+    localStorage.setItem("skyfinder-accounts", JSON.stringify(updatedAccounts));
+    setLoginForm({ id: resetForm.id.trim(), password: "" });
+    setResetForm({ id: "", name: "", password: "", confirmPassword: "" });
+    setRecoveryMessage("");
+    setAuthMode("login");
+    setLoginError("비밀번호가 재설정되었습니다. 새 비밀번호로 로그인하세요.");
+  };
   const logout = () => {
+    // 저장된 로그인 세션을 지우고 사용자 전용 화면을 닫습니다.
     localStorage.removeItem("skyfinder-user");
     setUser(null);
     setProfileOpen(false);
   };
   const openProfile = () => {
+    // 현재 프로필과 사용자별 등록 카드를 불러온 뒤 설정 창을 엽니다.
     setProfileForm({ name: user.name, avatar: user.avatar ?? "pilot" });
+    const stored = JSON.parse(
+      localStorage.getItem(`skyfinder-payment-${user.id}`) ?? "[]",
+    );
+    const cards = Array.isArray(stored)
+      ? stored
+      : stored
+        ? [{ ...stored, id: stored.id ?? Date.now() }]
+        : [];
+    const storedPin =
+      localStorage.getItem(`skyfinder-site-pin-${user.id}`) ??
+      cards.find(({ pin }) => pin)?.pin ??
+      "";
+    setSavedCards(cards.map(({ pin, ...card }) => card));
+    setSitePaymentPin(storedPin);
+    setSitePinForm({ current: "", newPin: "", confirm: "" });
+    setEditingCardId(null);
+    setCardForm({ cardName: "", cardNumber: "", expiry: "", cvc: "" });
     setProfileOpen(true);
   };
+  const savePaymentMethod = (event) => {
+    // 카드 형식을 검사하고 민감한 전체 번호 대신 끝 네 자리만 저장합니다.
+    event.preventDefault();
+    event.stopPropagation();
+    const digits = cardForm.cardNumber.replace(/\D/g, "");
+    const isEditing = editingCardId !== null;
+    if (
+      !cardForm.cardName.trim() ||
+      (!isEditing && digits.length !== 16) ||
+      (isEditing && digits.length !== 0 && digits.length !== 16) ||
+      !/^\d{2}\/\d{2}$/.test(cardForm.expiry) ||
+      (!isEditing && cardForm.cvc.length !== 3) ||
+      (isEditing && cardForm.cvc.length !== 0 && cardForm.cvc.length !== 3)
+    ) {
+      window.alert("카드 이름, 카드번호, 유효기간과 CVC를 모두 확인해 주세요.");
+      return;
+    }
+    const previousCard = savedCards.find(({ id }) => id === editingCardId);
+    const card = {
+      id: editingCardId ?? Date.now(),
+      cardName: cardForm.cardName.trim(),
+      lastFour: digits ? digits.slice(-4) : previousCard?.lastFour,
+      expiry: cardForm.expiry,
+    };
+    const updatedCards = isEditing
+      ? savedCards.map((savedCard) =>
+          savedCard.id === editingCardId ? card : savedCard,
+        )
+      : [...savedCards, card];
+    localStorage.setItem(
+      `skyfinder-payment-${user.id}`,
+      JSON.stringify(updatedCards),
+    );
+    setSavedCards(updatedCards);
+    setEditingCardId(null);
+    setCardForm({ cardName: "", cardNumber: "", expiry: "", cvc: "" });
+  };
+  const editPaymentMethod = (card) => {
+    setEditingCardId(card.id);
+    setCardForm({
+      cardName: card.cardName,
+      cardNumber: "",
+      expiry: card.expiry,
+      cvc: "",
+    });
+  };
+  const cancelPaymentEdit = () => {
+    setEditingCardId(null);
+    setCardForm({ cardName: "", cardNumber: "", expiry: "", cvc: "" });
+  };
+  const saveSitePaymentPin = () => {
+    if (sitePaymentPin && sitePinForm.current !== sitePaymentPin) {
+      window.alert("현재 결제 PIN이 일치하지 않습니다.");
+      return;
+    }
+    if (
+      sitePinForm.newPin.length !== 6 ||
+      sitePinForm.newPin !== sitePinForm.confirm
+    ) {
+      window.alert("새 PIN 6자리와 PIN 확인 값을 동일하게 입력해 주세요.");
+      return;
+    }
+    localStorage.setItem(`skyfinder-site-pin-${user.id}`, sitePinForm.newPin);
+    setSitePaymentPin(sitePinForm.newPin);
+    setSitePinForm({ current: "", newPin: "", confirm: "" });
+    window.alert(
+      sitePaymentPin
+        ? "결제 PIN이 변경되었습니다."
+        : "결제 PIN이 등록되었습니다.",
+    );
+  };
+  const removePaymentMethod = (cardId) => {
+    // 선택한 카드만 삭제하고 나머지 등록 결제수단은 그대로 유지합니다.
+    const updatedCards = savedCards.filter(({ id }) => id !== cardId);
+    localStorage.setItem(
+      `skyfinder-payment-${user.id}`,
+      JSON.stringify(updatedCards),
+    );
+    setSavedCards(updatedCards);
+    setPaymentForm((current) => ({
+      ...current,
+      method: current.method === `card:${cardId}` ? "kakao" : current.method,
+    }));
+    if (editingCardId === cardId) cancelPaymentEdit();
+  };
+  const deleteAccount = () => {
+    // 재확인 후 계정과 해당 사용자가 만든 개인 데이터를 브라우저에서 제거합니다.
+    if (
+      !window.confirm(
+        "정말 계정을 탈퇴하시겠습니까? 예약과 질문, 결제수단이 모두 삭제됩니다.",
+      )
+    )
+      return;
+    const userId = user.id;
+    const savedAccounts = JSON.parse(
+      localStorage.getItem("skyfinder-accounts") ?? "[]",
+    );
+    const remainingBookings = bookings.filter(
+      ({ ownerId }) => ownerId !== userId,
+    );
+    const remainingQuestions = questions.filter(
+      ({ ownerId }) => ownerId !== userId,
+    );
+    localStorage.setItem(
+      "skyfinder-accounts",
+      JSON.stringify(savedAccounts.filter(({ id }) => id !== userId)),
+    );
+    localStorage.setItem(
+      "skyfinder-bookings",
+      JSON.stringify(remainingBookings),
+    );
+    localStorage.setItem(
+      "skyfinder-questions",
+      JSON.stringify(remainingQuestions.filter(({ ownerId }) => ownerId)),
+    );
+    localStorage.removeItem(`skyfinder-payment-${userId}`);
+    localStorage.removeItem(`skyfinder-site-pin-${userId}`);
+    localStorage.removeItem("skyfinder-user");
+    const latestBooking = JSON.parse(
+      localStorage.getItem("skyfinder-latest-booking") ?? "null",
+    );
+    if (latestBooking?.ownerId === userId)
+      localStorage.removeItem("skyfinder-latest-booking");
+    setBookings(remainingBookings);
+    setQuestions(remainingQuestions);
+    setSavedCards([]);
+    setSitePaymentPin("");
+    setProfileOpen(false);
+    setUser(null);
+  };
   const saveProfile = (event) => {
+    // 이름과 아바타 변경 내용을 현재 로그인 세션에도 반영합니다.
     event.preventDefault();
     const updatedUser = {
       ...user,
@@ -333,6 +681,7 @@ export default function App() {
     ({ ownerId }) => ownerId === (user?.id ?? "guest"),
   );
   const cancelBooking = (reservationNumber) => {
+    // 사용자 확인을 받은 뒤 선택한 예약만 목록과 localStorage에서 제거합니다.
     if (!window.confirm(`${reservationNumber} 예약을 취소하시겠습니까?`))
       return;
     setBookings((current) => {
@@ -378,7 +727,22 @@ export default function App() {
           setLoginForm,
           loginError,
           setLoginError,
+          authMode,
+          setAuthMode,
+          signupForm,
+          setSignupForm,
+          signupError,
+          setSignupError,
+          signup,
           login,
+          findIdName,
+          setFindIdName,
+          resetForm,
+          setResetForm,
+          recoveryMessage,
+          setRecoveryMessage,
+          findId,
+          resetPassword,
           loginSuccess,
           setLoginSuccess,
           user,
@@ -389,6 +753,19 @@ export default function App() {
           profileAvatars,
           profileAvatarGroups,
           saveProfile,
+          savedCards,
+          editingCardId,
+          sitePaymentPin,
+          sitePinForm,
+          setSitePinForm,
+          cardForm,
+          setCardForm,
+          savePaymentMethod,
+          editPaymentMethod,
+          cancelPaymentEdit,
+          saveSitePaymentPin,
+          removePaymentMethod,
+          deleteAccount,
           qnaOpen,
           setQnaOpen,
           qnaForm,
@@ -536,10 +913,30 @@ export default function App() {
               disabled={form.tripType === "one-way"}
             />
           </label>
-          <button className="primary-button" type="submit">
-            항공권 검색
+          <button
+            className="primary-button"
+            type="submit"
+            disabled={isSearching}
+          >
+            {isSearching ? "검색 중..." : "항공권 검색"}
           </button>
         </form>
+        {isSearching && (
+          <div
+            className="flight-search-loading"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="loading-plane" aria-hidden="true">
+              ✈
+            </span>
+            <div>
+              <strong>최적의 항공편을 찾고 있어요</strong>
+              <small>항공사별 스케줄과 가격을 비교 중입니다.</small>
+            </div>
+            <i aria-hidden="true"></i>
+          </div>
+        )}
         {message && (
           <p className="search-message" role="status">
             {message}
@@ -585,7 +982,12 @@ export default function App() {
                         <i></i>
                         <span>직항 · 현지시간</span>
                       </div>
-                      <strong>{flight.arrivalTime}{flight.arrivalDayOffset > 0 && <sup>+{flight.arrivalDayOffset}일</sup>}</strong>
+                      <strong>
+                        {flight.arrivalTime}
+                        {flight.arrivalDayOffset > 0 && (
+                          <sup>+{flight.arrivalDayOffset}일</sup>
+                        )}
+                      </strong>
                     </div>
                     <div className="flight-airports">
                       <span>{searchedTrip.departure}</span>
@@ -670,7 +1072,12 @@ export default function App() {
                       <i></i>
                       <span>직항 · 현지시간</span>
                     </div>
-                    <strong>{flight.arrivalTime}{flight.arrivalDayOffset > 0 && <sup>+{flight.arrivalDayOffset}일</sup>}</strong>
+                    <strong>
+                      {flight.arrivalTime}
+                      {flight.arrivalDayOffset > 0 && (
+                        <sup>+{flight.arrivalDayOffset}일</sup>
+                      )}
+                    </strong>
                   </div>
                   <div className="flight-airports">
                     <span>{searchedTrip.arrival}</span>
@@ -761,6 +1168,36 @@ export default function App() {
               />
             ))}
           </div>
+          <aside className="route-promotion-strip" aria-label="여행 프로모션 예시">
+            <article className="route-promotion route-promotion-baggage">
+              <div className="promotion-copy">
+                <span>AD · DEMO</span>
+                <small>SKY BAGGAGE</small>
+                <strong>수하물 걱정 없이<br />가볍게 출발하세요</strong>
+                <p>추가 수하물 사전 예약 시 최대 20% 혜택</p>
+              </div>
+              <b className="promotion-icon" aria-hidden="true">🧳</b>
+            </article>
+            <article className="route-promotion route-promotion-stay">
+              <div className="promotion-copy">
+                <span>AD · DEMO</span>
+                <small>SKY STAY</small>
+                <strong>항공권 다음은<br />여행지 숙소 찾기</strong>
+                <p>예약 변경이 자유로운 숙소를 모아보세요</p>
+              </div>
+              <b className="promotion-icon" aria-hidden="true">🏨</b>
+            </article>
+            <article className="route-promotion route-promotion-esim">
+              <div className="promotion-copy">
+                <span>AD · DEMO</span>
+                <small>TRAVEL eSIM</small>
+                <strong>도착하는 순간<br />바로 연결되는 여행</strong>
+                <p>아시아 7일 데이터 플랜을 간편하게 준비하세요</p>
+              </div>
+              <b className="promotion-icon" aria-hidden="true">📶</b>
+            </article>
+          </aside>
+          <p className="promotion-disclaimer">위 프로모션은 화면 구성을 위한 시연용 광고입니다.</p>
           <p className="route-notice">
             주요 직항 노선 예시이며 실제 운항지는 계절과 항공사 일정에 따라
             변경될 수 있습니다.

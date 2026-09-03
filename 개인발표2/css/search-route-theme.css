@@ -1,0 +1,610 @@
+/* main.container, .sub-title: 메인 영역과 상단 소개 문구 설정 */
+main.container {
+  position: relative;
+  z-index: 1;
+  padding-top: 76px;
+  padding-bottom: 80px;
+}
+
+.container > h1 {
+  max-width: 720px;
+  margin: 0 0 12px;
+  color: var(--navy-950);
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -2.4px;
+}
+
+.container > h1::before {
+  content: "FLY SMARTER, TRAVEL BETTER";
+  display: block;
+  margin-bottom: 14px;
+  color: var(--blue-600);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+}
+
+.sub-title {
+  max-width: 610px;
+  margin: 0 0 42px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+@media (max-width: 1050px) {
+  .container > h1,
+  .sub-title {
+    max-width: calc(100% - 250px);
+  }
+}
+
+@media (max-width: 800px) {
+  main.container {
+    padding-top: 34px;
+  }
+
+  .container > h1,
+  .sub-title {
+    max-width: none;
+  }
+
+  .container > h1 {
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+}
+
+/* .search-form: 출발지, 도착지, 날짜를 입력하는 검색창 설정 */
+.search-form {
+  position: relative;
+  z-index: 40;
+  gap: 0;
+  padding: 10px;
+  border: 1px solid #dce9f4;
+  border-radius: 20px;
+  background: #fffffff2;
+  box-shadow:
+    0 24px 70px #0b3a6624,
+    0 4px 16px #123b6912;
+  backdrop-filter: blur(14px);
+}
+
+.search-form label {
+  position: relative;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px 16px;
+  color: #597087;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.search-form label + label::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.search-form input,
+.search-form select {
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.search-form input::placeholder {
+  color: #9aa9b9;
+  font-weight: 600;
+}
+
+.search-form .primary-button {
+  min-height: 60px;
+  margin: 3px;
+  padding: 0 24px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--blue-600), #0755a1);
+  box-shadow: 0 12px 26px #1677d24d;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.search-form .primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px #1677d266;
+}
+
+@media (max-width: 800px) {
+  .search-form {
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .search-form label {
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+
+  .search-form label + label::before {
+    display: none;
+  }
+
+  .search-form .primary-button {
+    width: 100%;
+    margin: 4px 0 0;
+  }
+}
+
+/* .travel-video-popup: 화면 오른쪽 위의 여행 영상 설정 */
+.travel-video-popup {
+  top: 72px;
+  right: auto;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 390px;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
+  background: var(--navy-900);
+  box-shadow: none;
+  transform: none;
+}
+
+.travel-video-popup video {
+  border-radius: 0;
+  filter: brightness(0.52);
+}
+
+.container > h1,
+.sub-title {
+  color: #fff;
+  text-shadow: 0 2px 18px #0009;
+}
+
+.container > h1::before {
+  color: #8ed0ff;
+}
+
+@media (max-width: 800px) {
+  .travel-video-popup {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    height: 360px;
+    margin: 0;
+  }
+}
+
+/* .route-section, .section-heading, .eyebrow: 직항 노선 영역 제목 설정 */
+.route-section {
+  margin-top: 64px;
+  padding-top: 34px;
+  border-top: 1px solid #d9e7f2;
+}
+
+.section-heading {
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.section-heading h2 {
+  color: var(--navy-950);
+  font-size: 28px;
+  letter-spacing: -1px;
+}
+
+.eyebrow {
+  color: var(--blue-600);
+}
+
+@media (max-width: 800px) {
+  .route-section {
+    margin-top: 44px;
+  }
+}
+
+/* .route-group, .route-notice: 노선 내용과 하단 안내 문구 설정 */
+.route-group b {
+  color: var(--blue-600);
+}
+
+.route-notice {
+  padding: 14px 17px;
+  border-radius: 12px;
+  background: #eaf4fb;
+}
+
+/* .airport-: 공항 목록, 카드, 이름, 이미지, 주소 팝업 설정 */
+.airport-route-list {
+  gap: 18px;
+}
+
+/* 직항 노선 카드 아래에 배치하는 시연용 여행 프로모션 */
+.route-promotion-strip {
+  display: grid;
+  width: calc(100% - 72px);
+  margin: 42px auto 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.route-promotion {
+  position: relative;
+  display: flex;
+  min-height: 174px;
+  padding: 22px;
+  overflow: hidden;
+  align-items: flex-end;
+  justify-content: space-between;
+  border: 1px solid #ffffff70;
+  border-radius: 20px;
+  color: #fff;
+  box-shadow: 0 16px 35px #102f4c1c;
+  isolation: isolate;
+}
+
+.route-promotion::before,
+.route-promotion::after {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  content: "";
+}
+
+.route-promotion::before {
+  top: -54px;
+  right: -38px;
+  width: 150px;
+  height: 150px;
+  background: #ffffff1f;
+}
+
+.route-promotion::after {
+  right: 58px;
+  bottom: -65px;
+  width: 120px;
+  height: 120px;
+  background: #ffffff12;
+}
+
+.route-promotion-baggage {
+  background: linear-gradient(145deg, #07355d, #147dc0);
+}
+
+.route-promotion-stay {
+  background: linear-gradient(145deg, #3f2a72, #8a67d7);
+}
+
+.route-promotion-esim {
+  background: linear-gradient(145deg, #075d5b, #18a593);
+}
+
+.promotion-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.promotion-copy > span {
+  width: max-content;
+  padding: 3px 7px;
+  border: 1px solid #ffffff66;
+  border-radius: 999px;
+  color: #fff;
+  background: #ffffff18;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.promotion-copy small {
+  margin-top: 6px;
+  color: #d9f1ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+.promotion-copy strong {
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.promotion-copy p {
+  max-width: 205px;
+  margin: 2px 0 0;
+  color: #eff9ff;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.promotion-icon {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  font-size: 38px;
+  filter: drop-shadow(0 7px 9px #001c2738);
+  transform: rotate(5deg);
+}
+
+.promotion-disclaimer {
+  margin: 9px 36px 0;
+  color: #8291a0;
+  font-size: 10px;
+  text-align: right;
+}
+
+@media (max-width: 980px) {
+  .route-promotion-strip {
+    width: calc(100% - 28px);
+    grid-template-columns: 1fr;
+  }
+
+  .route-promotion {
+    min-height: 150px;
+  }
+
+  .promotion-disclaimer {
+    margin-right: 14px;
+  }
+}
+
+.airport-route-card {
+  position: relative;
+  padding: 24px;
+  border-color: #dfe9f2;
+  border-radius: 20px;
+  box-shadow: 0 12px 34px #193b5b0d;
+  transition:
+    transform 0.28s,
+    border-color 0.28s,
+    box-shadow 0.28s,
+    opacity 0.28s;
+  overflow: hidden;
+}
+
+.airport-route-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90px;
+  height: 90px;
+  border-radius: 0 0 0 100%;
+  background: linear-gradient(135deg, transparent, #dff2ff80);
+  pointer-events: none;
+}
+
+.airport-route-card:hover {
+  transform: translateY(-4px);
+  border-color: #add7f5;
+  box-shadow: 0 20px 42px #123b6918;
+}
+
+.airport-route-card:focus-visible,
+.airport-route-card.is-address-open {
+  border-color: #69b8ef;
+  outline: none;
+  box-shadow:
+    0 20px 42px #123b6924,
+    0 0 0 3px #55b7f52e;
+}
+
+.airport-name > span {
+  position: relative;
+  width: 96px;
+  height: 66px;
+  flex: 0 0 96px;
+  border: 2px solid #fff;
+  border-radius: 16px;
+  background-color: var(--navy-800) !important;
+  background-position: center !important;
+  background-size: cover !important;
+  box-shadow: 0 8px 18px #1769aa35;
+  color: transparent;
+  font-size: 0;
+  letter-spacing: 1px;
+  text-shadow: none;
+  overflow: hidden;
+}
+
+.airport-route-card[data-airport="ICN"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f1f, #071a2fa8), url("../images/airport-icn.jpg") !important;
+}
+
+.airport-route-card[data-airport="GMP"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f1f, #071a2fa8), url("../images/airport-gmp.png") !important;
+}
+
+.airport-route-card[data-airport="TAE"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f1f, #071a2fa8), url("../images/airport-tae.webp") !important;
+}
+
+.airport-route-card[data-airport="PUS"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f0a, #071a2f5e), url("../images/airport-pus.png") !important;
+  background-position: center 62% !important;
+}
+
+.airport-route-card[data-airport="CJU"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f1f, #071a2fa8), url("../images/airport-cju.jpg") !important;
+}
+
+.airport-route-card[data-airport="CJJ"] .airport-name > span {
+  background-image:
+    linear-gradient(#071a2f1f, #071a2fa8), url("../images/airport-cjj.webp") !important;
+}
+
+.airport-name strong {
+  font-size: 17px;
+}
+
+.airport-name .airport-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.airport-title > span {
+  color: gray;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+}
+
+.airport-route-card.is-address-open {
+  z-index: 60;
+  display: flex;
+  width: calc(100%);
+  min-height: 210px;
+  align-items: center;
+  transform: scale(1.04);
+  animation: airport-card-pop 0.34s ease-out;
+}
+
+.airport-route-card:nth-child(odd).is-address-open {
+  justify-self: start;
+  transform-origin: left center;
+}
+
+.airport-route-card:nth-child(even).is-address-open {
+  justify-self: end;
+  transform-origin: right center;
+}
+
+.airport-route-list:has(.is-address-open)
+  .airport-route-card:not(.is-address-open) {
+  opacity: 0.52;
+  transform: scale(0.98);
+}
+
+.airport-route-card.is-address-open .airport-name > div {
+  align-content: center;
+}
+
+.airport-route-card.is-address-open .airport-name {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+
+.airport-route-card.is-address-open .airport-name > span {
+  width: 150px;
+  height: 116px;
+  flex-basis: 150px;
+  font-size: 18px;
+}
+
+.airport-route-card.is-address-open .airport-name strong {
+  font-size: 23px;
+}
+
+.airport-route-card.is-address-open .route-group {
+  display: none;
+}
+
+.airport-address {
+  margin: 5px 0 0;
+  color: #1769aa;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  white-space: pre;
+}
+
+.airport-address[hidden] {
+  display: none;
+}
+
+@keyframes airport-card-pop {
+  from {
+    opacity: 0.55;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@media (max-width: 800px) {
+  .airport-route-card.is-address-open {
+    width: 100%;
+    min-height: 190px;
+    transform: scale(1.025);
+    transform-origin: center;
+  }
+
+  .airport-route-card.is-address-open .airport-name > span {
+    width: 120px;
+    height: 88px;
+    flex-basis: 120px;
+    font-size: 15px;
+  }
+
+  .airport-route-card.is-address-open .airport-name strong {
+    font-size: 19px;
+  }
+
+  .airport-address {
+    white-space: pre-line;
+  }
+
+  @keyframes airport-card-pop {
+    from {
+      opacity: 0.55;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.025);
+    }
+  }
+}
+
+/* .popular-section: 인기 여행지 팝업 설정 */
+.popular-section {
+  border-color: #bcdcf4;
+  border-radius: 18px;
+  box-shadow: 0 14px 34px #123b692b;
+}
+
+.popular-section .popular-toggle {
+  background: linear-gradient(145deg, #0a2d52, #1683dc);
+}
+
+.popular-section.is-open {
+  border-radius: 22px;
+  box-shadow: 0 24px 70px #071a2f3d;
+}
+
+/* .destination-list: 인기 여행지 카드 설정 */
+.destination-list .destination-card {
+  background: linear-gradient(135deg, #eef8ff, #fff);
+}
+
+/* .price-chart-panel: 항공권 가격 그래프 설정 */
+.price-chart-panel {
+  border-color: #d5e6f3;
+}

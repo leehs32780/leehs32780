@@ -1,3 +1,4 @@
+// 프로필 선택 화면에서 사용할 이모지 아바타를 주제별로 분류한 데이터입니다.
 export const profileAvatarGroups = [
   { category: "여행", avatars: [
     { id: "pilot", icon: "👨‍✈️", label: "파일럿" }, { id: "traveler", icon: "🧳", label: "여행 가방" },
@@ -21,4 +22,5 @@ export const profileAvatarGroups = [
   ]},
 ];
 
+// 저장된 avatar id를 빠르게 찾을 때 사용할 수 있도록 모든 그룹을 한 배열로 합칩니다.
 export const profileAvatars = profileAvatarGroups.flatMap(({ avatars }) => avatars);

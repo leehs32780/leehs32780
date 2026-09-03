@@ -21,7 +21,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-
 // ── 섹션 1: 출처(origin)란 ──
 
 // 출처는 세 가지가 합쳐진 것입니다.
@@ -38,12 +37,36 @@ app.get("/origin-quiz", (req, res) => {
   res.json({
     기준,
     비교: [
-      { 주소: "http://localhost:3000/api/x", 같은출처: true, 이유: "경로는 상관없습니다" },
-      { 주소: "http://localhost:3000/?q=1", 같은출처: true, 이유: "쿼리도 상관없습니다" },
-      { 주소: "http://localhost:5500", 같은출처: false, 이유: "포트가 다릅니다" },
-      { 주소: "https://localhost:3000", 같은출처: false, 이유: "프로토콜이 다릅니다" },
-      { 주소: "http://127.0.0.1:3000", 같은출처: false, 이유: "글자가 다르면 다른 호스트입니다" },
-      { 주소: "http://api.mysite.com", 같은출처: false, 이유: "호스트가 다릅니다" },
+      {
+        주소: "http://localhost:3000/api/x",
+        같은출처: true,
+        이유: "경로는 상관없습니다",
+      },
+      {
+        주소: "http://localhost:3000/?q=1",
+        같은출처: true,
+        이유: "쿼리도 상관없습니다",
+      },
+      {
+        주소: "http://localhost:5500",
+        같은출처: false,
+        이유: "포트가 다릅니다",
+      },
+      {
+        주소: "https://localhost:3000",
+        같은출처: false,
+        이유: "프로토콜이 다릅니다",
+      },
+      {
+        주소: "http://127.0.0.1:3000",
+        같은출처: false,
+        이유: "글자가 다르면 다른 호스트입니다",
+      },
+      {
+        주소: "http://api.mysite.com",
+        같은출처: false,
+        이유: "호스트가 다릅니다",
+      },
     ],
   });
 });
@@ -59,7 +82,6 @@ app.get("/origin-quiz", (req, res) => {
 //   React 개발 서버는 5173, 우리 서버는 3000. 이미 다른 출처입니다.
 //   그래서 프론트를 따로 만들면 반드시 CORS 를 만납니다.
 
-
 // ── 섹션 2: 왜 이런 규칙이 있나 ──
 
 app.get("/why-sop", (req, res) => {
@@ -71,7 +93,8 @@ app.get("/why-sop", (req, res) => {
       "브라우저는 은행 쿠키를 자동으로 붙여 보냅니다. 은행은 로그인한 사람으로 봅니다.",
       "막지 않으면 나쁜 사이트가 여러분의 계좌 정보를 읽습니다.",
     ],
-    그래서: "브라우저는 '다른 출처의 응답을 스크립트가 읽는 것' 을 기본으로 막습니다.",
+    그래서:
+      "브라우저는 '다른 출처의 응답을 스크립트가 읽는 것' 을 기본으로 막습니다.",
     이름: "같은 출처 정책 (Same-Origin Policy)",
     CORS는: "그 막힌 것을 서버가 '얘는 괜찮다' 고 허락해 주는 방법입니다.",
   });
@@ -86,7 +109,6 @@ app.get("/why-sop", (req, res) => {
 //
 //   그래서 "CORS 를 열면 위험한가?" 는 상황에 따라 다릅니다.
 //   누구에게 여는지가 중요합니다. 개념03 에서 봅니다.
-
 
 // ── 섹션 3: ★★ 브라우저만 막습니다 ──
 
@@ -127,7 +149,6 @@ app.get("/api/v1/equipments", (req, res) => {
 //   둘 다 맞습니다. Postman 은 브라우저가 아니니까요.
 //   이 대화를 안 하려면 백엔드가 CORS 를 알아야 합니다.
 
-
 // ── 섹션 4: 브라우저에서 실제로 막히는 것 보기 ──
 
 app.get("/how-to-test", (req, res) => {
@@ -150,7 +171,6 @@ app.get("/how-to-test", (req, res) => {
 // 확인: GET /how-to-test
 // 응답: 200 {"준비":["이 서버를 켜 둡니다 (포트 3000).","front/다른출처.html 을 '다른 포트' 로 엽니다.","VS Code 라면 파일을 우클릭 → Open with Live Server (보통 5500 포트).","또는 터미널을 하나 더 열어  npx serve front  를 실행합니다."],"주의":["파일을 더블클릭해서 열면 주소가 file:// 이 됩니다.","그것도 다른 출처라 막히긴 하는데, 에러 메시지가 다르게 나옵니다.","http:// 로 여는 것이 실제 상황과 같습니다."],"반드시":"F12 → Console 탭을 함께 여세요. 진짜 원인은 콘솔에만 나옵니다."}
 
-
 // ── 섹션 5: ★ 에러 메시지 읽는 법 ──
 
 // 진짜 크롬으로 다섯 가지 경우를 실제로 재 봤습니다.
@@ -163,27 +183,34 @@ app.get("/error-messages", (req, res) => {
     콘솔에나오는진짜이유: [
       {
         경우: "서버가 CORS 헤더를 아예 안 줌",
-        메시지: "No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        메시지:
+          "No 'Access-Control-Allow-Origin' header is present on the requested resource.",
         고치는법: "서버에서 Access-Control-Allow-Origin 을 붙여 주세요.",
       },
       {
         경우: "POST/PATCH/DELETE 인데 CORS 헤더가 없음 (프리플라이트가 막힌 경우)",
-        메시지: "Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-        고치는법: "OPTIONS 요청에도 CORS 헤더를 주세요. 앞부분에 preflight 이 붙어 있으면 OPTIONS 문제입니다.",
+        메시지:
+          "Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        고치는법:
+          "OPTIONS 요청에도 CORS 헤더를 주세요. 앞부분에 preflight 이 붙어 있으면 OPTIONS 문제입니다.",
       },
       {
         경우: "허용한 출처가 내 출처와 다름",
-        메시지: "The 'Access-Control-Allow-Origin' header has a value 'http://example.com' that is not equal to the supplied origin.",
-        고치는법: "허용 목록에 내 출처를 추가하세요. 포트까지 정확히 맞춰야 합니다.",
+        메시지:
+          "The 'Access-Control-Allow-Origin' header has a value 'http://example.com' that is not equal to the supplied origin.",
+        고치는법:
+          "허용 목록에 내 출처를 추가하세요. 포트까지 정확히 맞춰야 합니다.",
       },
       {
         경우: "Authorization 같은 헤더를 보냈는데 허용 안 함",
-        메시지: "Request header field authorization is not allowed by Access-Control-Allow-Headers in preflight response.",
+        메시지:
+          "Request header field authorization is not allowed by Access-Control-Allow-Headers in preflight response.",
         고치는법: "Access-Control-Allow-Headers 에 그 헤더 이름을 넣으세요.",
       },
       {
         경우: "DELETE 를 보냈는데 허용 안 함",
-        메시지: "Method DELETE is not allowed by Access-Control-Allow-Methods in preflight response.",
+        메시지:
+          "Method DELETE is not allowed by Access-Control-Allow-Methods in preflight response.",
         고치는법: "Access-Control-Allow-Methods 에 그 메서드를 넣으세요.",
       },
       {
@@ -215,7 +242,6 @@ app.get("/error-messages", (req, res) => {
 //   ③ 그 이유가 위 표의 어느 줄인지 찾습니다
 //   ④ Network 탭에서 그 요청을 눌러 Response Headers 를 확인합니다
 
-
 // ── 섹션 6: Network 탭에서 무엇을 보나 ──
 
 app.get("/network-tab", (req, res) => {
@@ -239,23 +265,28 @@ app.get("/network-tab", (req, res) => {
 //   응답이 도착한 것과 스크립트가 읽을 수 있는 것은 다릅니다.
 //   브라우저가 중간에서 가로채 버립니다.
 
-
 app.use((req, res) => {
-  res.status(404).json({ error: { code: "NOT_FOUND", message: "찾을 수 없습니다" } });
+  res
+    .status(404)
+    .json({ error: { code: "NOT_FOUND", message: "찾을 수 없습니다" } });
 });
 
 app.use((err, req, res, next) => {
   console.error(`[에러] ${req.method} ${req.path} — ${err.message}`);
-  res.status(500).json({ error: { code: "INTERNAL_ERROR", message: "서버에서 문제가 생겼습니다" } });
+  res
+    .status(500)
+    .json({
+      error: { code: "INTERNAL_ERROR", message: "서버에서 문제가 생겼습니다" },
+    });
 });
-
 
 app.listen(PORT, () => {
   console.log(`서버가 켜졌습니다.  http://localhost:${PORT}/api/v1/equipments`);
   console.log("★ 이 서버는 일부러 CORS 를 안 열어 두었습니다.");
-  console.log("  front/다른출처.html 을 다른 포트로 열어서 막히는 것을 확인하세요.");
+  console.log(
+    "  front/다른출처.html 을 다른 포트로 열어서 막히는 것을 확인하세요.",
+  );
 });
-
 
 // ============================================================
 // 실험 순서
@@ -280,7 +311,6 @@ app.listen(PORT, () => {
 //      → Status 는 200 입니다. 응답은 왔습니다. 읽기만 막힌 것입니다.
 //
 // 2·3번은 되고 4번만 안 되는 것 — 이게 CORS 의 전부입니다.
-
 
 // ============================================================
 // 직접 해 볼 것
@@ -313,7 +343,6 @@ app.listen(PORT, () => {
 //
 //     (힌트: "브라우저의 스크립트가 응답을 읽는가?" 를 물어보세요)
 
-
 // ── 자주 하는 실수 ──
 
 // [실수 1] "Failed to fetch" 만 보고 서버가 죽었다고 생각
@@ -334,7 +363,6 @@ app.listen(PORT, () => {
 
 // [실수 6] 응답 헤더가 안 읽히는데 CORS 를 의심 안 함
 //   에러가 안 나서 알아채기 어렵습니다. Expose-Headers 를 떠올리세요.
-
 
 // ── 정리 ──
 

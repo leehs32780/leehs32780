@@ -1,3 +1,4 @@
+// 로고, 주요 메뉴, 로그인 상태와 사용자 메뉴를 담당하는 상단 헤더입니다.
 export default function Header({
   user,
   avatarIcon,
@@ -11,6 +12,7 @@ export default function Header({
   return (
     <header className="site-header">
       <div className="container">
+        {/* 로고를 누르면 메인 화면으로 이동합니다. */}
         <a className="logo" href="/" aria-label="Sky Finder 홈">
           <span className="logo-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24">
@@ -24,6 +26,7 @@ export default function Header({
           </span>
         </a>
         <nav className="site-nav" aria-label="주요 메뉴">
+          {/* 로그인한 사용자에게만 내 예약 버튼과 예약 개수를 보여줍니다. */}
           <a href="/">항공권</a>
           <a href="#direct-routes">여행지</a>
           {user && (
@@ -35,6 +38,7 @@ export default function Header({
               내 예약 <span>{bookingCount}</span>
             </button>
           )}
+          {/* 로그인 상태에서는 프로필 메뉴를, 비로그인 상태에서는 로그인 버튼을 표시합니다. */}
           {user ? (
             <div className="profile">
               <button
@@ -68,6 +72,7 @@ export default function Header({
               로그인
             </button>
           )}
+          {/* 로그인 여부와 관계없이 Q&A 창을 열 수 있습니다. */}
           <button
             className="header-action qna-action"
             type="button"

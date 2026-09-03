@@ -1,4 +1,6 @@
+// App에서 관리하는 상태와 이벤트 함수를 받아 모든 팝업·모달 화면을 렌더링합니다.
 export default function AppOverlays({ ui }) {
+  // ui 객체를 구조 분해해 각 모달에서 필요한 값과 변경 함수를 바로 사용합니다.
   const {
     loginOpen,
     setLoginOpen,
@@ -6,7 +8,22 @@ export default function AppOverlays({ ui }) {
     setLoginForm,
     loginError,
     setLoginError,
+    authMode,
+    setAuthMode,
+    signupForm,
+    setSignupForm,
+    signupError,
+    setSignupError,
+    signup,
     login,
+    findIdName,
+    setFindIdName,
+    resetForm,
+    setResetForm,
+    recoveryMessage,
+    setRecoveryMessage,
+    findId,
+    resetPassword,
     loginSuccess,
     setLoginSuccess,
     user,
@@ -17,6 +34,19 @@ export default function AppOverlays({ ui }) {
     profileAvatars,
     profileAvatarGroups,
     saveProfile,
+    savedCards,
+    editingCardId,
+    sitePaymentPin,
+    sitePinForm,
+    setSitePinForm,
+    cardForm,
+    setCardForm,
+    savePaymentMethod,
+    editPaymentMethod,
+    cancelPaymentEdit,
+    saveSitePaymentPin,
+    removePaymentMethod,
+    deleteAccount,
     qnaOpen,
     setQnaOpen,
     qnaForm,
@@ -47,6 +77,8 @@ export default function AppOverlays({ ui }) {
     bookingComplete,
     setBookingComplete,
   } = ui;
+
+  // 각 화면은 해당 open 상태가 true일 때만 DOM에 생성됩니다.
   return (
     <>
       {/* 8-2. 로그인 입력 팝업 */}
@@ -75,9 +107,10 @@ export default function AppOverlays({ ui }) {
             <span className="login-symbol" aria-hidden="true">
               ✈
             </span>
-            <p>WELCOME BACK</p>
-            <h2 id="login-title">SKY FINDER 로그인</h2>
-            <form onSubmit={login}>
+            <p>{authMode === "signup" ? "JOIN SKY FINDER" : authMode === "login" ? "WELCOME BACK" : "ACCOUNT RECOVERY"}</p>
+            <h2 id="login-title">{authMode === "signup" ? "SKY FINDER 회원가입" : authMode === "find-id" ? "아이디 찾기" : authMode === "reset-password" ? "비밀번호 재설정" : "SKY FINDER 로그인"}</h2>
+            {(authMode === "login" || authMode === "signup") && <div className="auth-tabs"><button className={authMode === "login" ? "is-active" : ""} type="button" onClick={() => { setAuthMode("login"); setSignupError(""); }}>로그인</button><button className={authMode === "signup" ? "is-active" : ""} type="button" onClick={() => { setAuthMode("signup"); setLoginError(""); }}>회원가입</button></div>}
+            {authMode === "login" && <form onSubmit={login}>
               <label>
                 아이디
                 <input
@@ -112,17 +145,42 @@ export default function AppOverlays({ ui }) {
                 />
               </label>
               {loginError && (
-                <span className="login-error" role="alert">
+                <span className={loginError.startsWith("회원가입") ? "login-info" : "login-error"} role="alert">
                   {loginError}
                 </span>
               )}
               <button className="login-submit" type="submit">
                 로그인
               </button>
-            </form>
-            <small className="demo-account">
-              발표용 계정: skyfinder / 1234
-            </small>
+              <div className="account-recovery-links">
+                <button type="button" onClick={() => { setAuthMode("find-id"); setRecoveryMessage(""); }}>아이디 찾기</button>
+                <span aria-hidden="true">|</span>
+                <button type="button" onClick={() => { setAuthMode("reset-password"); setRecoveryMessage(""); }}>비밀번호 재설정</button>
+              </div>
+            </form>}
+            {authMode === "signup" && <form onSubmit={signup}>
+              <label>아이디<input type="text" autoFocus value={signupForm.id} onChange={(event) => { setSignupForm((current) => ({ ...current, id: event.target.value })); setSignupError(""); }} placeholder="사용할 아이디" required /></label>
+              <label>이름<input type="text" maxLength="12" value={signupForm.name} onChange={(event) => setSignupForm((current) => ({ ...current, name: event.target.value }))} placeholder="프로필에 표시할 이름" required /></label>
+              <label>비밀번호<input type="password" value={signupForm.password} onChange={(event) => { setSignupForm((current) => ({ ...current, password: event.target.value })); setSignupError(""); }} placeholder="4자리 이상" required /></label>
+              <label>비밀번호 확인<input type="password" value={signupForm.confirmPassword} onChange={(event) => { setSignupForm((current) => ({ ...current, confirmPassword: event.target.value })); setSignupError(""); }} placeholder="비밀번호를 다시 입력하세요" required /></label>
+              {signupError && <span className="login-error" role="alert">{signupError}</span>}
+              <button className="login-submit" type="submit">회원가입 완료</button>
+            </form>}
+            {authMode === "find-id" && <form onSubmit={findId}>
+              <label>가입할 때 입력한 이름<input type="text" autoFocus value={findIdName} onChange={(event) => { setFindIdName(event.target.value); setRecoveryMessage(""); }} placeholder="이름을 입력하세요" required /></label>
+              {recoveryMessage && <span className={recoveryMessage.startsWith("가입한") ? "login-info" : "login-error"} role="alert">{recoveryMessage}</span>}
+              <button className="login-submit" type="submit">아이디 확인</button>
+              <button className="recovery-back" type="button" onClick={() => { setAuthMode("login"); setRecoveryMessage(""); }}>로그인으로 돌아가기</button>
+            </form>}
+            {authMode === "reset-password" && <form onSubmit={resetPassword}>
+              <label>아이디<input type="text" autoFocus value={resetForm.id} onChange={(event) => { setResetForm((current) => ({ ...current, id: event.target.value })); setRecoveryMessage(""); }} placeholder="가입한 아이디" required /></label>
+              <label>가입할 때 입력한 이름<input type="text" value={resetForm.name} onChange={(event) => { setResetForm((current) => ({ ...current, name: event.target.value })); setRecoveryMessage(""); }} placeholder="가입한 이름" required /></label>
+              <label>새 비밀번호<input type="password" value={resetForm.password} onChange={(event) => { setResetForm((current) => ({ ...current, password: event.target.value })); setRecoveryMessage(""); }} placeholder="4자리 이상" required /></label>
+              <label>새 비밀번호 확인<input type="password" value={resetForm.confirmPassword} onChange={(event) => { setResetForm((current) => ({ ...current, confirmPassword: event.target.value })); setRecoveryMessage(""); }} placeholder="새 비밀번호를 다시 입력하세요" required /></label>
+              {recoveryMessage && <span className="login-error" role="alert">{recoveryMessage}</span>}
+              <button className="login-submit" type="submit">비밀번호 변경</button>
+              <button className="recovery-back" type="button" onClick={() => { setAuthMode("login"); setRecoveryMessage(""); }}>로그인으로 돌아가기</button>
+            </form>}
           </section>
         </div>
       )}
@@ -229,9 +287,53 @@ export default function AppOverlays({ ui }) {
                   ))}
                 </div>
               </fieldset>
+              <section className="profile-payment">
+                <div className="profile-payment-heading">
+                  <div><b>결제수단</b><small>여러 장을 등록하고 눌러서 수정할 수 있습니다.</small></div>
+                </div>
+                <div className="saved-card-list">
+                  {savedCards.map((card) => (
+                    <div className={`saved-card ${editingCardId === card.id ? "is-editing" : ""}`} key={card.id}>
+                      <button type="button" className="saved-card-main" onClick={() => editPaymentMethod(card)}>
+                        <span>💳</span><span><strong>{card.cardName}</strong><small>•••• •••• •••• {card.lastFour} · {card.expiry}</small></span><i>{editingCardId === card.id ? "수정 중" : "변경"}</i>
+                      </button>
+                      <button type="button" className="saved-card-delete" onClick={() => removePaymentMethod(card.id)}>삭제</button>
+                    </div>
+                  ))}
+                </div>
+                <div className="card-register-form">
+                  <strong className="card-form-title">{editingCardId === null ? "새 카드 등록" : "등록 카드 변경"}</strong>
+                  <label>카드 이름<input value={cardForm.cardName} onChange={(event) => setCardForm((current) => ({ ...current, cardName: event.target.value }))} placeholder="예: 여행용 카드" /></label>
+                  <label>카드번호<input inputMode="numeric" value={cardForm.cardNumber} onChange={(event) => { const digits = event.target.value.replace(/\D/g, "").slice(0, 16); setCardForm((current) => ({ ...current, cardNumber: digits.replace(/(.{4})/g, "$1 ").trim() })); }} placeholder={editingCardId === null ? "0000 0000 0000 0000" : "변경할 때만 새 번호 입력"} pattern="[0-9 ]{19}" /></label>
+                  <div className="payment-row">
+                    <label>유효기간<input inputMode="numeric" value={cardForm.expiry} onChange={(event) => { const digits = event.target.value.replace(/\D/g, "").slice(0, 4); setCardForm((current) => ({ ...current, expiry: digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits })); }} placeholder="MM/YY" pattern="[0-9]{2}/[0-9]{2}" /></label>
+                    <label>CVC<input type="password" inputMode="numeric" value={cardForm.cvc} onChange={(event) => setCardForm((current) => ({ ...current, cvc: event.target.value.replace(/\D/g, "").slice(0, 3) }))} placeholder="000" pattern="[0-9]{3}" /></label>
+                  </div>
+                  <div className="card-form-actions">
+                    {editingCardId !== null && <button type="button" onClick={cancelPaymentEdit}>취소</button>}
+                    <button type="button" className="card-register-button" onClick={savePaymentMethod}>{editingCardId === null ? "카드 추가" : "변경사항 저장"}</button>
+                  </div>
+                </div>
+              </section>
+              <section className="site-pin-settings">
+                <div className="site-pin-heading">
+                  <div><b>SKY FINDER 결제 PIN</b><small>결제수단과 관계없이 결제 승인에 사용하는 6자리 번호입니다.</small></div>
+                  <span>{sitePaymentPin ? "설정됨" : "미설정"}</span>
+                </div>
+                {sitePaymentPin && <label>현재 PIN<input type="password" inputMode="numeric" value={sitePinForm.current} onChange={(event) => setSitePinForm((current) => ({ ...current, current: event.target.value.replace(/\D/g, "").slice(0, 6) }))} placeholder="현재 PIN 6자리" maxLength="6" /></label>}
+                <div className="payment-row">
+                  <label>{sitePaymentPin ? "새 PIN" : "PIN 6자리"}<input type="password" inputMode="numeric" value={sitePinForm.newPin} onChange={(event) => setSitePinForm((current) => ({ ...current, newPin: event.target.value.replace(/\D/g, "").slice(0, 6) }))} placeholder="숫자 6자리" maxLength="6" /></label>
+                  <label>PIN 확인<input type="password" inputMode="numeric" value={sitePinForm.confirm} onChange={(event) => setSitePinForm((current) => ({ ...current, confirm: event.target.value.replace(/\D/g, "").slice(0, 6) }))} placeholder="한 번 더 입력" maxLength="6" /></label>
+                </div>
+                <button type="button" onClick={saveSitePaymentPin}>{sitePaymentPin ? "PIN 변경" : "PIN 등록"}</button>
+              </section>
               <button className="profile-save" type="submit">
                 변경사항 저장
               </button>
+              <div className="account-danger-zone">
+                <div><strong>계정 탈퇴</strong><small>예약, 질문과 결제수단이 모두 삭제됩니다.</small></div>
+                <button type="button" onClick={deleteAccount}>탈퇴하기</button>
+              </div>
             </form>
           </section>
         </div>
@@ -475,74 +577,15 @@ export default function AppOverlays({ ui }) {
               <div className="payment-section">
                 <div className="payment-heading">
                   <span>PAYMENT</span>
-                  <strong>신용/체크카드 결제</strong>
+                  <strong>결제 방법 선택</strong>
                 </div>
-                <label>
-                  카드번호
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="cc-number"
-                    value={paymentForm.cardNumber}
-                    onChange={(event) => {
-                      const digits = event.target.value
-                        .replace(/\D/g, "")
-                        .slice(0, 16);
-                      setPaymentForm((current) => ({
-                        ...current,
-                        cardNumber: digits.replace(/(.{4})/g, "$1 ").trim(),
-                      }));
-                    }}
-                    placeholder="0000 0000 0000 0000"
-                    pattern="[0-9 ]{19}"
-                    required
-                  />
-                </label>
-                <div className="payment-row">
-                  <label>
-                    유효기간
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      autoComplete="cc-exp"
-                      value={paymentForm.expiry}
-                      onChange={(event) => {
-                        const digits = event.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 4);
-                        setPaymentForm((current) => ({
-                          ...current,
-                          expiry:
-                            digits.length > 2
-                              ? `${digits.slice(0, 2)}/${digits.slice(2)}`
-                              : digits,
-                        }));
-                      }}
-                      placeholder="MM/YY"
-                      pattern="[0-9]{2}/[0-9]{2}"
-                      required
-                    />
-                  </label>
-                  <label>
-                    CVC
-                    <input
-                      type="password"
-                      inputMode="numeric"
-                      autoComplete="cc-csc"
-                      value={paymentForm.cvc}
-                      onChange={(event) =>
-                        setPaymentForm((current) => ({
-                          ...current,
-                          cvc: event.target.value
-                            .replace(/\D/g, "")
-                            .slice(0, 3),
-                        }))
-                      }
-                      placeholder="000"
-                      pattern="[0-9]{3}"
-                      required
-                    />
-                  </label>
+                <div className="payment-methods">
+                  {[{ id: "kakao", icon: "K", name: "카카오페이" }, { id: "naver", icon: "N", name: "네이버페이" }, { id: "toss", icon: "T", name: "토스페이" }, { id: "payco", icon: "P", name: "페이코" }, ...savedCards.map((card) => ({ id: `card:${card.id}`, icon: "💳", name: `${card.cardName} •${card.lastFour}` }))].map((method) => (
+                    <label className={`payment-method ${paymentForm.method === method.id ? "is-selected" : ""}`} key={method.id}>
+                      <input type="radio" name="payment-method" value={method.id} checked={paymentForm.method === method.id} onChange={(event) => setPaymentForm((current) => ({ ...current, method: event.target.value }))} />
+                      <b>{method.icon}</b><span>{method.name}</span>
+                    </label>
+                  ))}
                 </div>
                 <label className="payment-agree">
                   <input
@@ -598,38 +641,38 @@ export default function AppOverlays({ ui }) {
             </span>
             <p>SECURE PAYMENT</p>
             <h2 id="pin-title">결제 PIN 입력</h2>
-            <small>카드 결제를 승인하려면 4자리 PIN을 입력하세요.</small>
+            <small>프로필에 등록한 SKY FINDER 결제 PIN 6자리를 입력하세요.</small>
             <form onSubmit={reserveFlight}>
               <input
                 type="password"
                 inputMode="numeric"
                 autoComplete="off"
                 autoFocus
-                maxLength="4"
-                pattern="[0-9]{4}"
+                maxLength="6"
+                pattern="[0-9]{6}"
                 value={paymentPin}
                 onChange={(event) =>
                   setPaymentPin(
-                    event.target.value.replace(/\D/g, "").slice(0, 4),
+                    event.target.value.replace(/\D/g, "").slice(0, 6),
                   )
                 }
-                aria-label="결제 PIN 4자리"
-                placeholder="••••"
+                aria-label="결제 PIN 6자리"
+                placeholder="••••••"
                 required
               />
               <div className="pin-dots" aria-hidden="true">
-                {[0, 1, 2, 3].map((index) => (
+                {[0, 1, 2, 3, 4, 5].map((index) => (
                   <i
                     className={paymentPin.length > index ? "is-filled" : ""}
                     key={index}
                   ></i>
                 ))}
               </div>
-              <button type="submit" disabled={paymentPin.length !== 4}>
+              <button type="submit" disabled={paymentPin.length !== 6}>
                 결제 승인
               </button>
             </form>
-            <em>테스트용 PIN은 원하는 숫자 4자리를 입력하세요.</em>
+            <em>카드 등록 시 설정한 숫자 6자리를 입력하세요.</em>
           </section>
         </div>
       )}
@@ -654,7 +697,7 @@ export default function AppOverlays({ ui }) {
             <div className="payment-complete-info">
               <b>{formatPrice(bookingComplete.payment.amount)}</b>
               <span>
-                카드 끝번호 {bookingComplete.payment.lastFour} · 결제 완료
+                {bookingComplete.payment.method}{bookingComplete.payment.lastFour && ` · 끝번호 ${bookingComplete.payment.lastFour}`} · 결제 완료
               </span>
             </div>
             <p>예약번호</p>

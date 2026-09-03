@@ -1,3 +1,4 @@
+// 현재 사용자가 결제한 예약 목록과 예약 취소 기능을 제공하는 모달입니다.
 export default function MyBookingsModal({
   bookings,
   onClose,
@@ -28,17 +29,20 @@ export default function MyBookingsModal({
           ×
         </button>
         <header>
+          {/* 모달의 제목과 기능 안내 문구입니다. */}
           <span>MY TRIPS</span>
           <h2 id="my-bookings-title">내가 예약한 항공권</h2>
           <p>결제 완료된 항공권과 여행 일정을 확인하세요.</p>
         </header>
         <div className="my-bookings-list">
+          {/* 저장된 예약이 없을 때 보여주는 빈 화면입니다. */}
           {bookings.length === 0 && (
             <div className="my-bookings-empty">
               아직 예약한 항공권이 없습니다.
             </div>
           )}
           {bookings.map((booking) => (
+            // 예약 한 건마다 노선, 항공편, 탑승객과 결제 정보를 카드로 출력합니다.
             <article className="my-booking-card" key={booking.number}>
               <div className="my-booking-top">
                 <span>결제 완료</span>
@@ -80,7 +84,7 @@ export default function MyBookingsModal({
                 </div>
                 <div>
                   <dt>결제 금액</dt>
-                  <dd>{formatPrice(booking.payment.amount)}</dd>
+                  <dd>{formatPrice(booking.payment.amount)} · {booking.payment.method}</dd>
                 </div>
               </dl>
               <button
