@@ -4,6 +4,7 @@ export default function PriceChart({ destination, formatPrice }) {
   const width = 760;
   const height = 300;
   const padding = { top: 45, right: 35, bottom: 45, left: 35 };
+  // 최저·최고 가격보다 축 범위를 넓혀 그래프 위아래에 여유를 줍니다.
   const min = Math.min(...destination.prices) * 0.92;
   const max = Math.max(...destination.prices) * 1.05;
   // 가격 범위를 SVG의 위아래 좌표로 변환해 각 주차의 점 위치를 계산합니다.
@@ -19,6 +20,7 @@ export default function PriceChart({ destination, formatPrice }) {
 
   return (
     <section className="price-chart-panel" aria-live="polite">
+      {/* 선택한 여행지 이름과 5주 중 가장 낮은 예상 가격을 표시합니다. */}
       <div className="chart-heading">
         <div>
           <span>{destination.country}</span>
@@ -51,6 +53,7 @@ export default function PriceChart({ destination, formatPrice }) {
               y2={y}
             />
           ))}
+          {/* 가격선 아래를 채운 면과 가격 변화를 연결하는 선을 함께 그립니다. */}
           <polygon className="chart-area" points={areaText} />
           <polyline className="chart-line" points={pointText} />
           {points.map((point, index) => (

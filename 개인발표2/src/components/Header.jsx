@@ -1,4 +1,5 @@
 // 로고, 주요 메뉴, 로그인 상태와 사용자 메뉴를 담당하는 상단 헤더입니다.
+// 로그인 정보와 메뉴 클릭 함수를 props로 받아 부모의 예약·프로필·로그인 창을 엽니다.
 export default function Header({
   user,
   avatarIcon,
@@ -16,7 +17,15 @@ export default function Header({
         <a className="logo" href="/" aria-label="Sky Finder 홈">
           <span className="logo-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24">
-              <path d="M17.8 19 15 12l3.5-3.5c1.5-1.5 2-3.5 1-4.5s-3-.5-4.5 1l-3.5 3.5-7-2.8L3 7.2l5.5 4-3 3H3l-1 1 3 2 2 3 1-1v-2.5l3-3 4 5.5z" />
+              <circle className="logo-orbit" cx="12" cy="12" r="8.35" />
+              <path
+                className="logo-flight-path"
+                d="M3.6 17.1c3.85 1.1 7.5.4 10.25-1.85 2.15-1.75 3.15-4.05 3.55-6.7"
+              />
+              <g className="logo-plane">
+                <path d="M20.85 5.15c-.58-.58-1.95-.08-3.05 1.02l-3.28 3.28-7.7-3.02-1.4 1.4 6.08 4.6-2.82 2.82-2.42-.42-1.2 1.2 3.06 1.85 1.85 3.06 1.2-1.2-.42-2.42 2.82-2.82 4.6 6.08 1.4-1.4-3.02-7.7 3.28-3.28c1.1-1.1 1.6-2.47 1.02-3.05Z" />
+              </g>
+              <circle className="logo-star" cx="5.25" cy="8.1" r=".8" />
             </svg>
           </span>
           <span className="logo-wordmark">
@@ -25,9 +34,10 @@ export default function Header({
             <small>FLIGHTS, SIMPLIFIED</small>
           </span>
         </a>
+        {/* 같은 페이지의 검색·여행지 영역으로 이동하는 링크와 사용자 메뉴를 배치합니다. */}
         <nav className="site-nav" aria-label="주요 메뉴">
           {/* 로그인한 사용자에게만 내 예약 버튼과 예약 개수를 보여줍니다. */}
-          <a href="/">항공권</a>
+          <a href="#flight-search">항공권</a>
           <a href="#direct-routes">여행지</a>
           {user && (
             <button

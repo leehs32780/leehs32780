@@ -46,7 +46,7 @@ body {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
   color: #fff;
   text-decoration: none;
 }
@@ -54,34 +54,74 @@ body {
 .logo-mark {
   position: relative;
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   place-items: center;
-  overflow: hidden;
-  border: 1px solid #ffffff70;
-  border-radius: 13px;
-  background: linear-gradient(145deg, #eaf8ff 0%, #77c9ff 48%, #168ee0 100%);
+  border: 1px solid #9edcff8c;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 24%, #ffffff 0 2px, transparent 3px),
+    linear-gradient(145deg, #49baff 0%, #117fc8 52%, #074c82 100%);
   box-shadow:
-    0 8px 24px #008ee455,
-    inset 0 1px 0 #fff;
-  transform: rotate(-3deg);
+    0 0 0 4px #73caff12,
+    0 9px 25px #008ee45c,
+    inset 0 1px 0 #ffffffb8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logo-mark::after {
+.logo-mark::before {
   content: "";
   position: absolute;
-  width: 31px;
-  height: 13px;
-  border: 1px solid #fff8;
+  inset: -4px;
+  border: 1px solid #8bd4ff35;
   border-radius: 50%;
-  transform: rotate(-30deg);
 }
 
 .logo-mark svg {
-  z-index: 1;
-  width: 21px;
-  fill: #06213b;
-  filter: drop-shadow(0 1px 0 #fff8);
+  width: 35px;
+  height: 35px;
+  overflow: visible;
+}
+
+.logo-orbit,
+.logo-flight-path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.logo-orbit {
+  stroke: #d8f2ff70;
+  stroke-width: 0.65;
+  stroke-dasharray: 2 2.25;
+}
+
+.logo-flight-path {
+  stroke: #d7f2ff;
+  stroke-width: 0.85;
+  stroke-dasharray: 1.7 1.5;
+  opacity: 0.75;
+}
+
+.logo-plane {
+  fill: #fff;
+  filter:
+    drop-shadow(0 2px 2px #003f6ca8)
+    drop-shadow(0 0 2px #ffffff73);
+  transform: translate(-1.2px, -1.2px) scale(1.1);
+  transform-origin: center;
+}
+
+.logo-star {
+  fill: #bce9ff;
+  filter: drop-shadow(0 0 3px #fff);
+}
+
+.logo:hover .logo-mark {
+  transform: translateY(-2px) rotate(4deg);
+  box-shadow:
+    0 0 0 5px #73caff1c,
+    0 12px 30px #008ee475,
+    inset 0 1px 0 #ffffffcc;
 }
 
 .logo-wordmark {
@@ -94,26 +134,26 @@ body {
 
 .logo-wordmark strong,
 .logo-wordmark b {
-  font-size: 20px;
-  letter-spacing: -0.7px;
+  font-size: 21px;
+  letter-spacing: -0.35px;
 }
 
 .logo-wordmark strong {
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .logo-wordmark b {
-  color: #71c9ff;
-  font-weight: 500;
+  color: #73ceff;
+  font-weight: 600;
 }
 
 .logo-wordmark small {
   grid-column: 1 / -1;
-  margin-top: 4px;
-  color: #9ebbd5;
-  font-size: 7px;
-  font-weight: 700;
-  letter-spacing: 1.7px;
+  margin-top: 5px;
+  color: #9bbbd4;
+  font-size: 6.5px;
+  font-weight: 800;
+  letter-spacing: 2.15px;
 }
 
 .site-nav {

@@ -1,6 +1,6 @@
 /* 항공편 검색 결과 */
 .flight-results {
-  margin: 28px 0 54px;
+  margin: 48px 0 54px;
   padding: 28px;
   border: 1px solid #d6e6f2;
   border-radius: 24px;
@@ -58,6 +58,54 @@
   background: linear-gradient(90deg, #168ddd 0 35%, #dceefa 35%);
   animation: loading-progress 3s linear forwards;
 }
+
+.flight-no-route {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin: 28px 0 54px;
+  padding: 34px 24px;
+  border: 1px solid #d7e4ed;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f8fbfd, #eef4f8);
+  box-shadow: 0 16px 42px #123b6912;
+}
+
+.flight-no-route > span {
+  display: grid;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #8ba3b5;
+  font-size: 22px;
+}
+
+.flight-no-route div {
+  display: grid;
+  gap: 5px;
+}
+
+.flight-no-route small {
+  color: #7790a3;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.flight-no-route strong {
+  color: #173b58;
+  font-size: 19px;
+}
+
+.flight-no-route p {
+  margin: 0;
+  color: #71879a;
+  font-size: 11px;
+}
 @keyframes loading-plane-float {
   to {
     transform: translate(4px, -4px);
@@ -101,6 +149,72 @@
   color: #126fae;
   background: #dbf1ff;
   font-size: 11px;
+}
+
+.destination-attractions {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.8fr);
+  gap: 22px;
+  margin-bottom: 22px;
+  padding: 20px;
+  border: 1px solid #cfe4f2;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #e7f5ff, #fff);
+}
+
+.destination-attractions-title span {
+  color: #168ddd;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.destination-attractions-title h3 {
+  margin: 6px 0;
+  color: #0b263e;
+  font-size: 17px;
+}
+
+.destination-attractions-title p {
+  margin: 0;
+  color: #6b8092;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.destination-attractions ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.destination-attractions li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #dceaf4;
+  border-radius: 12px;
+  color: #183a54;
+  background: #ffffffd9;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.destination-attractions li b {
+  display: grid;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #168ddd;
+  font-size: 10px;
 }
 .flight-list {
   display: grid;
@@ -642,6 +756,12 @@
 @media (max-width: 600px) {
   .flight-results {
     padding: 18px;
+  }
+  .destination-attractions {
+    grid-template-columns: 1fr;
+  }
+  .destination-attractions ul {
+    grid-template-columns: 1fr;
   }
   .flight-card {
     grid-template-columns: 1fr;

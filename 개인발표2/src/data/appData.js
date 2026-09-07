@@ -1,3 +1,19 @@
+import { worldAirports } from "./worldAirports.js";
+import { directRouteKeys } from "./directRoutes.js";
+import { routeDurationMinutes } from "./routeDurations.js";
+import { getRouteBaseFare } from "./routePricing.js";
+import {
+  cabinLabels,
+  getFirstClassCarriers,
+  hasBusinessCabin,
+  getCabinFareRate,
+} from "./cabinData.js";
+import {
+  worldScheduleData,
+  worldAirlines,
+  getWorldRouteCarrier,
+} from "./worldScheduleData.js";
+
 // ============================================================
 // 1. 공항 및 직항 노선 데이터
 // ============================================================
@@ -66,12 +82,132 @@ export const airports = [
 ];
 
 export const airportEnglishNames = {
+  ...Object.fromEntries(
+    worldAirports.map((airport) => [airport.code, airport.englishName]),
+  ),
   ICN: "Incheon International Airport",
   GMP: "Gimpo International Airport",
   TAE: "Daegu International Airport",
   PUS: "Gimhae International Airport",
   CJU: "Jeju International Airport",
   CJJ: "Cheongju International Airport",
+  RSU: "Yeosu Airport",
+  KWJ: "Gwangju Airport",
+  NRT: "Narita International Airport",
+  HND: "Tokyo Haneda Airport",
+  KIX: "Kansai International Airport",
+  FUK: "Fukuoka Airport",
+  CTS: "New Chitose Airport",
+  PEK: "Beijing Capital International Airport",
+  PVG: "Shanghai Pudong International Airport",
+  HKG: "Hong Kong International Airport",
+  TPE: "Taiwan Taoyuan International Airport",
+  TSA: "Taipei Songshan Airport",
+  BKK: "Suvarnabhumi Airport",
+  DAD: "Da Nang International Airport",
+  CXR: "Cam Ranh International Airport",
+  JFK: "John F. Kennedy International Airport",
+  LAX: "Los Angeles International Airport",
+  CDG: "Paris Charles de Gaulle Airport",
+  LHR: "London Heathrow Airport",
+  SIN: "Singapore Changi Airport",
+  KUL: "Kuala Lumpur International Airport",
+  MNL: "Ninoy Aquino International Airport",
+  SGN: "Tan Son Nhat International Airport",
+  HAN: "Noi Bai International Airport",
+  DXB: "Dubai International Airport",
+  SFO: "San Francisco International Airport",
+  FRA: "Frankfurt Airport",
+  AMS: "Amsterdam Airport Schiphol",
+  SYD: "Sydney Airport",
+  AKL: "Auckland Airport",
+};
+
+// 노선 검색 결과에서 도착지별로 보여 주는 대표 관광지입니다.
+export const destinationCityNames = {
+  ...Object.fromEntries(
+    worldAirports.map((airport) => [airport.code, airport.city]),
+  ),
+  ICN: "인천",
+  GMP: "서울",
+  PUS: "부산",
+  TAE: "대구",
+  CJU: "제주",
+  CJJ: "청주",
+  RSU: "여수",
+  KWJ: "광주",
+  NRT: "도쿄",
+  HND: "도쿄",
+  KIX: "오사카",
+  FUK: "후쿠오카",
+  CTS: "삿포로",
+  PEK: "베이징",
+  PVG: "상하이",
+  HKG: "홍콩",
+  TPE: "타이베이",
+  TSA: "타이베이",
+  BKK: "방콕",
+  DAD: "다낭",
+  CXR: "나트랑",
+  JFK: "뉴욕",
+  LAX: "로스앤젤레스",
+  CDG: "파리",
+  LHR: "런던",
+  SIN: "싱가포르",
+  KUL: "쿠알라룸푸르",
+  MNL: "마닐라",
+  SGN: "호찌민",
+  HAN: "하노이",
+  DXB: "두바이",
+  SFO: "샌프란시스코",
+  FRA: "프랑크푸르트",
+  AMS: "암스테르담",
+  SYD: "시드니",
+  AKL: "오클랜드",
+};
+
+export const destinationAttractions = {
+  ICN: ["송도 센트럴파크", "월미도", "차이나타운", "을왕리 해수욕장"],
+  GMP: ["경복궁", "남산서울타워", "북촌한옥마을", "한강공원"],
+  PUS: ["해운대", "광안리", "감천문화마을", "태종대"],
+  TAE: ["앞산전망대", "서문시장", "수성못", "김광석길"],
+  CJU: ["성산일출봉", "협재해수욕장", "한라산", "우도"],
+  CJJ: ["청남대", "수암골", "상당산성", "국립현대미술관 청주"],
+  RSU: ["여수 해상케이블카", "오동도", "향일암", "낭만포차거리"],
+  KWJ: ["국립아시아문화전당", "무등산", "양림동 역사문화마을", "충장로"],
+  NRT: [
+    "도쿄 스카이트리",
+    "아사쿠사 센소지",
+    "시부야 스크램블",
+    "도쿄 디즈니리조트",
+  ],
+  HND: ["도쿄타워", "메이지 신궁", "오다이바", "긴자"],
+  KIX: ["오사카성", "도톤보리", "유니버설 스튜디오 재팬", "신세카이"],
+  FUK: ["오호리공원", "다자이후 텐만구", "후쿠오카타워", "캐널시티 하카타"],
+  CTS: ["오도리공원", "삿포로 맥주박물관", "모이와산", "시로이 코이비토 파크"],
+  PEK: ["자금성", "만리장성", "천안문 광장", "이화원"],
+  PVG: ["와이탄", "예원", "상하이 타워", "신천지"],
+  HKG: ["빅토리아 피크", "침사추이", "홍콩 디즈니랜드", "란타우섬"],
+  TPE: ["타이베이 101", "국립고궁박물원", "스린 야시장", "중정기념당"],
+  TSA: ["용산사", "시먼딩", "송산문창원구", "라오허제 야시장"],
+  BKK: ["왕궁", "왓 아룬", "왓 포", "짜뚜짝 시장"],
+  DAD: ["미케비치", "바나힐", "오행산", "용다리"],
+  CXR: ["나트랑 해변", "포나가르 사원", "혼똔섬", "롱선사"],
+  JFK: ["자유의 여신상", "센트럴파크", "타임스스퀘어", "브루클린 브리지"],
+  LAX: ["할리우드", "산타모니카 해변", "그리피스 천문대", "게티 센터"],
+  CDG: ["에펠탑", "루브르 박물관", "몽마르트르", "개선문"],
+  LHR: ["빅벤", "버킹엄 궁전", "타워 브리지", "대영박물관"],
+  SIN: ["마리나 베이 샌즈", "가든스 바이 더 베이", "센토사", "머라이언 파크"],
+  KUL: ["페트로나스 트윈 타워", "바투 동굴", "메르데카 광장", "부킷 빈탕"],
+  MNL: ["인트라무로스", "리잘 공원", "마닐라 대성당", "마닐라 베이"],
+  SGN: ["통일궁", "벤탄시장", "사이공 중앙우체국", "노트르담 대성당"],
+  HAN: ["호안끼엠 호수", "하노이 올드쿼터", "호찌민 묘소", "문묘"],
+  DXB: ["부르즈 할리파", "두바이 몰", "팜 주메이라", "두바이 마리나"],
+  SFO: ["금문교", "피셔맨스 워프", "알카트라즈", "유니언 스퀘어"],
+  FRA: ["뢰머 광장", "프랑크푸르트 대성당", "마인 타워", "괴테 하우스"],
+  AMS: ["국립미술관", "반 고흐 미술관", "운하 지구", "담 광장"],
+  SYD: ["오페라 하우스", "하버 브리지", "본다이 비치", "달링 하버"],
+  AKL: ["스카이 타워", "와이헤케섬", "마운트 이든", "오클랜드 전쟁기념박물관"],
 };
 
 // ============================================================
@@ -108,6 +244,36 @@ export const airportAddresses = {
   PUS: "부산 강서구 공항진입로 108",
   CJU: "제주 제주시 공항로 2 제주국제공항",
   CJJ: "충북 청주시 청원구 내수읍 오창대로 980 5-4",
+  RSU: "전라남도 여수시 율촌면 여순로 386",
+  KWJ: "광주광역시 광산구 상무대로 420-25",
+  NRT: "1-1 Furugome, Narita, Chiba 282-0004, Japan",
+  HND: "Hanedakuko, Ota City, Tokyo 144-0041, Japan",
+  KIX: "1 Senshukukokita, Izumisano, Osaka 549-0001, Japan",
+  FUK: "778-1 Shimousui, Hakata Ward, Fukuoka, Japan",
+  CTS: "Bibi, Chitose, Hokkaido 066-0012, Japan",
+  PEK: "Shunyi District, Beijing 100621, China",
+  PVG: "6000 Yingbin Avenue, Pudong, Shanghai, China",
+  HKG: "1 Sky Plaza Road, Chek Lap Kok, Hong Kong",
+  TPE: "No. 9, Hangzhan South Road, Dayuan District, Taoyuan, Taiwan",
+  TSA: "No. 340-9, Dunhua North Road, Songshan District, Taipei, Taiwan",
+  BKK: "999 Nong Prue, Bang Phli District, Samut Prakan 10540, Thailand",
+  DAD: "Nguyen Van Linh, Hai Chau District, Da Nang, Vietnam",
+  CXR: "Nguyen Tat Thanh, Cam Hai Dong, Khanh Hoa, Vietnam",
+  JFK: "Queens, New York 11430, United States",
+  LAX: "1 World Way, Los Angeles, California 90045, United States",
+  CDG: "95700 Roissy-en-France, France",
+  LHR: "Hounslow TW6, United Kingdom",
+  SIN: "Airport Boulevard, Singapore 819643",
+  KUL: "64000 Sepang, Selangor, Malaysia",
+  MNL: "Pasay and Paranaque, Metro Manila, Philippines",
+  SGN: "Truong Son, Tan Binh District, Ho Chi Minh City, Vietnam",
+  HAN: "Phu Minh, Soc Son District, Hanoi, Vietnam",
+  DXB: "Dubai International Airport, Dubai, United Arab Emirates",
+  SFO: "San Francisco, California 94128, United States",
+  FRA: "60547 Frankfurt am Main, Germany",
+  AMS: "Evert van de Beekstraat 202, 1118 CP Schiphol, Netherlands",
+  SYD: "Mascot, New South Wales 2020, Australia",
+  AKL: "Ray Emery Drive, Māngere, Auckland 2022, New Zealand",
 };
 
 // ============================================================
@@ -116,8 +282,10 @@ export const airportAddresses = {
 export const formatPrice = (price) => `${price.toLocaleString("ko-KR")}원`;
 
 export const airlines = [
+  ...worldAirlines,
   { name: "대한항공", code: "KE", color: "#1976c9" },
   { name: "아시아나항공", code: "OZ", color: "#c52b36" },
+  { name: "에어프레미아", code: "YP", color: "#2f2a8f" },
   { name: "제주항공", code: "7C", color: "#f26b21" },
   { name: "진에어", code: "LJ", color: "#5a9f38" },
   { name: "티웨이항공", code: "TW", color: "#d92832" },
@@ -125,6 +293,35 @@ export const airlines = [
   { name: "이스타항공", code: "ZE", color: "#d9232e" },
   { name: "에어서울", code: "RS", color: "#20a887" },
   { name: "에어로케이", code: "RF", color: "#6d38a8" },
+  { name: "일본항공", code: "JL", color: "#d71920" },
+  { name: "전일본공수", code: "NH", color: "#1557a0" },
+  { name: "피치항공", code: "MM", color: "#b51883" },
+  { name: "집에어", code: "ZG", color: "#272727" },
+  { name: "에티오피아항공", code: "ET", color: "#d4a017" },
+  { name: "에어차이나", code: "CA", color: "#b51f2e" },
+  { name: "중국동방항공", code: "MU", color: "#2455a4" },
+  { name: "캐세이퍼시픽", code: "CX", color: "#006564" },
+  { name: "중화항공", code: "CI", color: "#e05a63" },
+  { name: "에바항공", code: "BR", color: "#16835b" },
+  { name: "타이거에어 타이완", code: "IT", color: "#f58220" },
+  { name: "싱가포르항공", code: "SQ", color: "#d8a526" },
+  { name: "스쿠트항공", code: "TR", color: "#f3c400" },
+  { name: "타이항공", code: "TG", color: "#6b348b" },
+  { name: "베트남항공", code: "VN", color: "#1686a7" },
+  { name: "비엣젯항공", code: "VJ", color: "#d71920" },
+  { name: "필리핀항공", code: "PR", color: "#003876" },
+  { name: "세부퍼시픽", code: "5J", color: "#72be44" },
+  { name: "말레이시아항공", code: "MH", color: "#cc163f" },
+  { name: "에어아시아", code: "AK", color: "#e31b23" },
+  { name: "에미레이트항공", code: "EK", color: "#d71920" },
+  { name: "유나이티드항공", code: "UA", color: "#005daa" },
+  { name: "델타항공", code: "DL", color: "#c8102e" },
+  { name: "에어프랑스", code: "AF", color: "#002157" },
+  { name: "영국항공", code: "BA", color: "#075aaa" },
+  { name: "루프트한자", code: "LH", color: "#05164d" },
+  { name: "KLM 네덜란드항공", code: "KL", color: "#00a1de" },
+  { name: "콴타스항공", code: "QF", color: "#e4002b" },
+  { name: "에어뉴질랜드", code: "NZ", color: "#111111" },
 ];
 
 export const travelScenes = [
@@ -137,6 +334,9 @@ export const travelScenes = [
 // 4. 도착 도시별 국가·공항명·공항 코드
 // ============================================================
 export const countryByCity = {
+  ...Object.fromEntries(
+    worldAirports.map((airport) => [airport.city, airport.country]),
+  ),
   도쿄: "일본",
   오사카: "일본",
   후쿠오카: "일본",
@@ -152,11 +352,28 @@ export const countryByCity = {
   로스앤젤레스: "미국",
   파리: "프랑스",
   런던: "영국",
+  싱가포르: "싱가포르",
+  쿠알라룸푸르: "말레이시아",
+  마닐라: "필리핀",
+  호찌민: "베트남",
+  하노이: "베트남",
+  두바이: "아랍에미리트",
+  샌프란시스코: "미국",
+  프랑크푸르트: "독일",
+  암스테르담: "네덜란드",
+  시드니: "호주",
+  오클랜드: "뉴질랜드",
 };
 
 export const destinationAirports = {
+  ...Object.fromEntries(
+    worldAirports.map((airport) => [
+      airport.city,
+      [airport.name, airport.code],
+    ]),
+  ),
   도쿄: ["나리타 국제공항", "NRT"],
-  "도쿄(하네다)": ["도쿄 국제공항(하네다)", "HND"],
+  "도쿄(하네다)": ["하네다 국제공항", "HND"],
   오사카: ["간사이 국제공항", "KIX"],
   후쿠오카: ["후쿠오카 공항", "FUK"],
   삿포로: ["신치토세 공항", "CTS"],
@@ -172,6 +389,17 @@ export const destinationAirports = {
   로스앤젤레스: ["로스앤젤레스 국제공항", "LAX"],
   파리: ["샤를 드골 국제공항", "CDG"],
   런던: ["런던 히드로 국제공항", "LHR"],
+  싱가포르: ["싱가포르 창이 국제공항", "SIN"],
+  쿠알라룸푸르: ["쿠알라룸푸르 국제공항", "KUL"],
+  마닐라: ["니노이 아키노 국제공항", "MNL"],
+  호찌민: ["떤선녓 국제공항", "SGN"],
+  하노이: ["노이바이 국제공항", "HAN"],
+  두바이: ["두바이 국제공항", "DXB"],
+  샌프란시스코: ["샌프란시스코 국제공항", "SFO"],
+  프랑크푸르트: ["프랑크푸르트 국제공항", "FRA"],
+  암스테르담: ["암스테르담 스키폴 국제공항", "AMS"],
+  시드니: ["시드니 국제공항", "SYD"],
+  오클랜드: ["오클랜드 국제공항", "AKL"],
 };
 
 export const domesticAirports = {
@@ -185,9 +413,45 @@ export const domesticAirports = {
   광주: ["광주공항", "KWJ"],
 };
 
+// 검색에 등장하는 국내·해외 공항을 하나의 목록으로 합칩니다.
+// 같은 공항 코드가 여러 노선에 있어도 선택 목록에는 한 번만 표시됩니다.
+export const allRouteAirports = Array.from(
+  new Map(
+    [
+      ...airports.map((airport) => ({
+        code: airport.code,
+        name: airport.name,
+        city: destinationCityNames[airport.code] ?? airport.area,
+        country: "대한민국",
+      })),
+      ...Object.entries(domesticAirports).map(([city, [name, code]]) => ({
+        code,
+        name,
+        city,
+        country: "대한민국",
+      })),
+      ...Object.entries(destinationAirports).map(([city, [name, code]]) => {
+        const baseCity = city.replace(/\(.+\)/, "");
+        return {
+          code,
+          name,
+          city: baseCity,
+          country: countryByCity[baseCity] ?? baseCity,
+        };
+      }),
+    ].map((airport) => [airport.code, airport]),
+  ).values(),
+);
+
 const koreaAirports = ["ICN", "GMP", "PUS", "TAE", "CJU", "CJJ", "RSU", "KWJ"];
 // 공항별 현지 시각을 계산하기 위한 IANA 표준 시간대입니다.
 const airportTimeZones = {
+  ...Object.fromEntries(
+    Object.entries(worldScheduleData).map(([code, values]) => [
+      code,
+      values[0],
+    ]),
+  ),
   ICN: "Asia/Seoul",
   GMP: "Asia/Seoul",
   PUS: "Asia/Seoul",
@@ -213,6 +477,17 @@ const airportTimeZones = {
   LAX: "America/Los_Angeles",
   CDG: "Europe/Paris",
   LHR: "Europe/London",
+  SIN: "Asia/Singapore",
+  KUL: "Asia/Kuala_Lumpur",
+  MNL: "Asia/Manila",
+  SGN: "Asia/Ho_Chi_Minh",
+  HAN: "Asia/Ho_Chi_Minh",
+  DXB: "Asia/Dubai",
+  SFO: "America/Los_Angeles",
+  FRA: "Europe/Berlin",
+  AMS: "Europe/Amsterdam",
+  SYD: "Australia/Sydney",
+  AKL: "Pacific/Auckland",
 };
 const durationByForeignAirport = {
   NRT: 150,
@@ -232,41 +507,34 @@ const durationByForeignAirport = {
   LAX: 660,
   CDG: 850,
   LHR: 870,
+  SIN: 390,
+  KUL: 405,
+  MNL: 260,
+  SGN: 330,
+  HAN: 275,
+  DXB: 610,
+  SFO: 660,
+  FRA: 830,
+  AMS: 840,
+  SYD: 630,
+  AKL: 695,
+};
+
+// 실제 논스톱 시간표가 확인된 장거리 노선은 방향별 운항시간을 우선합니다.
+// 편서풍과 운항 경로 때문에 같은 두 공항도 왕복 시간이 서로 다를 수 있습니다.
+const durationByDirection = {
+  "ICN-AKL": 695, // 대한항공 KE411: 약 11시간 35분
+  "AKL-ICN": 720,
+  "AKL-JFK": 975, // 에어뉴질랜드·콴타스: 약 16시간 15분
+  "JFK-AKL": 1050,
 };
 
 // 실시간 예약 API를 사용하지 않는 발표용 화면이므로 최근 시세를 참고한 편도 기준가를 사용합니다.
 // 왕복 검색에서는 가는 편과 오는 편 가격이 합산되며, 미주·유럽이 근거리 가격으로 표시되지 않습니다.
-const baseFareByDestination = {
-  NRT: 190000,
-  HND: 210000,
-  KIX: 170000,
-  FUK: 140000,
-  CTS: 230000,
-  PEK: 260000,
-  PVG: 230000,
-  HKG: 300000,
-  TPE: 230000,
-  TSA: 250000,
-  BKK: 360000,
-  DAD: 280000,
-  CXR: 300000,
-  JFK: 750000,
-  LAX: 520000,
-  CDG: 550000,
-  LHR: 590000,
-};
-const domesticBaseFareByRoute = {
-  "CJU-GMP": 72000,
-  "GMP-PUS": 68000,
-  "GMP-RSU": 76000,
-  "CJU-PUS": 65000,
-  "CJU-TAE": 62000,
-  "CJJ-CJU": 67000,
-  "CJU-KWJ": 59000,
-};
 const airlineFareRate = {
   KE: 1.12,
   OZ: 1.1,
+  YP: 0.98,
   "7C": 0.94,
   LJ: 0.96,
   TW: 0.93,
@@ -278,11 +546,51 @@ const airlineFareRate = {
 const scheduleFareRates = [
   1.08, 0.96, 1.03, 0.92, 1.06, 1.0, 0.95, 0.98, 1.11, 1.05,
 ];
+const schedulesPerRoute = 8;
+
+// 최근 운임 수준을 날짜 조건에 맞춰 보정합니다. 실시간 API 응답이 없을 때만 사용됩니다.
+function getMarketFareRate(departDate) {
+  const departure = new Date(`${departDate}T00:00:00`);
+  if (Number.isNaN(departure.getTime())) return 1;
+
+  const daysUntilDeparture = Math.ceil(
+    (departure.getTime() - Date.now()) / 86400000,
+  );
+  const month = departure.getMonth() + 1;
+  const seasonalRate = [7, 8, 12].includes(month)
+    ? 1.18
+    : [1, 2, 9, 10].includes(month)
+      ? 1.08
+      : 1;
+  const bookingRate =
+    daysUntilDeparture <= 7
+      ? 1.42
+      : daysUntilDeparture <= 21
+        ? 1.24
+        : daysUntilDeparture <= 60
+          ? 1.08
+          : daysUntilDeparture >= 180
+            ? 0.94
+            : 1;
+  return seasonalRate * bookingRate;
+}
 
 // 2026년 9월 직항 운항 자료를 기준으로 실제 취항 범위를 벗어난 항공사가
 // 검색되지 않도록 출발 공항과 도착 공항의 정확한 조합별 운항사를 제한합니다.
 // 키는 출발·도착 순서와 무관하게 공항 코드를 알파벳순으로 연결해 사용합니다.
 const airlineCodesByRoute = {
+  // 2026년 인천–오클랜드 논스톱은 대한항공 단독 운항입니다.
+  "AKL-ICN": ["KE"],
+  "AKL-NRT": ["NZ"],
+  "AKL-PVG": ["NZ", "MU"],
+  "AKL-HKG": ["NZ", "CX"],
+  "AKL-SIN": ["NZ", "SQ"],
+  "AKL-KUL": ["MH"],
+  "AKL-SYD": ["NZ", "QF"],
+  "AKL-LAX": ["NZ"],
+  "AKL-SFO": ["NZ", "UA"],
+  "AKL-JFK": ["NZ", "QF"],
+  "AKL-DXB": ["EK"],
   "ICN-NRT": ["KE", "OZ", "7C", "LJ", "TW", "BX", "ZE", "RS"],
   "ICN-KIX": ["KE", "OZ", "7C", "LJ", "TW", "BX", "ZE", "RS", "RF"],
   "FUK-ICN": ["KE", "OZ", "7C", "LJ", "TW", "BX", "ZE", "RS"],
@@ -293,7 +601,7 @@ const airlineCodesByRoute = {
   "BKK-ICN": ["KE", "OZ", "7C", "LJ", "TW"],
   "DAD-ICN": ["KE", "OZ", "7C", "LJ", "TW"],
   "ICN-JFK": ["KE", "OZ"],
-  "ICN-LAX": ["KE", "OZ"],
+  "ICN-LAX": ["KE", "OZ", "YP"],
   "CDG-ICN": ["KE", "TW"],
   "ICN-LHR": ["KE", "OZ"],
   "GMP-HND": ["KE", "OZ"],
@@ -330,9 +638,266 @@ const airlineCodesByRoute = {
   "CJU-KWJ": ["KE", "OZ", "LJ"],
 };
 
+// 한국 출발 직항에 실제로 투입되는 외국 항공사를 국내 항공사 목록과 합칩니다.
+const foreignAirlineCodesByRoute = {
+  "ICN-NRT": ["ZG", "ET", "MM"],
+  "ICN-KIX": ["MM"],
+  "ICN-PEK": ["CA"],
+  "ICN-PVG": ["MU", "CA"],
+  "ICN-TPE": ["CI", "BR"],
+  "BKK-ICN": ["TG"],
+  "DAD-ICN": ["VN", "VJ"],
+  "CDG-ICN": ["AF"],
+  "GMP-HND": ["JL", "NH"],
+  "GMP-PEK": ["CA"],
+  "GMP-PVG": ["MU"],
+  "GMP-TSA": ["CI", "BR"],
+  "TAE-TPE": ["IT"],
+  "DAD-TAE": ["VJ"],
+  "PUS-TPE": ["CI", "BR"],
+  "DAD-PUS": ["VJ"],
+  "CJU-TPE": ["IT"],
+  "CJU-PVG": ["MU"],
+};
+
+// 모든 화면에서 확인된 동일한 노선 목록을 사용합니다.
+const directRouteKeySet = new Set(directRouteKeys);
+
+// Returns only airports connected to the selected airport by a registered direct route.
+export function getDirectDestinationCodes(departureCode) {
+  if (!departureCode) return [];
+
+  const destinationCodes = new Set();
+  directRouteKeySet.forEach((routeKey) => {
+    const [firstCode, secondCode] = routeKey.split("-");
+    if (firstCode === departureCode) destinationCodes.add(secondCode);
+    if (secondCode === departureCode) destinationCodes.add(firstCode);
+  });
+
+  return allRouteAirports
+    .filter(({ code }) => destinationCodes.has(code))
+    .map(({ code }) => code);
+}
+
+// 카드에 등록된 해외 직항을 검색할 때 사용할 공항 권역별 실제 항공사 후보입니다.
+// 상세 조합이 따로 등록된 노선은 airlineCodesByRoute의 운항사를 우선합니다.
+const airlineCodesByAirport = {
+  ICN: ["KE", "OZ", "YP"],
+  GMP: ["KE", "OZ", "TW"],
+  PUS: ["KE", "BX", "LJ"],
+  TAE: ["TW", "LJ"],
+  CJU: ["KE", "7C", "LJ"],
+  CJJ: ["RF", "TW", "ZE"],
+  RSU: ["KE", "OZ"],
+  KWJ: ["KE", "OZ", "LJ"],
+  NRT: ["JL", "NH", "MM"],
+  HND: ["JL", "NH"],
+  KIX: ["JL", "NH", "MM"],
+  FUK: ["JL", "NH", "MM"],
+  CTS: ["JL", "NH", "MM"],
+  PEK: ["CA", "MU"],
+  PVG: ["MU", "CA"],
+  HKG: ["CX"],
+  TPE: ["CI", "BR"],
+  TSA: ["CI", "BR"],
+  BKK: ["TG"],
+  DAD: ["VN", "VJ"],
+  CXR: ["VN", "VJ"],
+  SIN: ["SQ", "TR"],
+  KUL: ["MH", "AK"],
+  MNL: ["PR", "5J"],
+  SGN: ["VN", "VJ"],
+  HAN: ["VN", "VJ"],
+  DXB: ["EK"],
+  JFK: ["UA", "DL"],
+  LAX: ["UA", "DL"],
+  SFO: ["UA", "DL"],
+  CDG: ["AF"],
+  LHR: ["BA"],
+  FRA: ["LH"],
+  AMS: ["KL"],
+  SYD: ["QF"],
+  AKL: ["NZ"],
+};
+
+// 공항 간 대권거리를 기준으로 예상 블록 타임(순항 시간 + 이착륙 45분)을 계산합니다.
+// 예상 비행시간이 6시간 이상인 노선만 장거리로 분류합니다.
+const airportCoordinates = {
+  ...Object.fromEntries(
+    Object.entries(worldScheduleData).map(([code, values]) => [
+      code,
+      values.slice(1, 3),
+    ]),
+  ),
+  ICN: [37.4602, 126.4407],
+  GMP: [37.5583, 126.7906],
+  PUS: [35.1795, 128.9382],
+  TAE: [35.8941, 128.6589],
+  CJU: [33.5113, 126.493],
+  CJJ: [36.7166, 127.4991],
+  RSU: [34.8423, 127.6169],
+  KWJ: [35.1264, 126.8089],
+  NRT: [35.772, 140.3929],
+  HND: [35.5494, 139.7798],
+  KIX: [34.4347, 135.244],
+  FUK: [33.5859, 130.4507],
+  CTS: [42.7752, 141.6923],
+  PEK: [40.0799, 116.6031],
+  PVG: [31.1443, 121.8083],
+  HKG: [22.308, 113.9185],
+  TPE: [25.0797, 121.2342],
+  TSA: [25.0697, 121.5525],
+  BKK: [13.69, 100.7501],
+  DAD: [16.0439, 108.1994],
+  CXR: [11.9982, 109.2194],
+  JFK: [40.6413, -73.7781],
+  LAX: [33.9416, -118.4085],
+  CDG: [49.0097, 2.5479],
+  LHR: [51.47, -0.4543],
+  SIN: [1.3644, 103.9915],
+  KUL: [2.7456, 101.7072],
+  MNL: [14.5086, 121.0198],
+  SGN: [10.8188, 106.6519],
+  HAN: [21.2212, 105.8072],
+  DXB: [25.2532, 55.3657],
+  SFO: [37.6213, -122.379],
+  FRA: [50.0379, 8.5622],
+  AMS: [52.3105, 4.7683],
+  SYD: [-33.9399, 151.1753],
+  AKL: [-37.0082, 174.785],
+};
+
+function getRouteDistanceKm(departureCode, arrivalCode) {
+  const departure = airportCoordinates[departureCode];
+  const arrival = airportCoordinates[arrivalCode];
+  if (!departure || !arrival) return 0;
+
+  const toRadians = (degrees) => (degrees * Math.PI) / 180;
+  const latitudeDistance = toRadians(arrival[0] - departure[0]);
+  const longitudeDistance = toRadians(arrival[1] - departure[1]);
+  const firstLatitude = toRadians(departure[0]);
+  const secondLatitude = toRadians(arrival[0]);
+  const haversine =
+    Math.sin(latitudeDistance / 2) ** 2 +
+    Math.cos(firstLatitude) *
+      Math.cos(secondLatitude) *
+      Math.sin(longitudeDistance / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+}
+
+function getEstimatedFlightMinutes(departureCode, arrivalCode) {
+  const distanceKilometers = getRouteDistanceKm(departureCode, arrivalCode);
+
+  // 시간표가 없는 발표용 스케줄은 거리 구간별 실제 평균 블록 속도로 추정합니다.
+  // 기존의 고정 780km/h 계산은 초장거리 노선을 지나치게 길게 만들었습니다.
+  const averageBlockSpeed =
+    distanceKilometers < 1000
+      ? 650
+      : distanceKilometers < 3000
+        ? 760
+        : distanceKilometers < 7000
+          ? 830
+          : 885;
+  const groundMinutes = distanceKilometers < 3000 ? 25 : 35;
+  return Math.round(
+    (distanceKilometers / averageBlockSpeed) * 60 + groundMinutes,
+  );
+}
+
+const airportRouteTypeOrder = { 국내: 0, 국제: 1, 장거리: 2 };
+
+// 카드 분류와 시간표가 동일한 비행시간을 기준으로 판단하도록 공통 계산을 사용합니다.
+export function getFlightDurationMinutes(departure, arrival) {
+  // 방향별 자료를 우선해 편서풍·우회 항로에 따른 왕복 소요시간 차이를 보존합니다.
+  const published = routeDurationMinutes[departure]?.[arrival];
+  const distance = getRouteDistanceKm(departure, arrival);
+  // 공개 자료에도 오류가 있을 수 있어 이착륙 시간을 뺀 속도가 비현실적인 값은 추정합니다.
+  if (published && published >= 35 && distance / ((published - 20) / 60) < 1100)
+    return published;
+  const reverse = routeDurationMinutes[arrival]?.[departure];
+  if (!published && reverse) return reverse;
+  const foreignCode = koreaAirports.includes(departure) ? arrival : departure;
+  return (
+    durationByDirection[`${departure}-${arrival}`] ||
+    getEstimatedFlightMinutes(departure, arrival) ||
+    durationByForeignAirport[foreignCode] ||
+    80
+  );
+}
+
+// 등록된 직항 노선을 양방향으로 읽어 모든 공항 카드의 노선 그룹을 만듭니다.
+export function getAirportRouteCards() {
+  const cardRouteKeys = directRouteKeys;
+  return allRouteAirports
+    .map((airport) => {
+      const groupedDestinations = new Map();
+      cardRouteKeys.forEach((routeKey) => {
+        const [firstCode, secondCode] = routeKey.split("-");
+        if (firstCode !== airport.code && secondCode !== airport.code) return;
+
+        const destinationCode =
+          firstCode === airport.code ? secondCode : firstCode;
+        const destinationAirport = allRouteAirports.find(
+          ({ code }) => code === destinationCode,
+        );
+        const isDomestic =
+          Boolean(airport.country) &&
+          airport.country === destinationAirport?.country;
+        // 6시간 이상이면 장거리를 우선하고, 나머지는 양쪽 공항의 국가로 분류합니다.
+        const type =
+          getFlightDurationMinutes(airport.code, destinationCode) >= 360
+            ? "장거리"
+            : isDomestic
+              ? "국내"
+              : "국제";
+        const destinationName =
+          destinationCityNames[destinationCode] ?? destinationCode;
+        groupedDestinations.set(type, [
+          ...(groupedDestinations.get(type) ?? []),
+          `${destinationName} (${destinationCode})`,
+        ]);
+      });
+
+      return {
+        code: airport.code,
+        name: airport.name,
+        area:
+          airport.country === "대한민국"
+            ? airport.city
+            : `${airport.city} · ${airport.country}`,
+        routes: Array.from(groupedDestinations, ([type, cities]) => ({
+          type,
+          cities: [...new Set(cities)].join(" · "),
+        })).sort(
+          (firstRoute, secondRoute) =>
+            airportRouteTypeOrder[firstRoute.type] -
+            airportRouteTypeOrder[secondRoute.type],
+        ),
+      };
+    })
+    .filter(({ routes }) => routes.length > 0);
+}
+
 function getRouteAirlines(departure, arrival) {
+  // 이전 항공사 매핑에 남아 있더라도 현재 노선 목록에 없으면 생성하지 않습니다.
+  if (!directRouteKeySet.has([departure, arrival].sort().join("-"))) return [];
+  if (worldScheduleData[departure] || worldScheduleData[arrival]) {
+    if (!getDirectDestinationCodes(departure).includes(arrival)) return [];
+    const carrier = getWorldRouteCarrier(departure, arrival);
+    return airlines.filter(({ code }) => code === carrier);
+  }
   const routeKey = [departure, arrival].sort().join("-");
-  const allowedCodes = airlineCodesByRoute[routeKey] ?? [];
+  const exactCodes = airlineCodesByRoute[routeKey];
+  const foreignCodes = foreignAirlineCodesByRoute[routeKey] ?? [];
+  const routeCandidateCodes = directRouteKeySet.has(routeKey)
+    ? [
+        ...(airlineCodesByAirport[departure] ?? []),
+        ...(airlineCodesByAirport[arrival] ?? []),
+      ]
+    : [];
+  const allowedCodes = exactCodes
+    ? [...new Set([...exactCodes, ...foreignCodes])]
+    : [...new Set(routeCandidateCodes)].slice(0, 3);
   const routeAirlines = allowedCodes
     .map((code) => airlines.find((airline) => airline.code === code))
     .filter(Boolean);
@@ -355,7 +920,71 @@ function getRouteAirlines(departure, arrival) {
       shuffledAirlines[index],
     ];
   }
-  return shuffledAirlines;
+  if (!foreignCodes.length || shuffledAirlines.length <= schedulesPerRoute) {
+    return shuffledAirlines;
+  }
+
+  const foreignCodeSet = new Set(foreignCodes);
+  const foreignAirlines = shuffledAirlines.filter(({ code }) =>
+    foreignCodeSet.has(code),
+  );
+  const otherAirlines = shuffledAirlines.filter(
+    ({ code }) => !foreignCodeSet.has(code),
+  );
+  return [...foreignAirlines, ...otherAirlines].slice(0, schedulesPerRoute);
+}
+
+// 좌석 등급별 운항사 제한을 검색창과 시간표 생성에서 함께 사용합니다.
+function getCabinAirlines(departure, arrival, cabin, date) {
+  if (!directRouteKeySet.has([departure, arrival].sort().join("-"))) return [];
+  if (cabin === "first") {
+    return getFirstClassCarriers(departure, arrival, date)
+      .map((code) => airlines.find((airline) => airline.code === code))
+      .filter(Boolean);
+  }
+  const candidates = getRouteAirlines(departure, arrival);
+  return cabin === "business"
+    ? candidates.filter(({ code }) => hasBusinessCabin(code))
+    : candidates;
+}
+
+export function getSearchLegs(form) {
+  const outbound = {
+    departure: form.departure,
+    arrival: form.arrival,
+    departDate: form.departDate,
+    cabin: form.cabin ?? "economy",
+    tripType: "one-way",
+  };
+  if (form.tripType === "multi-city")
+    return [
+      { ...outbound, arrival: form.stopover },
+      { ...outbound, departure: form.stopover, departDate: form.stopoverDate },
+    ];
+  if (form.tripType === "round-trip")
+    return [
+      outbound,
+      {
+        ...outbound,
+        departure: form.arrival,
+        arrival: form.departure,
+        departDate: form.returnDate,
+      },
+    ];
+  return [outbound];
+}
+
+export function getAvailableCabins(form) {
+  const legs = getSearchLegs(form);
+  if (legs.some((leg) => !leg.departure || !leg.arrival))
+    return ["economy", "business"];
+  return Object.keys(cabinLabels).filter((cabin) =>
+    legs.every(
+      (leg) =>
+        getCabinAirlines(leg.departure, leg.arrival, cabin, leg.departDate)
+          .length > 0,
+    ),
+  );
 }
 
 // 특정 순간의 해당 지역 UTC 시차를 밀리초 단위로 구합니다.
@@ -446,16 +1075,22 @@ export function getArrivalCountries(departureCode) {
 
 // 검색 조건으로 발표용 항공편 목록을 생성합니다.
 export function createFlightSchedules(searchForm) {
+  const cabin = searchForm.cabin ?? "economy";
+  if (!Object.hasOwn(cabinLabels, cabin)) return [];
   // 노선과 날짜를 기준으로 항공사, 가격, 출도착 시각이 포함된 샘플 스케줄을 만듭니다.
-  const routeKey = [searchForm.departure, searchForm.arrival].sort().join("-");
-  const foreignCode = koreaAirports.includes(searchForm.departure)
-    ? searchForm.arrival
-    : searchForm.departure;
-  const isInternational = !koreaAirports.includes(foreignCode);
-  const startPrice = isInternational
-    ? (baseFareByDestination[foreignCode] ?? 320000)
-    : (domesticBaseFareByRoute[routeKey] ?? 68000);
-  // 모든 노선은 이 10개의 출발 시간대를 기준으로 정확히 10편을 표시합니다.
+  const departureAirport = allRouteAirports.find(
+    ({ code }) => code === searchForm.departure,
+  );
+  const arrivalAirport = allRouteAirports.find(
+    ({ code }) => code === searchForm.arrival,
+  );
+  if (!departureAirport || !arrivalAirport) return [];
+  const startPrice = getRouteBaseFare(
+    departureAirport,
+    arrivalAirport,
+    getRouteDistanceKm(searchForm.departure, searchForm.arrival),
+  );
+  // 직항 노선별로 8개의 서로 다른 출발 시간대를 표시합니다.
   const departureTimes = [
     "06:40",
     "08:15",
@@ -471,52 +1106,72 @@ export function createFlightSchedules(searchForm) {
   const routeSeed = `${searchForm.departure}${searchForm.arrival}`
     .split("")
     .reduce((sum, character) => sum + character.charCodeAt(0), 0);
-  const routeAirlines = getRouteAirlines(
+  const marketFareRate = getMarketFareRate(searchForm.departDate);
+  const routeAirlines = getCabinAirlines(
+    searchForm.departure,
+    searchForm.arrival,
+    cabin,
+    searchForm.departDate,
+  );
+  const durationMinutes = getFlightDurationMinutes(
     searchForm.departure,
     searchForm.arrival,
   );
-  const durationMinutes = durationByForeignAirport[foreignCode] ?? 80;
   const departureZone = airportTimeZones[searchForm.departure] ?? "Asia/Seoul";
   const arrivalZone = airportTimeZones[searchForm.arrival] ?? "Asia/Seoul";
 
-  // 취항사가 10개보다 적으면 실제 운항사 목록을 순환해 서로 다른 시간대에 배치합니다.
+  // 취항사가 시간대 수보다 적으면 운항사 목록을 순환해 배치합니다.
   if (routeAirlines.length === 0) return [];
-  return departureTimes.map((departureTime, index) => {
-    const airline = routeAirlines[index % routeAirlines.length];
-    const departureUtc = localTimeToUtc(
-      searchForm.departDate,
-      departureTime,
-      departureZone,
-    );
-    const arrival = localParts(
-      new Date(departureUtc.getTime() + durationMinutes * 60000),
-      arrivalZone,
-    );
-    const dayOffset = Math.round(
-      (Date.parse(`${arrival.date}T00:00:00Z`) -
-        Date.parse(`${searchForm.departDate}T00:00:00Z`)) /
-        86400000,
-    );
-    return {
-      id: `${airline.code}-${searchForm.departDate}-${index}`,
-      airline,
-      flightNumber: `${airline.code}${120 + index * 17}`,
-      departureTime,
-      arrivalTime: arrival.time,
-      arrivalDayOffset: dayOffset,
-      duration:
-        `${Math.floor(durationMinutes / 60)}시간 ${durationMinutes % 60 ? `${durationMinutes % 60}분` : ""}`.trim(),
-      seats: 3 + index * 2,
-      price:
-        Math.round(
-          (startPrice *
-            scheduleFareRates[(index + routeSeed) % scheduleFareRates.length] *
-            (airlineFareRate[airline.code] ?? 1)) /
-            1000,
-        ) * 1000,
-      tripType: searchForm.tripType,
-    };
-  });
+  return departureTimes
+    .slice(0, schedulesPerRoute)
+    .map((departureTime, index) => {
+      const airline = routeAirlines[index % routeAirlines.length];
+      const departureUtc = localTimeToUtc(
+        searchForm.departDate,
+        departureTime,
+        departureZone,
+      );
+      const arrival = localParts(
+        new Date(departureUtc.getTime() + durationMinutes * 60000),
+        arrivalZone,
+      );
+      const dayOffset = Math.round(
+        (Date.parse(`${arrival.date}T00:00:00Z`) -
+          Date.parse(`${searchForm.departDate}T00:00:00Z`)) /
+          86400000,
+      );
+      return {
+        id: `${airline.code}-${searchForm.departure}-${searchForm.arrival}-${searchForm.departDate}-${cabin}-${index}`,
+        cabin,
+        cabinLabel: cabinLabels[cabin],
+        airline,
+        flightNumber: `${airline.code}${120 + index * 17}`,
+        departureTime,
+        arrivalTime: arrival.time,
+        departureUtc: departureUtc.toISOString(),
+        arrivalUtc: new Date(
+          departureUtc.getTime() + durationMinutes * 60000,
+        ).toISOString(),
+        durationMinutes,
+        arrivalDayOffset: dayOffset,
+        duration:
+          `${Math.floor(durationMinutes / 60)}시간 ${durationMinutes % 60 ? `${durationMinutes % 60}분` : ""}`.trim(),
+        seats: 3 + index * 2,
+        price:
+          Math.round(
+            (startPrice *
+              marketFareRate *
+              getCabinFareRate(cabin, durationMinutes) *
+              scheduleFareRates[
+                (index + routeSeed) % scheduleFareRates.length
+              ] *
+              (airlineFareRate[airline.code] ?? 1)) /
+              1000,
+          ) * 1000,
+        tripType: searchForm.tripType,
+        priceSource: "recent-estimate",
+      };
+    });
 }
 
 export function getAirportLabel(code) {

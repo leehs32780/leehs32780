@@ -1,3 +1,5 @@
+import { FlightSegments } from "./MultiCityResults";
+
 // 현재 사용자가 결제한 예약 목록과 예약 취소 기능을 제공하는 모달입니다.
 export default function MyBookingsModal({
   bookings,
@@ -6,6 +8,7 @@ export default function MyBookingsModal({
   formatPrice,
   getAirportLabel,
 }) {
+  // 배경을 클릭하거나 닫기 버튼을 누르면 부모의 onClose를 호출합니다.
   return (
     <div
       className="my-bookings-backdrop"
@@ -48,22 +51,26 @@ export default function MyBookingsModal({
                 <span>결제 완료</span>
                 <strong>{booking.number}</strong>
               </div>
+              {/* 출발·도착 공항과 다구간의 경유 공항을 여행 순서대로 표시합니다. */}
               <div className="my-booking-route">
                 <b>{booking.trip.departure}</b>
                 <i>✈</i>
+                {booking.trip.tripType === "multi-city" && <><b>{booking.trip.stopover}</b><i>✈</i></>}
                 <b>{booking.trip.arrival}</b>
               </div>
               <p>
                 {getAirportLabel(booking.trip.departure)} →{" "}
                 {getAirportLabel(booking.trip.arrival)}
               </p>
+              {/* 구간별 일정, 탑승객, 결제 금액을 표시합니다. 다구간은 공통 요약 컴포넌트를 사용합니다. */}
               <dl>
+                {booking.flight.segments && <div><dt>다구간 일정</dt><dd><FlightSegments segments={booking.flight.segments} /></dd></div>}
                 <div>
                   <dt>가는 편</dt>
                   <dd>
                     {booking.trip.departDate} ·{" "}
                     {booking.outboundFlight.airline.name}{" "}
-                    {booking.outboundFlight.flightNumber} ·{" "}
+                    {booking.outboundFlight.cabinLabel ?? "일반석"} · {booking.outboundFlight.flightNumber} ·{" "}
                     {booking.outboundFlight.departureTime}
                   </dd>
                 </div>
@@ -73,7 +80,7 @@ export default function MyBookingsModal({
                     <dd>
                       {booking.trip.returnDate} ·{" "}
                       {booking.returnFlight.airline.name}{" "}
-                      {booking.returnFlight.flightNumber} ·{" "}
+                      {booking.returnFlight.cabinLabel ?? "일반석"} · {booking.returnFlight.flightNumber} ·{" "}
                       {booking.returnFlight.departureTime}
                     </dd>
                   </div>
@@ -87,6 +94,7 @@ export default function MyBookingsModal({
                   <dd>{formatPrice(booking.payment.amount)} · {booking.payment.method}</dd>
                 </div>
               </dl>
+              {/* 예약 번호를 부모에게 전달해 확인 및 예약 취소 처리를 실행합니다. */}
               <button
                 className="booking-cancel-button"
                 type="button"

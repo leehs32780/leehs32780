@@ -1,22 +1,68 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import AirportCard from "./AirportCard";
 import AppOverlays from "./AppOverlays";
+import BudgetRoutePopup from "./BudgetRoutePopup";
 import Header from "./Header";
 import MyBookingsModal from "./MyBookingsModal";
 import PriceChart from "./PriceChart";
+import FlightSearchForm from "./FlightSearchForm";
+import { worldAirports } from "../data/worldAirports";
+import MultiCityResults from "./MultiCityResults";
+import {
+  createFlightSchedules,
+  getAvailableCabins,
+  getSearchLegs,
+} from "../data/appData";
+import { databaseApi } from "../../DB/databaseApi.js";
 import { profileAvatarGroups, profileAvatars } from "../data/profileAvatars";
 import {
   airports,
+  allRouteAirports,
   airportEnglishNames,
+  destinationAttractions,
+  destinationCityNames,
   destinations,
   airportAddresses,
   formatPrice,
   travelScenes,
-  destinationAirports,
-  getArrivalCountries,
-  createFlightSchedules,
+  getDirectDestinationCodes,
+  getAirportRouteCards,
   getAirportLabel,
 } from "../data/appData";
+
+// 국가명을 대륙으로 연결해 공항 카드를 대륙별로 분류하는 기준입니다.
+const continentByCountry = {
+  ...Object.fromEntries(
+    worldAirports.map(({ country, continent }) => [country, continent]),
+  ),
+  대한민국: "아시아",
+  일본: "아시아",
+  중국: "아시아",
+  홍콩: "아시아",
+  대만: "아시아",
+  태국: "아시아",
+  베트남: "아시아",
+  싱가포르: "아시아",
+  말레이시아: "아시아",
+  필리핀: "아시아",
+  아랍에미리트: "아시아",
+  프랑스: "유럽",
+  영국: "유럽",
+  독일: "유럽",
+  네덜란드: "유럽",
+  미국: "북아메리카",
+  호주: "오세아니아",
+  뉴질랜드: "오세아니아",
+};
+
+const continentOrder = [
+  "아시아",
+  "유럽",
+  "북아메리카",
+  "남아메리카",
+  "아프리카",
+  "오세아니아",
+];
 
 // ============================================================
 // 7. 메인 애플리케이션 컴포넌트
@@ -25,23 +71,31 @@ export default function App() {
   // 항공권 검색 폼 상태
   const [form, setForm] = useState({
     tripType: "round-trip",
+    cabin: "economy",
     departure: "",
     arrival: "",
     departDate: "",
     returnDate: "",
+    stopover: "",
+    stopoverDate: "",
   });
 
   // 인기 여행지, 영상, 공항 카드 화면 상태
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [isPopularOpen, setIsPopularOpen] = useState(false);
+  const [selectedContinent, setSelectedContinent] = useState(null);
+  const popularSectionRef = useRef(null);
+  // 검색 안내와 로딩, 일반·다구간·왕복 조회 결과 및 선택 항공편을 관리합니다.
   const [message, setMessage] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const searchTimerRef = useRef(null);
   const [flightResults, setFlightResults] = useState([]);
+  const [multiCityResults, setMultiCityResults] = useState(null);
   const [returnFlightResults, setReturnFlightResults] = useState([]);
   const [searchedTrip, setSearchedTrip] = useState(null);
   const [selectedOutbound, setSelectedOutbound] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
+  // 탑승객 입력과 결제수단, 등록 카드, 결제 PIN 확인에 필요한 상태를 관리합니다.
   const [bookingForm, setBookingForm] = useState({
     passengerName: "",
     phone: "",
@@ -67,11 +121,10 @@ export default function App() {
   });
   const [paymentPinOpen, setPaymentPinOpen] = useState(false);
   const [paymentPin, setPaymentPin] = useState("");
+  // 예약 완료 화면과 내 예약 목록, 여행 영상 및 펼쳐진 공항 카드를 관리합니다.
   const [bookingComplete, setBookingComplete] = useState(null);
   const [bookingsOpen, setBookingsOpen] = useState(false);
-  const [bookings, setBookings] = useState(() =>
-    JSON.parse(localStorage.getItem("skyfinder-bookings") ?? "[]"),
-  );
+  const [bookings, setBookings] = useState([]);
   const [travelScene, setTravelScene] = useState(0);
   const [openAirport, setOpenAirport] = useState(null);
 
@@ -83,6 +136,7 @@ export default function App() {
   const [signupForm, setSignupForm] = useState({
     id: "",
     name: "",
+    birthDate: "",
     password: "",
     confirmPassword: "",
   });
@@ -104,53 +158,64 @@ export default function App() {
   const [qnaForm, setQnaForm] = useState({ title: "", content: "" });
   const [qnaTab, setQnaTab] = useState("all");
   const [questionNotice, setQuestionNotice] = useState("");
-  const [questions, setQuestions] = useState(() => {
-    const savedQuestions = JSON.parse(
-      localStorage.getItem("skyfinder-questions") ?? "[]",
-    );
-    return [
-      ...savedQuestions,
-      {
-        id: 1,
-        title: "항공권 가격은 실시간인가요?",
-        content: "표시된 가격의 기준이 궁금합니다.",
-        answer:
-          "현재 가격은 발표용 예상 가격이며 실제 예약 가격과 다를 수 있습니다.",
-        ownerId: null,
-      },
-      {
-        id: 2,
-        title: "왕복에서 편도로 변경할 수 있나요?",
-        content: "검색 중간에도 변경 가능한가요?",
-        answer:
-          "여행 유형에서 편도를 선택하면 귀국일 입력이 자동으로 비활성화됩니다.",
-        ownerId: null,
-      },
-    ];
-  });
+  const [questions, setQuestions] = useState(() => [
+    {
+      id: 1,
+      title: "항공권 가격은 실시간인가요?",
+      content: "표시된 가격의 기준이 궁금합니다.",
+      answer:
+        "현재 가격은 발표용 예상 가격이며 실제 예약 가격과 다를 수 있습니다.",
+      ownerId: null,
+    },
+    {
+      id: 2,
+      title: "왕복에서 편도로 변경할 수 있나요?",
+      content: "검색 중간에도 변경 가능한가요?",
+      answer:
+        "여행 유형에서 편도를 선택하면 귀국일 입력이 자동으로 비활성화됩니다.",
+      ownerId: null,
+    },
+    {
+      id: 3,
+      title: "예약한 항공권을 취소할 수 있나요?",
+      content: "결제까지 완료한 항공권의 취소 방법이 궁금합니다.",
+      answer:
+        "로그인 후 상단의 내 예약 메뉴에서 예약 내역을 확인하고 취소할 수 있습니다.",
+      ownerId: null,
+    },
+  ]);
 
   // 브라우저에 저장된 사용자가 있으면 로그인 상태를 복원합니다.
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("skyfinder-user");
     if (!savedUser) return null;
 
-    const parsedUser = JSON.parse(savedUser);
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
-
-    // 예전에 제공하던 기본 계정의 로그인 기록은 제거합니다.
-    if (
-      parsedUser.id === "skyfinder" &&
-      !savedAccounts.some(({ id }) => id === parsedUser.id)
-    ) {
-      localStorage.removeItem("skyfinder-user");
-      return null;
-    }
-
-    return parsedUser;
+    return JSON.parse(savedUser);
   });
 
+  // 저장된 로그인 계정이 DB에도 있는지 확인하고 조회 실패 시 로그인 상태를 해제합니다.
+  useEffect(() => {
+    if (!user) return;
+    databaseApi.getAccount(user.id).catch(() => {
+      localStorage.removeItem("skyfinder-user");
+      setUser(null);
+    });
+  }, []);
+
+  // 앱 실행 시 예약과 질문을 함께 읽고 기본 Q&A 예시에 DB 질문을 합칩니다.
+  useEffect(() => {
+    Promise.all([databaseApi.getBookings(), databaseApi.getQuestions()])
+      .then(([bookingData, questionData]) => {
+        setBookings(bookingData.bookings);
+        setQuestions((current) => [
+          ...questionData.questions,
+          ...current.filter(({ ownerId }) => !ownerId),
+        ]);
+      })
+      .catch((error) => console.error("DB 불러오기 실패:", error));
+  }, []);
+
+  // 로그인 사용자가 바뀌면 해당 사용자의 카드·PIN을 복원하고 로그아웃 시 화면 상태를 비웁니다.
   useEffect(() => {
     if (!user) {
       setSavedCards([]);
@@ -187,37 +252,108 @@ export default function App() {
     return () => document.removeEventListener("click", closeAirportCard);
   }, []);
 
-  useEffect(() => () => clearTimeout(searchTimerRef.current), []);
-
-  // 사용자가 작성한 질문만 브라우저 저장소에 보관합니다.
+  // 인기 여행지 목록을 연 동안 바깥 클릭과 Escape를 감지하고 닫힐 때 이벤트를 해제합니다.
   useEffect(() => {
-    localStorage.setItem(
-      "skyfinder-questions",
-      JSON.stringify(questions.filter(({ ownerId }) => ownerId)),
-    );
-  }, [questions]);
+    if (!isPopularOpen) return undefined;
+
+    const closePopularSection = (event) => {
+      if (event.clientX >= document.documentElement.clientWidth) return;
+      if (!popularSectionRef.current?.contains(event.target)) {
+        setIsPopularOpen(false);
+      }
+    };
+    const closePopularSectionWithEscape = (event) => {
+      if (event.key === "Escape") setIsPopularOpen(false);
+    };
+
+    document.addEventListener("mousedown", closePopularSection);
+    document.addEventListener("keydown", closePopularSectionWithEscape);
+    return () => {
+      document.removeEventListener("mousedown", closePopularSection);
+      document.removeEventListener("keydown", closePopularSectionWithEscape);
+    };
+  }, [isPopularOpen]);
+
+  useEffect(() => () => clearTimeout(searchTimerRef.current), []);
 
   // 오늘 날짜와 선택한 출발 공항의 도착지 목록을 계산합니다.
   const today = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const arrivalCountries = useMemo(
-    () => getArrivalCountries(form.departure),
-    [form.departure],
-  );
+  const airportRouteCards = useMemo(() => getAirportRouteCards(), []);
+  // 국가별 대륙 분류를 이용해 각 대륙 팝업에 표시할 공항 카드 목록을 계산합니다.
+  const airportCardsByContinent = useMemo(() => {
+    const airportCountryByCode = new Map(
+      allRouteAirports.map(({ code, country }) => [code, country]),
+    );
+
+    return continentOrder.map((continent) => ({
+      continent,
+      airports: airportRouteCards.filter(
+        ({ code }) =>
+          continentByCountry[airportCountryByCode.get(code)] === continent,
+      ),
+    }));
+  }, [airportRouteCards]);
+
+  // 대륙 공항 팝업을 열면 배경 스크롤을 막고 Escape로 닫을 수 있게 합니다.
+  useEffect(() => {
+    if (!selectedContinent) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeWithEscape = (event) => {
+      if (event.key === "Escape") {
+        setSelectedContinent(null);
+        setOpenAirport(null);
+      }
+    };
+    document.addEventListener("keydown", closeWithEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", closeWithEscape);
+    };
+  }, [selectedContinent]);
+
+  // 공항·날짜 변경으로 선택 등급을 제공하지 않게 되면 일반석으로 되돌립니다.
+  useEffect(() => {
+    if (
+      !getAvailableCabins(form).includes(form.cabin) &&
+      form.cabin !== "economy"
+    ) {
+      setForm((current) => ({ ...current, cabin: "economy" }));
+      setMessage(
+        "변경한 여정에서 해당 좌석 유형을 제공하지 않아 일반석으로 변경했습니다.",
+      );
+    }
+  }, [form]);
 
   // 항공권 검색 폼 입력 처리
   const updateForm = ({ target }) =>
     setForm((current) => ({ ...current, [target.name]: target.value }));
-  const updateTripType = ({ target }) =>
+  // 여행 유형이 바뀌면 도착지·경유지 정보를 초기화하고 편도에서는 귀국일을 비웁니다.
+  const updateTripType = (tripType) =>
     setForm((current) => ({
       ...current,
-      tripType: target.value,
-      returnDate: target.value === "one-way" ? "" : current.returnDate,
+      tripType,
+      arrival: "",
+      stopover: "",
+      stopoverDate: "",
+      returnDate: tripType === "one-way" ? "" : current.returnDate,
     }));
+  // 앞 구간의 공항이 바뀌면 뒤 구간의 선택을 초기화해 잘못 연결된 경로를 방지합니다.
   const updateAirport = ({ target }) => {
     if (target.name === "departure") {
       setForm((current) => ({
         ...current,
         departure: target.value,
+        stopover: "",
+        arrival: "",
+      }));
+      return;
+    }
+
+    if (target.name === "stopover") {
+      setForm((current) => ({
+        ...current,
+        stopover: target.value,
         arrival: "",
       }));
       return;
@@ -227,65 +363,130 @@ export default function App() {
   };
 
   // 항공권 검색 버튼 처리
-  const searchFlights = (event) => {
+  const searchFlights = async (event) => {
     event.preventDefault();
+    if (isSearching) return;
     clearTimeout(searchTimerRef.current);
+    setMultiCityResults(null);
     const isComplete =
       form.departure &&
       form.arrival &&
       form.departDate &&
-      (form.tripType === "one-way" || form.returnDate);
+      (form.tripType === "round-trip"
+        ? form.returnDate
+        : form.tripType === "multi-city"
+          ? form.stopover && form.stopoverDate
+          : true);
 
     if (!isComplete) {
       setIsSearching(false);
       setMessage("출발지, 도착지와 여행 날짜를 모두 입력해 주세요.");
+      setSearchedTrip(null);
       setFlightResults([]);
       setReturnFlightResults([]);
       return;
     }
 
     const submittedForm = { ...form };
+    if (!getAvailableCabins(submittedForm).includes(submittedForm.cabin)) {
+      setMessage("이 여정에서 제공하는 좌석 유형을 선택해 주세요.");
+      return;
+    }
+    if (
+      form.tripType === "multi-city" &&
+      (form.departDate < today ||
+        form.stopoverDate < form.departDate ||
+        !getDirectDestinationCodes(form.departure).includes(form.stopover) ||
+        !getDirectDestinationCodes(form.stopover).includes(form.arrival))
+    ) {
+      setMessage(
+        "연결 가능한 경유지와 도착지를 선택하고, 구간별 출발일을 순서대로 입력해 주세요.",
+      );
+      setSearchedTrip(null);
+      setFlightResults([]);
+      setReturnFlightResults([]);
+      return;
+    }
     setIsSearching(true);
     setMessage("");
     setFlightResults([]);
     setReturnFlightResults([]);
     setSelectedOutbound(null);
     setSelectedFlight(null);
-    searchTimerRef.current = setTimeout(() => {
-      const schedules = createFlightSchedules(submittedForm);
-      setSearchedTrip(submittedForm);
-      setFlightResults(schedules);
+    // 등록 노선의 시간표를 로컬에서 생성합니다. API 키나 네트워크 연결이 필요하지 않습니다.
+    setSearchedTrip(null);
+    try {
+      // 매 검색마다 로딩 화면을 먼저 그린 뒤 3초 후 결과를 표시합니다.
+      await new Promise((resolve) => {
+        searchTimerRef.current = setTimeout(resolve, 3000);
+      });
+      if (submittedForm.tripType === "multi-city") {
+        const legs = getSearchLegs(submittedForm);
+        const results = legs.map((leg) =>
+          createFlightSchedules({ ...leg, tripType: "one-way" }),
+        );
+        setSearchedTrip(submittedForm);
+        setMultiCityResults(results);
+        setMessage(
+          "구간별 항공편을 선택해 주세요. 출도착 시각은 각 공항의 현지시간입니다.",
+        );
+      } else {
+        const schedules = createFlightSchedules(submittedForm);
+        setSearchedTrip(submittedForm);
+        setFlightResults(schedules);
+        setMessage(
+          schedules.length
+            ? `직항편 ${schedules.length}개 · 출도착 시각은 각 공항의 현지시간입니다.`
+            : "등록된 직항 노선이 없습니다. 다구간으로 검색해 주세요.",
+        );
+      }
+    } catch (error) {
       setMessage(
-        `${submittedForm.departure} → ${submittedForm.arrival} 항공편 ${schedules.length}개를 찾았습니다.`,
+        error.message || "항공편을 조회하지 못했습니다. 다시 검색해 주세요.",
       );
+    } finally {
       setIsSearching(false);
-    }, 3000);
+    }
   };
 
-  const selectOutboundFlight = (flight) => {
-    // 편도는 선택 즉시 예매 창을 열고, 왕복은 가는 편을 저장한 뒤 오는 편을 생성합니다.
+  const selectOutboundFlight = async (flight) => {
+    // 편도는 예매 창을 열고 왕복은 귀국일의 역방향 시간표를 생성합니다.
     if (searchedTrip.tripType === "one-way") {
       setSelectedFlight(flight);
       return;
     }
-
+    if (isSearching) return;
     setSelectedOutbound(flight);
-    setReturnFlightResults(
-      createFlightSchedules({
-        ...searchedTrip,
+    setReturnFlightResults([]);
+    setIsSearching(true);
+    setMessage("");
+    try {
+      // 왕복의 오는 편 검색에도 같은 로딩 시간을 적용합니다.
+      await new Promise((resolve) => {
+        searchTimerRef.current = setTimeout(resolve, 3000);
+      });
+      const schedules = createFlightSchedules({
         departure: searchedTrip.arrival,
         arrival: searchedTrip.departure,
         departDate: searchedTrip.returnDate,
+        cabin: searchedTrip.cabin,
         tripType: "one-way",
-      }),
-    );
-    setTimeout(
-      () =>
-        document
-          .querySelector("#return-flights")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" }),
-      0,
-    );
+      });
+      setReturnFlightResults(schedules);
+      if (!schedules.length)
+        setMessage("귀국 구간에 등록된 직항 노선이 없습니다.");
+      setTimeout(
+        () =>
+          document
+            .querySelector("#return-flights")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+        0,
+      );
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setIsSearching(false);
+    }
   };
 
   const requestPaymentPin = (event) => {
@@ -301,8 +502,8 @@ export default function App() {
     setPaymentPinOpen(true);
   };
 
-  const reserveFlight = (event) => {
-    // 결제 승인 후 예약 객체를 만들고 최신 예약과 전체 예약 목록에 모두 저장합니다.
+  const reserveFlight = async (event) => {
+    // 결제 승인 후 예약 객체를 SQLite 데이터베이스에 저장합니다.
     event.preventDefault();
     if (paymentPin.length !== 6) return;
     const selectedCard = paymentForm.method.startsWith("card:")
@@ -339,19 +540,14 @@ export default function App() {
       },
       ownerId: user?.id ?? "guest",
     };
-    localStorage.setItem(
-      "skyfinder-latest-booking",
-      JSON.stringify(reservation),
-    );
+    try {
+      await databaseApi.createBooking(reservation);
+    } catch (error) {
+      window.alert(error.message);
+      return;
+    }
     setBookingComplete(reservation);
-    setBookings((current) => {
-      const updatedBookings = [reservation, ...current];
-      localStorage.setItem(
-        "skyfinder-bookings",
-        JSON.stringify(updatedBookings),
-      );
-      return updatedBookings;
-    });
+    setBookings((current) => [reservation, ...current]);
     setPaymentPinOpen(false);
     setPaymentPin("");
     setSelectedFlight(null);
@@ -360,26 +556,16 @@ export default function App() {
   };
 
   // 로그인 및 로그아웃 처리
-  const login = (event) => {
-    // localStorage의 가입 계정 중 입력한 아이디와 비밀번호가 같은 계정을 찾습니다.
+  const login = async (event) => {
+    // SQLite에 저장된 계정 정보로 로그인합니다.
     event.preventDefault();
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
-    const account = savedAccounts.find(
-      ({ id, password }) =>
-        id === loginForm.id && password === loginForm.password,
-    );
-    if (!account) {
-      setLoginError("아이디 또는 비밀번호가 올바르지 않습니다.");
+    let loggedInUser;
+    try {
+      ({ user: loggedInUser } = await databaseApi.login(loginForm));
+    } catch (error) {
+      setLoginError(error.message);
       return;
     }
-
-    const loggedInUser = {
-      id: account.id,
-      name: account.name,
-      avatar: "pilot",
-    };
     localStorage.setItem("skyfinder-user", JSON.stringify(loggedInUser));
     setUser(loggedInUser);
     setLoginForm({ id: "", password: "" });
@@ -387,14 +573,29 @@ export default function App() {
     setLoginOpen(false);
     setLoginSuccess(true);
   };
-  const signup = (event) => {
-    // 아이디 중복과 비밀번호 조건을 검사한 뒤 새 계정을 브라우저에 저장합니다.
+  const signup = async (event) => {
+    // 아이디와 비밀번호 조건을 검사한 뒤 새 계정을 SQLite에 저장합니다.
     event.preventDefault();
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
-    if (savedAccounts.some(({ id }) => id === signupForm.id.trim())) {
-      setSignupError("이미 사용 중인 아이디입니다.");
+    if (!signupForm.birthDate) {
+      setSignupError("생년월일을 입력해 주세요.");
+      return;
+    }
+    const birthDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+    const [birthYear, birthMonth, birthDay] = signupForm.birthDate
+      .split("-")
+      .map(Number);
+    const parsedBirthDate = new Date(birthYear, birthMonth - 1, birthDay);
+    const isValidBirthDate =
+      birthDatePattern.test(signupForm.birthDate) &&
+      parsedBirthDate.getFullYear() === birthYear &&
+      parsedBirthDate.getMonth() === birthMonth - 1 &&
+      parsedBirthDate.getDate() === birthDay;
+    if (!isValidBirthDate) {
+      setSignupError("생년월일을 YYYY-MM-DD 형식으로 정확히 입력해 주세요.");
+      return;
+    }
+    if (signupForm.birthDate > today) {
+      setSignupError("생년월일은 오늘 이후로 입력할 수 없습니다.");
       return;
     }
     if (signupForm.password.length < 4) {
@@ -408,27 +609,37 @@ export default function App() {
     const newAccount = {
       id: signupForm.id.trim(),
       name: signupForm.name.trim(),
+      birthDate: signupForm.birthDate,
       password: signupForm.password,
     };
-    localStorage.setItem(
-      "skyfinder-accounts",
-      JSON.stringify([...savedAccounts, newAccount]),
-    );
+    try {
+      await databaseApi.signup(newAccount);
+    } catch (error) {
+      setSignupError(error.message);
+      return;
+    }
     setLoginForm({ id: newAccount.id, password: "" });
-    setSignupForm({ id: "", name: "", password: "", confirmPassword: "" });
+    setSignupForm({
+      id: "",
+      name: "",
+      birthDate: "",
+      password: "",
+      confirmPassword: "",
+    });
     setSignupError("");
     setAuthMode("login");
     setLoginError("회원가입이 완료되었습니다. 비밀번호를 입력해 로그인하세요.");
   };
-  const findId = (event) => {
+  const findId = async (event) => {
     // 가입할 때 사용한 이름이 같은 모든 아이디를 찾아 안내합니다.
     event.preventDefault();
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
-    const matchedIds = savedAccounts
-      .filter(({ name }) => name === findIdName.trim())
-      .map(({ id }) => id);
+    let matchedIds;
+    try {
+      ({ ids: matchedIds } = await databaseApi.findId(findIdName.trim()));
+    } catch (error) {
+      setRecoveryMessage(error.message);
+      return;
+    }
 
     setRecoveryMessage(
       matchedIds.length
@@ -436,7 +647,7 @@ export default function App() {
         : "입력한 이름으로 가입된 아이디가 없습니다.",
     );
   };
-  const resetPassword = (event) => {
+  const resetPassword = async (event) => {
     // 아이디와 이름으로 본인을 확인한 뒤 해당 계정의 비밀번호만 교체합니다.
     event.preventDefault();
     if (resetForm.password.length < 4) {
@@ -448,24 +659,16 @@ export default function App() {
       return;
     }
 
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
-    const accountIndex = savedAccounts.findIndex(
-      ({ id, name }) =>
-        id === resetForm.id.trim() && name === resetForm.name.trim(),
-    );
-    if (accountIndex < 0) {
-      setRecoveryMessage("아이디와 이름이 일치하는 계정을 찾을 수 없습니다.");
+    try {
+      await databaseApi.resetPassword({
+        id: resetForm.id.trim(),
+        name: resetForm.name.trim(),
+        password: resetForm.password,
+      });
+    } catch (error) {
+      setRecoveryMessage(error.message);
       return;
     }
-
-    const updatedAccounts = savedAccounts.map((account, index) =>
-      index === accountIndex
-        ? { ...account, password: resetForm.password }
-        : account,
-    );
-    localStorage.setItem("skyfinder-accounts", JSON.stringify(updatedAccounts));
     setLoginForm({ id: resetForm.id.trim(), password: "" });
     setResetForm({ id: "", name: "", password: "", confirmPassword: "" });
     setRecoveryMessage("");
@@ -537,6 +740,7 @@ export default function App() {
     setEditingCardId(null);
     setCardForm({ cardName: "", cardNumber: "", expiry: "", cvc: "" });
   };
+  // 선택한 카드의 이름과 유효기간을 수정 폼에 넣고 번호·CVC 입력은 비워 둡니다.
   const editPaymentMethod = (card) => {
     setEditingCardId(card.id);
     setCardForm({
@@ -546,10 +750,12 @@ export default function App() {
       cvc: "",
     });
   };
+  // 카드 수정 대상을 해제하고 카드 입력 폼을 초기화합니다.
   const cancelPaymentEdit = () => {
     setEditingCardId(null);
     setCardForm({ cardName: "", cardNumber: "", expiry: "", cvc: "" });
   };
+  // 기존 PIN과 새 PIN 확인값을 검사한 뒤 사용자별 PIN을 브라우저에 저장합니다.
   const saveSitePaymentPin = () => {
     if (sitePaymentPin && sitePinForm.current !== sitePaymentPin) {
       window.alert("현재 결제 PIN이 일치하지 않습니다.");
@@ -585,8 +791,8 @@ export default function App() {
     }));
     if (editingCardId === cardId) cancelPaymentEdit();
   };
-  const deleteAccount = () => {
-    // 재확인 후 계정과 해당 사용자가 만든 개인 데이터를 브라우저에서 제거합니다.
+  const deleteAccount = async () => {
+    // 재확인 후 계정과 연결된 예약·질문을 SQLite에서 함께 제거합니다.
     if (
       !window.confirm(
         "정말 계정을 탈퇴하시겠습니까? 예약과 질문, 결제수단이 모두 삭제됩니다.",
@@ -594,35 +800,21 @@ export default function App() {
     )
       return;
     const userId = user.id;
-    const savedAccounts = JSON.parse(
-      localStorage.getItem("skyfinder-accounts") ?? "[]",
-    );
+    try {
+      await databaseApi.deleteAccount(userId);
+    } catch (error) {
+      window.alert(error.message);
+      return;
+    }
     const remainingBookings = bookings.filter(
       ({ ownerId }) => ownerId !== userId,
     );
     const remainingQuestions = questions.filter(
       ({ ownerId }) => ownerId !== userId,
     );
-    localStorage.setItem(
-      "skyfinder-accounts",
-      JSON.stringify(savedAccounts.filter(({ id }) => id !== userId)),
-    );
-    localStorage.setItem(
-      "skyfinder-bookings",
-      JSON.stringify(remainingBookings),
-    );
-    localStorage.setItem(
-      "skyfinder-questions",
-      JSON.stringify(remainingQuestions.filter(({ ownerId }) => ownerId)),
-    );
     localStorage.removeItem(`skyfinder-payment-${userId}`);
     localStorage.removeItem(`skyfinder-site-pin-${userId}`);
     localStorage.removeItem("skyfinder-user");
-    const latestBooking = JSON.parse(
-      localStorage.getItem("skyfinder-latest-booking") ?? "null",
-    );
-    if (latestBooking?.ownerId === userId)
-      localStorage.removeItem("skyfinder-latest-booking");
     setBookings(remainingBookings);
     setQuestions(remainingQuestions);
     setSavedCards([]);
@@ -630,7 +822,7 @@ export default function App() {
     setProfileOpen(false);
     setUser(null);
   };
-  const saveProfile = (event) => {
+  const saveProfile = async (event) => {
     // 이름과 아바타 변경 내용을 현재 로그인 세션에도 반영합니다.
     event.preventDefault();
     const updatedUser = {
@@ -638,35 +830,58 @@ export default function App() {
       name: profileForm.name.trim() || user.name,
       avatar: profileForm.avatar,
     };
+    try {
+      await databaseApi.updateProfile(user.id, {
+        name: updatedUser.name,
+        avatar: updatedUser.avatar,
+      });
+    } catch (error) {
+      window.alert(error.message);
+      return;
+    }
     localStorage.setItem("skyfinder-user", JSON.stringify(updatedUser));
     setUser(updatedUser);
     setProfileOpen(false);
   };
+  // 사용자의 아바타 ID에 맞는 표시 이미지를 찾고 없으면 기본 아바타를 사용합니다.
   const selectedAvatar =
     profileAvatars.find(({ id }) => id === user?.avatar) ?? profileAvatars[0];
 
   // Q & A 질문 등록 및 삭제 처리
-  const submitQuestion = (event) => {
+  // 로그인 및 빈 입력 여부를 확인한 뒤 질문을 저장하고 내 질문 탭에 표시합니다.
+  const submitQuestion = async (event) => {
     event.preventDefault();
+    if (!user) {
+      setQuestionNotice("로그인 후 질문을 등록할 수 있습니다.");
+      return;
+    }
     const title = qnaForm.title.trim();
     const content = qnaForm.content.trim();
     if (!title || !content) return;
-    setQuestions((current) => [
-      {
-        id: Date.now(),
+    try {
+      const { question } = await databaseApi.createQuestion({
         title,
         content,
-        answer: null,
-        ownerId: user?.id ?? "guest",
-        author: user?.name ?? "비회원",
-      },
-      ...current,
-    ]);
+        ownerId: user.id,
+        author: user.name,
+      });
+      setQuestions((current) => [question, ...current]);
+    } catch (error) {
+      setQuestionNotice(error.message);
+      return;
+    }
     setQnaForm({ title: "", content: "" });
     setQuestionNotice("질문 작성이 완료되어 업로드되었습니다.");
     setQnaTab("mine");
   };
-  const deleteQuestion = (questionId) => {
+  // 질문 삭제 API가 성공하면 화면 목록에서도 해당 질문을 제거합니다.
+  const deleteQuestion = async (questionId) => {
+    try {
+      await databaseApi.deleteQuestion(questionId);
+    } catch (error) {
+      setQuestionNotice(error.message);
+      return;
+    }
     setQuestions((current) => current.filter(({ id }) => id !== questionId));
     setQuestionNotice("질문이 삭제되었습니다.");
   };
@@ -677,23 +892,22 @@ export default function App() {
     ({ ownerId }) => ownerId === currentOwnerId,
   );
   const visibleQuestions = qnaTab === "mine" ? myQuestions : questions;
+  // 현재 사용자 소유의 예약만 내 예약 창에 전달합니다.
   const myBookings = bookings.filter(
     ({ ownerId }) => ownerId === (user?.id ?? "guest"),
   );
-  const cancelBooking = (reservationNumber) => {
-    // 사용자 확인을 받은 뒤 선택한 예약만 목록과 localStorage에서 제거합니다.
+  const cancelBooking = async (reservationNumber) => {
+    // 사용자 확인을 받은 뒤 선택한 예약을 SQLite에서 제거합니다.
     if (!window.confirm(`${reservationNumber} 예약을 취소하시겠습니까?`))
       return;
-    setBookings((current) => {
-      const updatedBookings = current.filter(
-        ({ number }) => number !== reservationNumber,
+    try {
+      await databaseApi.deleteBooking(reservationNumber);
+      setBookings((current) =>
+        current.filter(({ number }) => number !== reservationNumber),
       );
-      localStorage.setItem(
-        "skyfinder-bookings",
-        JSON.stringify(updatedBookings),
-      );
-      return updatedBookings;
-    });
+    } catch (error) {
+      window.alert(error.message);
+    }
   };
 
   return (
@@ -709,6 +923,7 @@ export default function App() {
         onProfile={openProfile}
         onQna={() => setQnaOpen(true)}
       />
+      {/* 내 예약 창을 열었을 때 사용자별 예약 목록과 취소 함수를 전달합니다. */}
       {bookingsOpen && (
         <MyBookingsModal
           bookings={myBookings}
@@ -719,6 +934,7 @@ export default function App() {
         />
       )}
 
+      {/* 각 팝업에 필요한 상태와 처리 함수를 ui 객체로 전달합니다. */}
       <AppOverlays
         ui={{
           loginOpen,
@@ -813,114 +1029,34 @@ export default function App() {
           }}
         />
       </aside>
-
       {/* 8-6. 항공권 검색과 공항별 직항 노선 화면 */}
-      <main className="container">
+      <main className="container" id="flight-search">
         <h1>어디로 떠나시나요?</h1>
         <p className="sub-title">
           여러 항공사의 항공권을 한눈에 비교해 보세요.
         </p>
         {/* 항공권 검색 입력 영역 */}
-        <form className="search-form" onSubmit={searchFlights}>
-          <label>
-            여행 유형
-            <select
-              name="tripType"
-              value={form.tripType}
-              onChange={updateTripType}
-            >
-              <option value="round-trip">왕복</option>
-              <option value="one-way">편도</option>
-            </select>
-          </label>
-          <label>
-            출발지
-            <select
-              name="departure"
-              value={form.departure}
-              onChange={updateAirport}
-            >
-              <option value="">출발 공항 선택</option>
-              {airports.map((airport) => (
-                <option
-                  key={airport.code}
-                  value={airport.code}
-                  disabled={airport.code === form.arrival}
-                >
-                  {airport.name} ({airport.code})
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            도착지
-            <select
-              name="arrival"
-              value={form.arrival}
-              onChange={updateAirport}
-              disabled={!form.departure}
-            >
-              <option value="">
-                {form.departure
-                  ? "도착 공항 선택"
-                  : "출발 공항을 먼저 선택해 주세요"}
-              </option>
-              {arrivalCountries.domestic.length > 0 && (
-                <optgroup label="국내">
-                  {arrivalCountries.domestic.map(
-                    ({ city, airportName, airportCode }) => (
-                      <option key={airportCode} value={airportCode}>
-                        {city} - {airportName} ({airportCode})
-                      </option>
-                    ),
-                  )}
-                </optgroup>
-              )}
-              {arrivalCountries.international.map(({ country, cities }) => (
-                <optgroup label={country} key={country}>
-                  {cities.map((city) => {
-                    const [airportName, airportCode] = destinationAirports[
-                      city
-                    ] ?? [city, city];
-                    return (
-                      <option key={city} value={airportCode}>
-                        {city} – {airportName} ({airportCode})
-                      </option>
-                    );
-                  })}
-                </optgroup>
-              ))}
-            </select>
-          </label>
-          <label>
-            출국일
-            <input
-              name="departDate"
-              type="date"
-              min={today}
-              value={form.departDate}
-              onChange={updateForm}
-            />
-          </label>
-          <label>
-            귀국일
-            <input
-              name="returnDate"
-              type="date"
-              min={form.departDate || today}
-              value={form.returnDate}
-              onChange={updateForm}
-              disabled={form.tripType === "one-way"}
-            />
-          </label>
-          <button
-            className="primary-button"
-            type="submit"
-            disabled={isSearching}
-          >
-            {isSearching ? "검색 중..." : "항공권 검색"}
-          </button>
-        </form>
+        <FlightSearchForm
+          form={form}
+          today={today}
+          isSearching={isSearching}
+          updateTripType={updateTripType}
+          updateAirport={updateAirport}
+          updateForm={updateForm}
+          searchFlights={searchFlights}
+        />
+        {/* 검색 결과나 입력 오류 안내를 표시합니다. */}
+        {message && <p role="status">{message}</p>}
+        {/* 다구간 검색 결과가 준비되면 구간별 선택 컴포넌트를 표시합니다. */}
+        {!isSearching && multiCityResults && searchedTrip && (
+          <MultiCityResults
+            key={JSON.stringify(searchedTrip)}
+            trip={searchedTrip}
+            results={multiCityResults}
+            onBook={setSelectedFlight}
+          />
+        )}
+        {/* 항공편을 조회하는 동안 로딩 안내를 표시합니다. */}
         {isSearching && (
           <div
             className="flight-search-loading"
@@ -937,11 +1073,24 @@ export default function App() {
             <i aria-hidden="true"></i>
           </div>
         )}
-        {message && (
-          <p className="search-message" role="status">
-            {message}
-          </p>
-        )}
+        {!isSearching &&
+          searchedTrip &&
+          !multiCityResults &&
+          flightResults.length === 0 && (
+            <section
+              className="flight-no-route"
+              role="status"
+              aria-live="polite"
+            >
+              <span aria-hidden="true">✈</span>
+              <div>
+                <small>NO DIRECT FLIGHTS</small>
+                <strong>선택 날짜에 조회되는 직항편이 없습니다</strong>
+                <p>선택한 공항이나 여행 날짜를 변경해 다시 검색해 주세요.</p>
+              </div>
+            </section>
+          )}
+        {/* 일반 검색 결과의 노선·관광지·항공편 목록을 표시하고 예매 선택을 연결합니다. */}
         {flightResults.length > 0 && (
           <section
             className="flight-results"
@@ -961,6 +1110,30 @@ export default function App() {
               </div>
               <b>{searchedTrip.tripType === "round-trip" ? "왕복" : "편도"}</b>
             </div>
+            {destinationAttractions[searchedTrip.arrival]?.length > 0 && (
+              <aside
+                className="destination-attractions"
+                aria-label="도착지 대표 관광지"
+              >
+                <div className="destination-attractions-title">
+                  <span>DESTINATION HIGHLIGHTS</span>
+                  <h3>
+                    {destinationCityNames[searchedTrip.arrival]} 대표 관광지
+                  </h3>
+                  <p>도착 후 둘러보기 좋은 명소를 확인해 보세요.</p>
+                </div>
+                <ul>
+                  {(destinationAttractions[searchedTrip.arrival] ?? []).map(
+                    (attraction, index) => (
+                      <li key={attraction}>
+                        <b aria-hidden="true">{index + 1}</b>
+                        <span>{attraction}</span>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </aside>
+            )}
             <div className="flight-list">
               {flightResults.map((flight) => {
                 const totalPrice = flight.price;
@@ -972,20 +1145,26 @@ export default function App() {
                       </span>
                       <div>
                         <strong>{flight.airline.name}</strong>
-                        <small>{flight.flightNumber} · 일반석</small>
+                        <small>
+                          {flight.cabinLabel} · {flight.flightNumber} · 운항사{" "}
+                          {flight.airline.name}
+                        </small>
                       </div>
                     </div>
                     <div className="flight-time">
                       <strong>{flight.departureTime}</strong>
                       <div>
-                        <small>{flight.duration}</small>
+                        <small>예정 {flight.duration}</small>
                         <i></i>
                         <span>직항 · 현지시간</span>
                       </div>
                       <strong>
                         {flight.arrivalTime}
-                        {flight.arrivalDayOffset > 0 && (
-                          <sup>+{flight.arrivalDayOffset}일</sup>
+                        {flight.arrivalDayOffset !== 0 && (
+                          <sup>
+                            {flight.arrivalDayOffset > 0 ? "+" : ""}
+                            {flight.arrivalDayOffset}일
+                          </sup>
                         )}
                       </strong>
                     </div>
@@ -1000,11 +1179,16 @@ export default function App() {
                           : "1인 편도"}
                       </small>
                       <strong>{formatPrice(totalPrice)}</strong>
-                      <span>잔여 {flight.seats}석</span>
+                      <span>
+                        {flight.seats == null
+                          ? "좌석 수 미제공"
+                          : `잔여 ${flight.seats}석`}
+                      </span>
                     </div>
                     <button
                       type="button"
                       onClick={() => selectOutboundFlight(flight)}
+                      disabled={isSearching}
                     >
                       {searchedTrip.tripType === "round-trip"
                         ? "가는 편 선택"
@@ -1016,6 +1200,7 @@ export default function App() {
             </div>
           </section>
         )}
+        {/* 왕복에서 가는 편을 고른 뒤 오는 편의 조회 결과와 선택 버튼을 표시합니다. */}
         {returnFlightResults.length > 0 && selectedOutbound && (
           <section
             className="flight-results return-flight-results"
@@ -1062,20 +1247,25 @@ export default function App() {
                     </span>
                     <div>
                       <strong>{flight.airline.name}</strong>
-                      <small>{flight.flightNumber} · 일반석</small>
+                      <small>
+                        {flight.cabinLabel} · {flight.flightNumber}
+                      </small>
                     </div>
                   </div>
                   <div className="flight-time">
                     <strong>{flight.departureTime}</strong>
                     <div>
-                      <small>{flight.duration}</small>
+                      <small>예정 {flight.duration}</small>
                       <i></i>
                       <span>직항 · 현지시간</span>
                     </div>
                     <strong>
                       {flight.arrivalTime}
-                      {flight.arrivalDayOffset > 0 && (
-                        <sup>+{flight.arrivalDayOffset}일</sup>
+                      {flight.arrivalDayOffset !== 0 && (
+                        <sup>
+                          {flight.arrivalDayOffset > 0 ? "+" : ""}
+                          {flight.arrivalDayOffset}일
+                        </sup>
                       )}
                     </strong>
                   </div>
@@ -1086,7 +1276,11 @@ export default function App() {
                   <div className="flight-price">
                     <small>오는 편 1인</small>
                     <strong>{formatPrice(flight.price)}</strong>
-                    <span>잔여 {flight.seats}석</span>
+                    <span>
+                      {flight.seats == null
+                        ? "좌석 수 미제공"
+                        : `잔여 ${flight.seats}석`}
+                    </span>
                   </div>
                   <button
                     type="button"
@@ -1110,6 +1304,7 @@ export default function App() {
               <p>출발 공항을 기준으로 목적지를 확인해 보세요.</p>
               <section
                 className={`popular-section${isPopularOpen ? " is-open" : ""}`}
+                ref={popularSectionRef}
               >
                 <button
                   className="popular-toggle"
@@ -1145,59 +1340,158 @@ export default function App() {
                   />
                 )}
               </section>
-            </div>
-          </div>
-          <div className="airport-route-list">
-            {airports.map((airport) => (
-              <AirportCard
-                airport={airport}
-                englishName={airportEnglishNames[airport.code]}
-                address={airportAddresses[airport.code]}
-                isOpen={openAirport === airport.code}
-                onToggle={() => {
-                  setOpenAirport((current) =>
-                    current === airport.code ? null : airport.code,
-                  );
+              <BudgetRoutePopup
+                date={today}
+                onSelectRoute={({ departure, arrival, tripType }) => {
                   setForm((current) => ({
                     ...current,
-                    departure: airport.code,
-                    arrival: "",
+                    departure,
+                    arrival,
+                    tripType,
+                    returnDate:
+                      tripType === "one-way" ? "" : current.returnDate,
                   }));
+                  setMessage(
+                    "선택한 노선을 검색창에 담았습니다. 여행 날짜를 선택해 주세요.",
+                  );
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                key={airport.code}
               />
+            </div>
+          </div>
+          <div className="continent-picker" aria-label="대륙별 공항 목록">
+            {airportCardsByContinent.map(({ continent, airports }) => (
+              <button
+                type="button"
+                className={`continent-card continent-${continent}`}
+                onClick={() => {
+                  setSelectedContinent(continent);
+                  setOpenAirport(null);
+                }}
+                key={continent}
+              >
+                <span>{continent}</span>
+                <strong>{airports.length}개 공항</strong>
+                <small>공항 카드 전체 보기 →</small>
+              </button>
             ))}
           </div>
-          <aside className="route-promotion-strip" aria-label="여행 프로모션 예시">
+          {selectedContinent && (
+            <div
+              className="continent-airport-backdrop"
+              role="presentation"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                  setSelectedContinent(null);
+                  setOpenAirport(null);
+                }
+              }}
+            >
+              <section
+                className="continent-airport-popup"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="continent-airport-title"
+              >
+                <header>
+                  <div>
+                    <span>CONTINENT AIRPORTS</span>
+                    <h3 id="continent-airport-title">
+                      {selectedContinent} 공항
+                    </h3>
+                    <p>공항 카드를 누르면 상세 주소를 확인할 수 있습니다.</p>
+                  </div>
+                  <button
+                    type="button"
+                    aria-label="대륙별 공항 팝업 닫기"
+                    onClick={() => {
+                      setSelectedContinent(null);
+                      setOpenAirport(null);
+                    }}
+                  >
+                    ×
+                  </button>
+                </header>
+                <div className="airport-route-list continent-airport-list">
+                  {airportCardsByContinent
+                    .find(({ continent }) => continent === selectedContinent)
+                    ?.airports.map((airport) => (
+                      <AirportCard
+                        airport={airport}
+                        englishName={airportEnglishNames[airport.code]}
+                        address={airportAddresses[airport.code]}
+                        isOpen={openAirport === airport.code}
+                        onToggle={() => {
+                          setOpenAirport((current) =>
+                            current === airport.code ? null : airport.code,
+                          );
+                          setForm((current) => ({
+                            ...current,
+                            departure: airport.code,
+                            stopover: "",
+                            arrival: "",
+                          }));
+                        }}
+                        key={airport.code}
+                      />
+                    ))}
+                </div>
+              </section>
+            </div>
+          )}
+          <aside
+            className="route-promotion-strip"
+            aria-label="여행 프로모션 예시"
+          >
             <article className="route-promotion route-promotion-baggage">
               <div className="promotion-copy">
                 <span>AD · DEMO</span>
                 <small>SKY BAGGAGE</small>
-                <strong>수하물 걱정 없이<br />가볍게 출발하세요</strong>
+                <strong>
+                  수하물 걱정 없이
+                  <br />
+                  가볍게 출발하세요
+                </strong>
                 <p>추가 수하물 사전 예약 시 최대 20% 혜택</p>
               </div>
-              <b className="promotion-icon" aria-hidden="true">🧳</b>
+              <b className="promotion-icon" aria-hidden="true">
+                🧳
+              </b>
             </article>
             <article className="route-promotion route-promotion-stay">
               <div className="promotion-copy">
                 <span>AD · DEMO</span>
                 <small>SKY STAY</small>
-                <strong>항공권 다음은<br />여행지 숙소 찾기</strong>
+                <strong>
+                  항공권 다음은
+                  <br />
+                  여행지 숙소 찾기
+                </strong>
                 <p>예약 변경이 자유로운 숙소를 모아보세요</p>
               </div>
-              <b className="promotion-icon" aria-hidden="true">🏨</b>
+              <b className="promotion-icon" aria-hidden="true">
+                🏨
+              </b>
             </article>
             <article className="route-promotion route-promotion-esim">
               <div className="promotion-copy">
                 <span>AD · DEMO</span>
                 <small>TRAVEL eSIM</small>
-                <strong>도착하는 순간<br />바로 연결되는 여행</strong>
+                <strong>
+                  도착하는 순간
+                  <br />
+                  바로 연결되는 여행
+                </strong>
                 <p>아시아 7일 데이터 플랜을 간편하게 준비하세요</p>
               </div>
-              <b className="promotion-icon" aria-hidden="true">📶</b>
+              <b className="promotion-icon" aria-hidden="true">
+                📶
+              </b>
             </article>
           </aside>
-          <p className="promotion-disclaimer">위 프로모션은 화면 구성을 위한 시연용 광고입니다.</p>
+          <p className="promotion-disclaimer">
+            위 프로모션은 화면 구성을 위한 시연용 광고입니다.
+          </p>
           <p className="route-notice">
             주요 직항 노선 예시이며 실제 운항지는 계절과 항공사 일정에 따라
             변경될 수 있습니다.
